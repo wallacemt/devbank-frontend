@@ -15,7 +15,7 @@ export const AuthBanner = ({position = 'left'}) => {
     ]
     return (
         <div className={`absolute p-4 w-full max-w-[700px] h-full  overflow-hidden hidden lg:block ${position == 'left' ? 'left-0' : 'right-0'}`}>
-            <div className="h-full bg-[url('./images/auth-banner.jpg')] bg-cover bg-center relative rounded-xl">
+            <div className="h-full bg-[url('/images/auth-banner.jpg')] bg-cover bg-center relative rounded-xl">
                 <div className="absolute bottom-0 w-full bg-black/60 h-[50%] p-6 rounded-xl">
                     <h2 className="text-5xl sm:text-6xl text-white font-bold font-principal text-center">
                         <span className="text-Destaque">DEV</span>BANK<span className="text-amber-600">$</span>
