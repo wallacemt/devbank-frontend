@@ -1,8 +1,8 @@
 {
-  "name": "portifolio-ws",
+  "name": "devbank-client",
   "private": true,
   "version": "0.1.0",
-  "description": "Meu portfólio profissional, contendo um resumo interativo sobre meus conhecimentos e projetos desenvolvidos.",
+  "description": "Projeto de um banco Web com uma interface simples, prática e intuitiva, com o objetivo de ajudar desenvolvedores a gerenciar suas financas de uma forma eficiente e segura.",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
