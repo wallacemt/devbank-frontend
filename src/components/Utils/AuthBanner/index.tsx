@@ -1,44 +1,44 @@
 import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
+//@ts-ignore
 import "swiper/css";
 import "swiper/swiper-bundle.css";
+//@ts-ignore
 import "swiper/css/effect-coverflow";
+//@ts-ignore
 import "swiper/css/pagination";
+//@ts-ignore
 import "swiper/css/autoplay";
 import Aos from "aos";
 import "aos/dist/aos.css";
-import { FaCode } from "react-icons/fa6";
-import { IoTerminalSharp } from "react-icons/io5";
-import { MdSecurity } from "react-icons/md";
-import { SiMonkeytie } from "react-icons/si";
-import { BsSpeedometer } from "react-icons/bs";
-import { PiPiggyBankFill } from "react-icons/pi";
+import { Code, Fingerprint, Gauge, PiggyBank, ShieldCheck, SquareTerminal, Terminal } from "lucide-react";
+
 export const AuthBanner = ({ position = "left", effect = "fade-up" }) => {
   const apresentationMessages = [
     {
       text: "DevBank é um banco digital projetado especialmente para desenvolvedores, oferecendo uma plataforma moderna, rápida e segura para gerenciar suas finanças.",
-      icon: <FaCode size={60} className="text-green-400" />,
+      icon: <Code size={60} className="text-green-400" />,
     },
     {
       text: "Com o Shell Transfer, você pode realizar transferências bancárias diretamente de seu terminal de comandos. A solução mais prática e eficiente para desenvolvedores.",
-      icon: <IoTerminalSharp size={60} className="text-DarkP2" />,
+      icon: <SquareTerminal  size={60} className="text-DarkP2" />,
     },
     {
       text: "No DevBank, a segurança é nossa prioridade. Protegemos suas contas com autenticação de dois fatores (2FA), garantindo total segurança nas suas transações.",
-      icon: <MdSecurity size={60} className="text-primary70 " />,
+      icon: <ShieldCheck size={60} className="text-primary70 " />,
     },
     {
       text: "Utilizamos criptografia de ponta para garantir que todos os seus dados sejam armazenados de forma segura e protegida contra acessos não autorizados.",
-      icon: <SiMonkeytie  size={60} className="text-neutral-300 " />,
+      icon: <Fingerprint  size={60} className="text-neutral-300 " />,
     },
     {
       text: "Com DevBank, desenvolvedores podem contar com APIs robustas, integração com aplicativos, e uma plataforma otimizada para quem busca agilidade.",
-      icon: <BsSpeedometer size={60} className="text-amber-600" />,
+      icon: <Gauge size={60} className="text-amber-600" />,
     },
     {
       text: "Acesso rápido, fácil e prático. Utilize nosso banco por interface web, aplicativo ou via comandos no terminal, sempre ao seu alcance.",
-      icon :<PiPiggyBankFill size={60} className="text-amber-300" /> ,
+      icon :<PiggyBank size={60} className="text-amber-300" /> ,
     },
   ];
 
@@ -74,16 +74,16 @@ export const AuthBanner = ({ position = "left", effect = "fade-up" }) => {
       }`}
     >
       <div
-        className={`h-full bg-cover bg-center relative rounded-xl`}
+        className={`h-full max-h-screen bg-cover bg-center relative rounded-xl`}
         style={{ backgroundImage: `url(${currentImage})`, transition: "all 1s ease-in-out" }}
         data-aos={effect}
       >
-        <div className="absolute bottom-0 w-full bg-black/60 h-[45%] p-6 rounded-xl ">
+        <div className="absolute bottom-0 w-full bg-black/60 h-[50vh] p-6 rounded-xl">
           <h2 className="text-6xl xl:text-8xl text-white font-bold font-principal text-center">
             <span className="text-Destaque">Dev</span>BANK
             <span className="text-amber-600">$</span>
           </h2>
-          <div className="backdrop-blur-sm rounded-2xl bg-principal/90 p-2 ">
+          <div className="backdrop-blur-sm rounded-2xl bg-principal/80 p-2 self-end">
             <Swiper
               spaceBetween={20}
               slidesPerView={1}

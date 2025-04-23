@@ -1,13 +1,12 @@
-import { Verified } from "lucide-react";
-import { MdDocumentScanner, MdSecurity } from "react-icons/md";
+import { IdCard, ScanQrCode, Verified } from "lucide-react";
 
 const steps = [
-  { text: "Personal Info", icon: <MdDocumentScanner size={40} /> },
+  { text: "Personal Info", icon: <IdCard size={40} /> },
   { text: "Email Verify", icon: <Verified size={40} /> },
-  { text: "Password", icon: <MdSecurity size={40} /> },
+  { text: "Password", icon: <ScanQrCode  size={40} /> },
 ];
 
-export const Stepper = ({ currentStep }) => {
+export const Stepper = ({ currentStep }: {currentStep: number}) => {
   return (
     <div className="flex justify-between items-center w-full mb-12">
       {steps.map((label, index) => (

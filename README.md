@@ -1,51 +1,54 @@
-# 📌 DevBank - FrontEnd
+# React + TypeScript + Vite
 
-![License](https://img.shields.io/static/v1?label=license&message=MIT&color=orange) &nbsp;
-![Cargo version](https://img.shields.io/static/v1?label=cargo&message=v0.1.0&color=yellow) &nbsp;
-![Pull request](https://img.shields.io/static/v1?label=PR&message=welcome&color=green)
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
+Currently, two official plugins are available:
 
-## 🚀 Tecnologias Utilizadas
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-<div align='center' id="tecnologias-utilizadas">
-    <img align='center' height='49' width='49' title='React' alt='React' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg'/> &nbsp;
-    <img align='center' height='49' width='49' title='Tailwind' alt='Tailwind' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg'/> &nbsp;
-    <img align='center' height='49' width='49' style="filter: invert(1);"  title='Swiper' alt='Swiper' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swiper/swiper-original.svg'/> &nbsp;
-    <img align='center' height='49' width='49' title='Vite' alt='Vite' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg'/> &nbsp;
-    <img align='center' height='70' width='70' title='Docker' alt='docker' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg' /> &nbsp;
-     <img align='center' height='49' width='49' style="filter: invert(1);"  title='FrameMotion' alt='FrameMotion' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/framermotion/framermotion-original-wordmark.svg'/> &nbsp;
-     <img align='center' height='49' width='49' title='JS' alt='JS' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg'/> &nbsp;
-     <img align='center' height='49' width='49' title='json' alt='json' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/json/json-original.svg'/> &nbsp;
-</div>
+## Expanding the ESLint configuration
 
-## 🛠 Contribuição
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-Ficou interessado em contribuir? Faça um **fork** do repositório, crie uma **branch**, implemente a melhoria e envie um **pull request**. Toda ajuda é bem-vinda!
+```js
+export default tseslint.config({
+  extends: [
+    // Remove ...tseslint.configs.recommended and replace with this
+    ...tseslint.configs.recommendedTypeChecked,
+    // Alternatively, use this for stricter rules
+    ...tseslint.configs.strictTypeChecked,
+    // Optionally, add this for stylistic rules
+    ...tseslint.configs.stylisticTypeChecked,
+  ],
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
 
-1. **Fork the repository.**
-2. **Clone your forked repository to your local machine.**
-3. **Create a branch for your feature or fix:**
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-   ```bash
-   git checkout -b my-new-feature
-   ```
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-4. **Commit your changes:**
-
-   ```bash
-   git commit -m 'Add new feature'
-   ```
-
-5. **Push your changes to your fork:**
-
-   ```bash
-   git push origin my-new-feature
-   ```
-
-6. **Create a Pull Request.**
-
-<span id="license"></span>
-
-# 📜 Licença
-
-`Este projeto está sob a licença MIT.`
+export default tseslint.config({
+  plugins: {
+    // Add the react-x and react-dom plugins
+    'react-x': reactX,
+    'react-dom': reactDom,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended typescript rules
+    ...reactX.configs['recommended-typescript'].rules,
+    ...reactDom.configs.recommended.rules,
+  },
+})
+```

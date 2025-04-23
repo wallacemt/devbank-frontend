@@ -13,7 +13,7 @@ export const StepPassword = ({ data, onChange }) => {
   return (
     <form className="w-full flex flex-col gap-4">
       <div className="relative">
-        <Lock className="absolute left-2 top-2.5 text-gray-400" size={20} />
+        <Lock className="absolute left-2 top-2.5 text-neutral10" size={20} />
         <input
           type={show ? "text" : "password"}
           placeholder="Senha"
@@ -30,16 +30,19 @@ export const StepPassword = ({ data, onChange }) => {
         </button>
       </div>
       <div className={`h-2 rounded-full ${getStrengthColor(data.password)}`} />
-      <input
-        type="password"
-        placeholder="Confirmar senha"
-        value={data.confirmPassword}
-        onChange={(e) => onChange("confirmPassword", e.target.value)}
-        className="px-4 py-2 rounded-md bg-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-gray-300"
-      />
-     <button className="w-full bg-green-800/30 text-white p-3 rounded-full hover:bg-green-900/80 font-secundaria text-2xl">
-      <span>Criar Conta</span>
-    </button>
+      <div className="relative">
+        <Lock className="absolute left-2 top-2.5 text-neutral10" size={20} />
+        <input
+          type={show ? "text" : "password"}
+          placeholder="Confirmar senha"
+          value={data.confirmPassword}
+          onChange={(e) => onChange("confirmPassword", e.target.value)}
+          className="pl-10 pr-10 py-2 rounded-md bg-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-gray-300"
+        />
+      </div>
+      <button className="w-full bg-green-800/30 text-white p-3 rounded-full hover:bg-green-900/80 font-secundaria text-2xl">
+        <span>Criar Conta</span>
+      </button>
     </form>
   );
 };
