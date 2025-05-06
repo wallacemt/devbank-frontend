@@ -5,7 +5,11 @@ import { z } from "zod";
 const personalInfoSchema = z.object({
   name: z.string().min(3, "Nome deve ter pelo menos 3 caracteres"),
   email: z.string().email("Email inválido"),
-  cpf: z.string().min(11, "CPF inválido").max(14),
+  cpf: z
+    .string()
+    .min(11, { message: "Preencha o campo com seu CPF" })
+    .max(11, { message: "O CPF deve conter exatamente 11 caracteres" })
+    .regex(/^[0-9]+$/, { message: "O CPF deve conter apenas números" }),
 });
 
 const passwordSchema = z
@@ -19,6 +23,7 @@ const passwordSchema = z
   });
 
 export const useRegister = () => {
+  const [step, setStep] = useState(0);
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -28,14 +33,14 @@ export const useRegister = () => {
     code: "",
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<any>({});
 
-  const updateField = (field, value) => {
+  const updateField = (field: string, value: string) => {
     setData((prev) => ({ ...prev, [field]: value }));
-    setErrors((prev) => ({ ...prev, [field]: undefined }));
+    setErrors((prev: any) => ({ ...prev, [field]: undefined }));
   };
 
-  const validateStep = (step) => {
+  const validateStep = (step: string) => {
     let result;
     if (step === "personal") {
       result = personalInfoSchema.safeParse({
@@ -50,10 +55,9 @@ export const useRegister = () => {
       });
     }
 
-
-    if (!result.success) {
-      const fieldErrors = {};
-      result.error.errors.forEach((err) => {
+    if (!result?.success) {
+      const fieldErrors: any = {};
+      result?.error.errors.forEach((err) => {
         fieldErrors[err.path[0]] = err.message;
       });
       setErrors(fieldErrors);
@@ -69,5 +73,6 @@ export const useRegister = () => {
     errors,
     updateField,
     validateStep,
+    step,
   };
 };

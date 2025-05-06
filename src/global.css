@@ -2,65 +2,103 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
-
+@font-face {
+  font-family: "Satoshi-Variable";
+  src: url("./assets/fonts/Satoshi-Variable.woff2") format("woff2"),
+    url("./assets/fonts/Satoshi-Variable.woff") format("woff"),
+    url("./assets/fonts/Satoshi-Variable.ttf") format("truetype");
+  font-weight: 300 900;
+  font-display: swap;
+  font-style: normal;
+}
 :root {
+  /* Definindo a fonte padrão e estilos de tipografia */
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #1e1e1e; /* Alterado o fundo geral para */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-  --principal: #2a3240;
-  --DarkP2: #DCD6D1;
-  --DarkA1: #CACCC4;
-  --DarkA2: #666F7D;
-  --DarkA3: #A9B8B6;
-  --DarkA4: #6A7276;
-  --Destaque: #FF0000;
-  --primary90: #FF2F00;
-  --primary80: #F9370B;
-  --primary70: #FF481F;
-  --neutral10: #E5E5E5;
-  --neutral80: #333333;
-  --neutral90: #1A1A1A;
-  --principalFont:Aclonica, sans-serif;
-  --secundariaFont: Catamaran, serif;
+
+  /* Variáveis de cores personalizadas */
+  --radius: 0.75rem; /* Raio de borda dos elementos */
+
+  /* Cores de fundo */
+  --background: #1e1e1e; /* Alterado o fundo principal para */
+  --card: #1e1e1e; /* Fundo dos cartões */
+  --popover: #1e1e1e; /* Fundo dos popovers (caixas de informação) */
+
+  /* Cores de texto (primeiras cores de destaque) */
+  --foreground: #dcd6d1; /* Cor principal do texto */
+  --card-foreground: #dcd6d1; /* Texto dentro dos cartões */
+  --popover-foreground: #dcd6d1; /* Texto dentro dos popovers */
+
+  /* Cores de destaque (elementos interativos) */
+  --primary: #ff2f00; /* Cor de destaque principal */
+  --primary-foreground: #ffddff; /* Cor do texto quando o fundo é primary */
+  --secondary: #f9370b; /* Cor secundária (botões, links) */
+  --secondary-foreground: #dcd6d1; /* Cor do texto para a cor secundária */
+
+  /* Cores para elementos desabilitados ou com pouca interação */
+  --muted: #666f7d; /* Cor de elementos desabilitados */
+  --muted-foreground: #a9b8b6; /* Cor do texto em elementos desabilitados */
+
+  /* Cores para elementos de alerta/destrutivos */
+  --destructive: #ff0000; /* Cor de elementos destrutivos, como erros */
+
+  /* Cores de bordas e anéis (outline) */
+  --border: #333333; /* Cor das bordas */
+  --input: #1e1e1e; /* Cor de fundo dos inputs */
+  --ring: #ff2f00; /* Cor do anel (focus ring) em elementos */
+
+  /* Cores para gráficos e destaques */
+  --chart-1: #ff481f; /* Cor do primeiro gráfico */
+  --chart-2: #ff9370; /* Cor do segundo gráfico */
+  --chart-3: #a9b8b6; /* Cor do terceiro gráfico */
+  --chart-4: #b8b7b0; /* Cor do quarto gráfico */
+  --chart-5: #dcd6d1; /* Cor do quinto gráfico */
+
+  /* Cores específicas para a barra lateral */
+  --sidebar: #2a3240; /* Fundo da barra lateral */
+  --sidebar-foreground: #dcd6d1; /* Cor do texto da barra lateral */
+  --sidebar-primary: #ff2f00; /* Cor de destaque da barra lateral */
+  --sidebar-primary-foreground: #ffddff; /* Cor do texto de destaque da barra lateral */
+  --sidebar-accent: #ff9370; /* Cor de destaque secundário da barra lateral */
+  --sidebar-accent-foreground: #dcd6d1; /* Cor do texto em elementos de destaque da barra lateral */
+  --sidebar-border: #333333; /* Cor das bordas da barra lateral */
+  --sidebar-ring: #ff2f00; /* Cor do anel (focus) na barra lateral */
+
+  /* Cores para o tema geral */
+  --principal: #1e1e1e; /* Cor de fundo geral (mudada para #1E1E1E) */
+
+  /* Paleta de cores para o tema escuro */
+  --DarkP2: #dcd6d1; /* Texto principal */
+  --DarkA1: #caccc4; /* Cor de texto secundário */
+  --DarkA2: #666f7d; /* Cor de texto terciário */
+  --DarkA3: #a9b8b6; /* Cor de texto para fundo escuro */
+  --DarkA4: #6a7276; /* Cor de fundo mais suave no tema escuro */
+
+  /* Cores de destaque mais fortes */
+  --Destaque: #ff0000; /* Cor de destaque para botões e alertas */
+
+  /* Cores de fundo e elementos para estados diferentes */
+  --primary90: #ff2f00; /* Tom mais claro do primary */
+  --primary80: #f9370b; /* Outro tom de primary */
+  --primary70: #ff481f; /* Tom de primary ainda mais claro */
+
+  /* Tons de cinza neutro */
+  --neutral10: #e5e5e5; /* Cor de fundo mais clara */
+  --neutral80: #333333; /* Cor mais escura para elementos neutros */
+  --neutral90: #1a1a1a; /* Cor de fundo ainda mais escura */
+
+  /* Fontes personalizadas */
+  --principalFont: Aclonica, sans-serif; /* Fonte principal */
+  --secundariaFont: Catamaran, serif; /* Fonte secundária */
+  --satoshi: Satoshi-Variable, sans-serif
 }
 
 a {
@@ -72,14 +110,6 @@ a:hover {
   color: #535bf2;
 }
 #root {
-  min-height: 100vh;
-}
-body {
-  background-color: #2a3240;
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
   min-height: 100vh;
 }
 
@@ -172,6 +202,7 @@ button:focus-visible {
   --color-neutral90: var(--neutral90);
   --font-principal: var(--principalFont);
   --font-secundaria: var(--secundariaFont);
+  --font-satoshi: var(--satoshi);
 }
 
 .dark {
@@ -206,6 +237,12 @@ button:focus-visible {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
 }
 
 @layer base {

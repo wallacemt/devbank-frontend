@@ -1,67 +1,135 @@
-import { useState } from "react";
+import { codeValidation, loginUser } from "@/api/authApi";
+import { SimpleResponse } from "@/types/responses";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useContext, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
+import { useUserContext } from "./useUserContext";
 
+export const loginSchema = z.object({
+  emailOrCpf: z.string().refine(
+    (val: string) => {
+      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+      const isCpf = /^\d{11}$/.test(val.replace(/[^\d]/g, ""));
+      return isEmail || isCpf;
+    },
+    {
+      message: "Informe um e-mail ou CPF válido",
+    }
+  ),
+  password: z.string().min(6, "Senha Inválida"),
+});
+
+export const codeSchema = z.object({
+  email: z.string().email("Email inválido"),
+  code: z.string().min(6, "Código Inválido"),
+});
+type LoginFormData = z.infer<typeof loginSchema>;
+type CodeFormData = z.infer<typeof codeSchema>;
 export const useLogin = () => {
-  const [data, setData] = useState({
-    email: "",
-    password: "",
-    code: "",
-  });
   const [step, setStep] = useState(0);
-  const [errors, setErrors] = useState({});
+  const [error, setError] = useState<string | undefined>();
+  const [reqError, setReqError] = useState<string | undefined>();
+  const [message, setMessage] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const form = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      emailOrCpf: "",
+      password: "",
+    },
+  });
+  const codeForm = useForm<CodeFormData>({
+    resolver: zodResolver(codeSchema),
+    defaultValues: {
+      email: form.getValues().emailOrCpf,
+      code: "",
+    },
+  });
+  const { login } = useUserContext();
 
-  const passwordSchema = z.string().min(6, "Senha Inválida");
-  const emailSchema = z.string().email("Email inválido");
-  const codeSchema = z.string().min(6, "Código inválido");
+  const handleLogin = async (values: z.infer<typeof loginSchema>) => {
+    setLoading(true);
+    const rawValue = values.emailOrCpf.trim();
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(rawValue);
+    const isCpf = /^\d{11}$/.test(rawValue.replace(/[^\d]/g, ""));
 
-  const updateField = (field, value) => {
-    setData((prev) => ({ ...prev, [field]: value }));
-
-    if (field === "email") {
-      const result = emailSchema.safeParse(value);
-      if (!result.success) {
-        setErrors((prev) => ({
-          ...prev,
-          [field]: result.error.errors[0].message,
-        }));
-      } else {
-        setErrors((prev) => ({ ...prev, [field]: undefined }));
+    try {
+      if (!isEmail && !isCpf) {
+        const errorMessage = "Informe um e-mail ou CPF válido";
+        form.setError("emailOrCpf", {
+          type: "manual",
+          message: errorMessage,
+        });
+        setError(errorMessage);
+        toast.error(errorMessage);
+        return;
       }
-    } else if (field === "password") {
-      const result = passwordSchema.safeParse(value);
-      if (!result.success) {
-        setErrors((prev) => ({
-          ...prev,
-          [field]: result.error.errors[0].message,
-        }));
+
+      loginSchema.parse(values);
+      console.log(values.emailOrCpf, values.password);
+      const response: SimpleResponse = await loginUser(values.emailOrCpf, values.password);
+      setMessage(response.message);
+
+      toast.success(response.message);
+      setStep(1);
+      codeForm.setValue("email", response.email);
+    } catch (error: any) {
+      if (error instanceof z.ZodError) {
+        const errorMessage = error.errors[0]?.message;
+        form.setError("password", {
+          type: "manual",
+          message: errorMessage,
+        });
+        setError(errorMessage);
       } else {
-        setErrors((prev) => ({ ...prev, [field]: undefined }));
+        console.error("Erro inesperado:", error);
+        setReqError(error.message);
+        setTimeout(() => {
+          setReqError("");
+        }, 3000);
       }
-    } else if (field === "code") {
-      const result = codeSchema.safeParse(value);
-      if (!result.success) {
-        setErrors((prev) => ({
-          ...prev,
-          [field]: result.error.errors[0].message,
-        }));
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleCodeVerify = async (code: string) => {
+    try {
+      setError("");
+      codeSchema.parse({ email: emailData.email, code });
+      const response = await codeValidation(code, emailData.email);
+      if (response) {
+        toast.success(response.message);
+        login(response.token);
+      }
+    } catch (error: any) {
+      if (error instanceof z.ZodError) {
+        const errorMessage = error.errors[0]?.message;
+        codeForm.setError("code", {
+          type: "manual",
+          message: errorMessage,
+        });
+        setError(errorMessage);
       } else {
-        setErrors((prev) => ({ ...prev, [field]: undefined }));
+        console.error("Erro inesperado:", error);
       }
     }
   };
-  
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (step === 0) {
-      setStep(1);
-    }
-  }
+
+  const emailData = useMemo(() => codeForm.getValues(), [codeForm.watch()]);
 
   return {
-    data,
-    errors,
     step,
     handleLogin,
-    updateField,
+    form,
+    emailData,
+    handleCodeVerify,
+    error,
+    codeForm,
+    message,
+    loading,
+    reqError,
   };
 };
