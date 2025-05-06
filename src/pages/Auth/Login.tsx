@@ -8,12 +8,11 @@ import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { StepEmailVerify } from "@/components/Auth/StepEmailVerify";
+import { StepEmailVerify } from "@/components/StepEmailVerify";
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { step, handleLogin, form, emailData, handleCodeVerify, error, codeForm, message, loading, reqError } =
-    useLogin();
+  const { step, handleLogin, form, emailData, handleCodeVerify, error, codeForm, message, loading } = useLogin();
 
   const navigate = useNavigate();
 
@@ -22,7 +21,7 @@ export const Login = () => {
     Aos.init({ duration: 1000 });
   }, []);
   return (
-    <div className="h-screen w-screen bg-[#2a3240] overflow-hidden">
+    <div className="h-screen w-screen bg-principal overflow-hidden">
       <div className="max-w-full">
         <AuthBanner position="left" />
       </div>
@@ -104,7 +103,7 @@ export const Login = () => {
               <div className="w-full text-right">
                 <button className="text-base text-blue-300 hover:underline">Esqueceu a senha?</button>
               </div>
-             
+
               <Button
                 type="submit"
                 className="bg-primary80/50 hover:bg-primary90/100 transition-all duration-300 text-white font-semibold py-3 px-8 rounded-md w-full text-lg"
@@ -116,7 +115,25 @@ export const Login = () => {
                   }
                 }}
               >
-                {loading ? <span className="inline-block animate-pulse">Carregando...</span> : " Entrar na conta"}
+                <span className="inline-block">
+                  {loading ? (
+                    <svg
+                      className="animate-spin h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      />
+                    </svg>
+                  ) : (
+                    " Entrar na conta"
+                  )}
+                </span>
               </Button>
             </form>
           </Form>
@@ -126,6 +143,8 @@ export const Login = () => {
             error={error}
             onChange={(value: any) => codeForm.setValue("code", value)}
             onSubmit={() => handleCodeVerify(emailData.code)}
+            type="login"
+            loading={loading}
           />
         )}
         <div className="flex items-center w-full my-4 text-gray-100">

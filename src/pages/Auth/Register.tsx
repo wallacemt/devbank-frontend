@@ -4,10 +4,10 @@ import { useNavigate } from "react-router";
 import Aos from "aos";
 import { useRegister } from "@/hooks/useRegister";
 import { AuthBanner } from "@/components/Utils/AuthBanner";
-import { Stepper } from "@/components/Auth/Stepper";
-import { StepPersonalInfo } from "@/components/Auth/StepPersonalInfo";
-import { StepEmailVerify } from "@/components/Auth/StepEmailVerify";
-import { StepPassword } from "@/components/Auth/StepPassoword";
+import { Stepper } from "@/components/Stepper";
+import { StepPersonalInfo } from "@/components/StepPersonalInfo";
+import { StepEmailVerify } from "@/components/StepEmailVerify";
+import { StepPassword } from "@/components/StepPassoword";
 export const Register = () => {
   const navigate = useNavigate();
 
@@ -41,7 +41,7 @@ export const Register = () => {
         </h3>
         <Stepper currentStep={useRes.step} />
         <div className="w-full flex flex-col gap-4">
-          {useRes.step === 0 && <StepPersonalInfo onChange={handleChange} />}
+          {useRes.step === 0 && <StepPersonalInfo />}
           {useRes.step === 1 && (
             <StepEmailVerify data={useRes.data} onChange={handleChange} onSubmit={handleSubmit} />
           )}

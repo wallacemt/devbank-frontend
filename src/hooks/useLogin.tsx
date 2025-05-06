@@ -1,4 +1,4 @@
-import { codeValidation, loginUser } from "@/api/authApi";
+import { codeValidation, loginCodeResend, loginUser } from "@/api/authApi";
 import { SimpleResponse } from "@/types/responses";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext, useMemo, useState } from "react";
@@ -74,7 +74,7 @@ export const useLogin = () => {
 
       toast.success(response.message);
       setStep(1);
-      codeForm.setValue("email", response.email);
+      codeForm.setValue("email", response?.email!);
     } catch (error: any) {
       if (error instanceof z.ZodError) {
         const errorMessage = error.errors[0]?.message;
@@ -100,6 +100,7 @@ export const useLogin = () => {
       setError("");
       codeSchema.parse({ email: emailData.email, code });
       const response = await codeValidation(code, emailData.email);
+      console.log(response);
       if (response) {
         toast.success(response.message);
         login(response.token);
@@ -118,10 +119,36 @@ export const useLogin = () => {
     }
   };
 
+  const resend2FAVerify = async (email: string) => {
+    setLoading(true);
+    try {
+      setError("");
+      const response = await loginCodeResend(email);
+      if (response) {
+        toast.success(response.message);
+      }
+    } catch (error: any) {
+      if (error instanceof z.ZodError) {
+        const errorMessage = error.errors[0]?.message;
+        codeForm.setError("code", {
+          type: "manual",
+          message: errorMessage,
+        });
+        setError(errorMessage);
+      } else {
+        console.error("Erro inesperado:", error);
+      }
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const emailData = useMemo(() => codeForm.getValues(), [codeForm.watch()]);
 
   return {
     step,
+    resend2FAVerify,
     handleLogin,
     form,
     emailData,

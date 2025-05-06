@@ -1,3 +1,5 @@
+import { useLogin } from "@/hooks/useLogin";
+import { useRegister } from "@/hooks/useRegister";
 import { useEffect, useRef, useState } from "react";
 
 interface StepEmailVerifyProps {
@@ -8,16 +10,24 @@ interface StepEmailVerifyProps {
   onChange: (key?: any, value?: any) => void;
   error?: string;
   onSubmit: () => void;
-};
+  type?: "register" | "login";
+  loading?: boolean;
+}
 
 export const StepEmailVerify = ({
   data,
   onChange,
   error,
   onSubmit,
+  type = "register",
+  loading,
 }: StepEmailVerifyProps) => {
   const [codes, setCodes] = useState(Array(6).fill(""));
   const inputsRef = useRef<HTMLInputElement[]>([]);
+
+  const { resend2FAVerify } = useLogin();
+
+  const { resendVerifyEmail } = useRegister();
 
   useEffect(() => {
     const joined = codes.join("");
@@ -46,7 +56,12 @@ export const StepEmailVerify = ({
   };
 
   const handleResend = () => {
-    console.log("Reenviando código...");
+    if (type === "register") {
+      resendVerifyEmail();
+    } else {
+      resend2FAVerify(data.email);
+    }
+    return;
   };
 
   return (
@@ -60,10 +75,7 @@ export const StepEmailVerify = ({
         }}
       >
         <p className="text-center">
-          Digite o código enviado para{" "}
-          <span className="text-primary60 underline">
-            {data.email || "seu e-mail"}
-          </span>
+          Digite o código enviado para <span className="text-primary60 underline">{data.email || "seu e-mail"}</span>
         </p>
 
         <div className="flex justify-center gap-3">
@@ -88,19 +100,12 @@ export const StepEmailVerify = ({
 
         {error && <p className="text-red-400 text-center">{error}</p>}
 
-        <button
-          type="submit"
-          className="w-full bg-gray-800 text-white p-3 rounded-full hover:bg-primary70"
-        >
-          Confirmar Código
+        <button type="submit" className="w-full bg-gray-800 text-white p-3 rounded-full hover:bg-primary70">
+          {loading ? "Carregando..." : "Confirmar"}
         </button>
 
         <div className="text-center">
-          <button
-            type="button"
-            onClick={handleResend}
-            className="font-bold hover:underline"
-          >
+          <button type="button" onClick={handleResend} className="font-bold hover:underline">
             Enviar novamente
           </button>
         </div>

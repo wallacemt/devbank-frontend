@@ -2,10 +2,11 @@ import { createContext, useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router";
 import { getUser } from "@/api/userApi";
-//import { UserResponse } from "@/types/userTypes";
+import { UserResponse } from "@/types/userTypes";
+import { useUser } from "@/hooks/useUser";
 
 export const UserContext = createContext({
-  user: "" as string | null,
+  user: null as UserResponse | null,
   login: (_token: string) => {},
   logout: () => {},
   loading: true,
@@ -16,10 +17,11 @@ export const UserContext = createContext({
 });
 
 export const UserProvider = ({ children }: any) => {
-  const [user, setUser] = useState<string | null>(null);
+  const [user, setUser] = useState<UserResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [update, setUpdate] = useState(false);
   const navigate = useNavigate();
+  const { getUserInfo } = useUser();
   const [viewPreferenceModal, setViewPreferenceModal] = useState(
     sessionStorage.getItem("viewPreferenceModal") !== "true" ? false : true || true
   );
@@ -27,34 +29,30 @@ export const UserProvider = ({ children }: any) => {
   useEffect(() => {
     const token = Cookies.get("jwtToken");
     if (token) {
-      return;
-      //fetchUserData();
+      fetchUserData();
     } else {
       setLoading(false);
     }
   }, [update]);
 
-  // const fetchUserData = async () => {
-  //   try {
-  //     const userData: any = await getUser();
-  //     setUser(userData);
-  //   } catch (error: any) {
-  //     if (error.status == 401) {
-  //       logout();
-  //     }
-  //     throw error;
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  //};
+  const fetchUserData = async () => {
+    try {
+      const userData = await getUserInfo();
+      setUser(userData!);
+      navigate("/dashboard");
+    } catch (error: any) {
+      if (error.status == 401) {
+        logout();
+      }
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const login = async (token: string) => {
     Cookies.set("jwtToken", token, { expires: 1, sameSite: "strict" });
-    setUser(token);
-    // await fetchUserData();
-    setTimeout(async () => {
-      navigate("/dashboard");
-    }, 2500);
+    await fetchUserData();
   };
 
   const logout = () => {

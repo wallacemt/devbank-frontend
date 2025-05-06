@@ -68,11 +68,15 @@ export const useRegister = () => {
     return true;
   };
 
+  const resendVerifyEmail = () => {
+    console.log("resendVerifyEmail");
+  };
   return {
     data,
     errors,
     updateField,
     validateStep,
+    resendVerifyEmail,
     step,
   };
 };

@@ -71,11 +71,6 @@
   --sidebar-accent-foreground: #dcd6d1; /* Cor do texto em elementos de destaque da barra lateral */
   --sidebar-border: #333333; /* Cor das bordas da barra lateral */
   --sidebar-ring: #ff2f00; /* Cor do anel (focus) na barra lateral */
-
-  /* Cores para o tema geral */
-  --principal: #1e1e1e; /* Cor de fundo geral (mudada para #1E1E1E) */
-
-  /* Paleta de cores para o tema escuro */
   --DarkP2: #dcd6d1; /* Texto principal */
   --DarkA1: #caccc4; /* Cor de texto secundário */
   --DarkA2: #666f7d; /* Cor de texto terciário */
@@ -94,11 +89,13 @@
   --neutral10: #e5e5e5; /* Cor de fundo mais clara */
   --neutral80: #333333; /* Cor mais escura para elementos neutros */
   --neutral90: #1a1a1a; /* Cor de fundo ainda mais escura */
-
+  --principal: #2a3240;
+  --secundaria: #1e2530;
   /* Fontes personalizadas */
   --principalFont: Aclonica, sans-serif; /* Fonte principal */
   --secundariaFont: Catamaran, serif; /* Fonte secundária */
   --satoshi: Satoshi-Variable, sans-serif
+
 }
 
 a {
@@ -188,6 +185,7 @@ button:focus-visible {
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-principal: var(--principal);
+  --color-secundaria: var(--secundaria)
   --color-DarkP2: var(--DarkP2);
   --color-DarkA1: var(--DarkA1);
   --color-DarkA2: var(--DarkA2);

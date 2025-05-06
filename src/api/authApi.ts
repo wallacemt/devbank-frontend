@@ -37,3 +37,14 @@ export const registerUser = async (name: string, cpf: string, email: string, pas
     throw err;
   }
 };
+
+export const loginCodeResend = async (email: string): Promise<SimpleResponse> => {
+  try {
+    console.log(email)
+    const userResponse = await authApi.post("/login/2fa/resend", { emailOrCpf: email });
+    return userResponse.data as SimpleResponse;
+  } catch (err: any) {
+    console.error(err.message);
+    throw err;
+  }
+};
