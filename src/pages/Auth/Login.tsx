@@ -12,9 +12,10 @@ import { StepEmailVerify } from "@/components/StepEmailVerify";
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { step, handleLogin, form, emailData, handleCodeVerify, error, codeForm, message, loading } = useLogin();
 
   const navigate = useNavigate();
+
+  const { step, handleLogin, form, emailData, handleCodeVerify, error, codeForm, message, loading } = useLogin();
 
   useEffect(() => {
     document.title = "DevBank | Login";

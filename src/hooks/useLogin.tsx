@@ -1,7 +1,7 @@
 import { codeValidation, loginCodeResend, loginUser } from "@/api/authApi";
 import { SimpleResponse } from "@/types/responses";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext, useMemo, useState } from "react";
+import {  useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -143,7 +143,6 @@ export const useLogin = () => {
       setLoading(false);
     }
   };
-
   const emailData = useMemo(() => codeForm.getValues(), [codeForm.watch()]);
 
   return {

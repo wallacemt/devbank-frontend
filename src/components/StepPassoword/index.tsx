@@ -7,9 +7,11 @@ interface SterPasswordProps {
     confirmPassword: string;
   };
   onChange: (key?: any, value?: any) => void;
+  handleSubmit: () => void;
+  loading?: boolean;
 }
 
-export const StepPassword = ({ data, onChange }: SterPasswordProps) => {
+export const StepPassword = ({ data, onChange, handleSubmit, loading }: SterPasswordProps) => {
   const [show, setShow] = useState(false);
 
   const getStrengthColor = (password: string) => {
@@ -19,7 +21,13 @@ export const StepPassword = ({ data, onChange }: SterPasswordProps) => {
   };
 
   return (
-    <form className="w-full flex flex-col gap-4">
+    <form
+      className="w-full flex flex-col gap-4"
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}
+    >
       <div className="relative">
         <Lock className="absolute left-2 top-2.5 text-neutral10" size={20} />
         <input
@@ -48,8 +56,18 @@ export const StepPassword = ({ data, onChange }: SterPasswordProps) => {
           className="pl-10 pr-10 py-2 rounded-md bg-gray-700 w-full focus:outline-none focus:ring-2 focus:ring-gray-300"
         />
       </div>
-      <button className="w-full bg-green-800/30 text-white p-3 rounded-full hover:bg-green-900/80 font-secundaria text-2xl">
-        <span>Criar Conta</span>
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full bg-green-800/30 text-white p-3 rounded-full hover:bg-green-900/80 font-secundaria text-2xl"
+      >
+        <div>
+          {loading ? (
+            <span className="inline-block w-8 h-8 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></span>
+          ) : (
+            "Criar Conta"
+          )}
+        </div>
       </button>
     </form>
   );

@@ -1,7 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router";
-import { getUser } from "@/api/userApi";
 import { UserResponse } from "@/types/userTypes";
 import { useUser } from "@/hooks/useUser";
 
@@ -38,8 +37,8 @@ export const UserProvider = ({ children }: any) => {
   const fetchUserData = async () => {
     try {
       const userData = await getUserInfo();
+
       setUser(userData!);
-      navigate("/dashboard");
     } catch (error: any) {
       if (error.status == 401) {
         logout();
@@ -53,13 +52,14 @@ export const UserProvider = ({ children }: any) => {
   const login = async (token: string) => {
     Cookies.set("jwtToken", token, { expires: 1, sameSite: "strict" });
     await fetchUserData();
+    navigate("/");
   };
 
   const logout = () => {
     Cookies.remove("jwtToken");
     setUser(null);
     setTimeout(() => {
-      navigate("/");
+      navigate("/dashboard");
     }, 1000);
   };
 

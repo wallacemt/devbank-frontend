@@ -122,10 +122,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
+              className="data-[slot=sidebar-menu-button]:!p-1.5 h-16 hover:scale-105 duration-200 ease-in-out"
+              style={{backgroundColor: '#000'}}
             >
               <a href="#">
-                <span className="text-2xl mx-auto font-semibold font-principal text-white border-b-2 border-white"><span className="text-Destaque">Dev</span>Bank</span>
+                <span className="text-4xl mx-auto font-semibold font-principal text-white border-b-2 border-white"><span className="text-Destaque">Dev</span>Bank</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

@@ -12,6 +12,7 @@ interface StepEmailVerifyProps {
   onSubmit: () => void;
   type?: "register" | "login";
   loading?: boolean;
+  useRes?: ReturnType<typeof useRegister>;
 }
 
 export const StepEmailVerify = ({
@@ -21,13 +22,14 @@ export const StepEmailVerify = ({
   onSubmit,
   type = "register",
   loading,
+  useRes
 }: StepEmailVerifyProps) => {
   const [codes, setCodes] = useState(Array(6).fill(""));
   const inputsRef = useRef<HTMLInputElement[]>([]);
 
   const { resend2FAVerify } = useLogin();
 
-  const { resendVerifyEmail } = useRegister();
+  const useReg = useRes;
 
   useEffect(() => {
     const joined = codes.join("");
@@ -57,7 +59,7 @@ export const StepEmailVerify = ({
 
   const handleResend = () => {
     if (type === "register") {
-      resendVerifyEmail();
+      useReg?.resendVerifyEmail();
     } else {
       resend2FAVerify(data.email);
     }

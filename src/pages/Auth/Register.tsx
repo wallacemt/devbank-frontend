@@ -21,10 +21,6 @@ export const Register = () => {
     Aos.init({ duration: 1000 });
   });
 
-  const handleSubmit = () => {
-
-  }
-
   return (
     <div className="h-screen bg-[#2a3240] flex">
       <div className="h-full">
@@ -35,18 +31,28 @@ export const Register = () => {
         data-aos="flip-left"
       >
         <h3 className="text-4xl font-semibold mb-6 mt-1 text-center">
-          Crie sua conta e venha ser{" "}
-          <span className="text-Destaque font-principal">Dev</span>
+          Crie sua conta e venha ser <span className="text-Destaque font-principal">Dev</span>
           <span className="font-principal">BANK</span>
         </h3>
         <Stepper currentStep={useRes.step} />
         <div className="w-full flex flex-col gap-4">
-          {useRes.step === 0 && <StepPersonalInfo />}
+          {useRes.step === 0 && <StepPersonalInfo useRes={useRes} />}
           {useRes.step === 1 && (
-            <StepEmailVerify data={useRes.data} onChange={handleChange} onSubmit={handleSubmit} />
+            <StepEmailVerify
+              data={useRes.data}
+              onChange={(value: any) => useRes.updateField("code", value)}
+              onSubmit={useRes.verifyCode}
+              useRes={useRes}
+              loading={useRes.loading}
+            />
           )}
           {useRes.step === 2 && (
-            <StepPassword data={useRes.data} onChange={handleChange} />
+            <StepPassword
+              data={useRes.data}
+              onChange={handleChange}
+              handleSubmit={useRes.handleRegister}
+              loading={useRes.loading}
+            />
           )}
           <div className="flex flex-row items-center w-full my-4 text-gray-100 ">
             <div className="flex-grow border-t border-gray-600" />
@@ -58,7 +64,7 @@ export const Register = () => {
           <button
             type="button"
             className="text-amber-600 hover:underline font-principal"
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/sign-in")}
           >
             Login
           </button>

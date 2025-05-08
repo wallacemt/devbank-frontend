@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 //@ts-ignore
 import "swiper/css";
 import "swiper/swiper-bundle.css";
@@ -12,7 +12,7 @@ import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import Aos from "aos";
 import "aos/dist/aos.css";
-import { Code, Fingerprint, Gauge, PiggyBank, ShieldCheck, SquareTerminal, Terminal } from "lucide-react";
+import { Code, Fingerprint, Gauge, PiggyBank, ShieldCheck, SquareTerminal } from "lucide-react";
 
 export const AuthBanner = ({ position = "left", effect = "fade-up" }) => {
   const apresentationMessages = [

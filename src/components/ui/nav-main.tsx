@@ -1,6 +1,5 @@
-import { IconCirclePlusFilled, IconMail, type Icon } from "@tabler/icons-react";
+import { type Icon } from "@tabler/icons-react";
 
-import { Button } from "@/components/ui/button";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -8,7 +7,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { useParams } from "react-router";
 
 export function NavMain({
   items,
@@ -31,13 +29,12 @@ export function NavMain({
             >
               <SidebarMenuButton
                 tooltip={item.title}
-                className={`hover:bg-black/80 ${
-                  pathUrl.toLocaleLowerCase() == item.title.toLocaleLowerCase()
+                className={`hover:bg-black/20 text-2xl ${pathUrl.toLocaleLowerCase() == item.title.toLocaleLowerCase()
                     ? "bg-primary"
                     : ""
-                }`}
+                  }`}
               >
-                {item.icon && <item.icon />}
+                {item.icon && <item.icon/>}
                 <span>{item.title}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
