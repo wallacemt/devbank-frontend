@@ -12,100 +12,68 @@
   font-style: normal;
 }
 :root {
-  /* Definindo a fonte padrão e estilos de tipografia */
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: system-ui, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #1e1e1e; /* Alterado o fundo geral para */
+  background-color: #1a1a1a; 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  /* Variáveis de cores personalizadas */
-  --radius: 0.75rem; /* Raio de borda dos elementos */
-
-  /* Cores de fundo */
-  --background: #1e1e1e; /* Alterado o fundo principal para */
-  --card: #1e1e1e; /* Fundo dos cartões */
-  --popover: #1e1e1e; /* Fundo dos popovers (caixas de informação) */
-
-  /* Cores de texto (primeiras cores de destaque) */
-  --foreground: #dcd6d1; /* Cor principal do texto */
-  --card-foreground: #dcd6d1; /* Texto dentro dos cartões */
-  --popover-foreground: #dcd6d1; /* Texto dentro dos popovers */
-
-  /* Cores de destaque (elementos interativos) */
-  --primary: #ff2f00; /* Cor de destaque principal */
-  --primary-foreground: #ffddff; /* Cor do texto quando o fundo é primary */
-  --secondary: #f9370b; /* Cor secundária (botões, links) */
-  --secondary-foreground: #dcd6d1; /* Cor do texto para a cor secundária */
-
-  /* Cores para elementos desabilitados ou com pouca interação */
-  --muted: #666f7d; /* Cor de elementos desabilitados */
-  --muted-foreground: #a9b8b6; /* Cor do texto em elementos desabilitados */
-
-  /* Cores para elementos de alerta/destrutivos */
-  --destructive: #ff0000; /* Cor de elementos destrutivos, como erros */
-
-  /* Cores de bordas e anéis (outline) */
-  --border: #333333; /* Cor das bordas */
-  --input: #1e1e1e; /* Cor de fundo dos inputs */
-  --ring: #ff2f00; /* Cor do anel (focus ring) em elementos */
-
-  /* Cores para gráficos e destaques */
-  --chart-1: #ff481f; /* Cor do primeiro gráfico */
-  --chart-2: #ff9370; /* Cor do segundo gráfico */
-  --chart-3: #a9b8b6; /* Cor do terceiro gráfico */
-  --chart-4: #b8b7b0; /* Cor do quarto gráfico */
-  --chart-5: #dcd6d1; /* Cor do quinto gráfico */
-
-  /* Cores específicas para a barra lateral */
-  --sidebar: #2a3240; /* Fundo da barra lateral */
-  --sidebar-foreground: #dcd6d1; /* Cor do texto da barra lateral */
-  --sidebar-primary: #ff2f00; /* Cor de destaque da barra lateral */
-  --sidebar-primary-foreground: #ffddff; /* Cor do texto de destaque da barra lateral */
-  --sidebar-accent: #ff9370; /* Cor de destaque secundário da barra lateral */
-  --sidebar-accent-foreground: #dcd6d1; /* Cor do texto em elementos de destaque da barra lateral */
-  --sidebar-border: #333333; /* Cor das bordas da barra lateral */
-  --sidebar-ring: #ff2f00; /* Cor do anel (focus) na barra lateral */
-  --DarkP2: #dcd6d1; /* Texto principal */
-  --DarkA1: #caccc4; /* Cor de texto secundário */
-  --DarkA2: #666f7d; /* Cor de texto terciário */
-  --DarkA3: #a9b8b6; /* Cor de texto para fundo escuro */
-  --DarkA4: #6a7276; /* Cor de fundo mais suave no tema escuro */
-
-  /* Cores de destaque mais fortes */
-  --Destaque: #ff0000; /* Cor de destaque para botões e alertas */
-
-  /* Cores de fundo e elementos para estados diferentes */
-  --primary90: #ff2f00; /* Tom mais claro do primary */
-  --primary80: #f9370b; /* Outro tom de primary */
-  --primary70: #ff481f; /* Tom de primary ainda mais claro */
-
-  /* Tons de cinza neutro */
-  --neutral10: #e5e5e5; /* Cor de fundo mais clara */
-  --neutral80: #333333; /* Cor mais escura para elementos neutros */
-  --neutral90: #1a1a1a; /* Cor de fundo ainda mais escura */
+  --radius: 0.75rem; 
+  --background: #1a1a1a; 
+  --card: #1e1e1e; 
+  --popover: #1e1e1e; 
+  --foreground: #dcd6d1; 
+  --card-foreground: #dcd6d1; 
+  --popover-foreground: #dcd6d1; 
+  --primary: #ff2f00; 
+  --primary-foreground: #ffddff;
+  --secondary: #f9370b; 
+  --secondary-foreground: #dcd6d1; 
+  --muted: #666f7d; 
+  --muted-foreground: #a9b8b6; 
+  --destructive: #ff0000; 
+  --border: #333333;
+  --input: #1e1e1e; 
+  --ring: #ff2f00; 
+  --chart-1: #ff481f; 
+  --chart-2: #ff9370;
+  --chart-3: #a9b8b6; 
+  --chart-4: #b8b7b0; 
+  --chart-5: #dcd6d1; 
+  --sidebar: #2a3240;
+  --sidebar-foreground: #dcd6d1; 
+  --sidebar-primary: #ff2f00; 
+  --sidebar-primary-foreground: #ffddff; 
+  --sidebar-accent: #1e2530; 
+  --sidebar-accent-foreground: #dcd6d1; 
+  --sidebar-border: #333333; 
+  --sidebar-ring: #ff2f00; 
+  --DarkP2: #dcd6d1;
+  --DarkA1: #caccc4;
+  --DarkA2: #666f7d;
+  --DarkA3: #a9b8b6; 
+  --DarkA4: #6a7276; 
+  --Destaque: #ff0000; 
+  --primary90: #ff2f00; 
+  --primary80: #f9370b; 
+  --primary70: #ff481f; 
+  --neutral10: #e5e5e5;
+  --neutral80: #333333; 
+  --neutral90: #1a1a1a; 
   --principal: #2a3240;
   --secundaria: #1e2530;
-  /* Fontes personalizadas */
-  --principalFont: Aclonica, sans-serif; /* Fonte principal */
-  --secundariaFont: Catamaran, serif; /* Fonte secundária */
+  --principalFont: Aclonica, sans-serif;
+  --secundariaFont: Catamaran, serif; 
   --satoshi: Satoshi-Variable, sans-serif
 
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
+
+
 #root {
   min-height: 100vh;
 }
@@ -117,19 +85,8 @@ h1 {
 
 button {
   cursor: pointer;
+}
 
-  /* border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  transition: border-color 0.25s; */
-}
-button:hover {
-  border-color: #646cff;
-}
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;

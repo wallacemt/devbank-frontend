@@ -17,6 +17,7 @@ export const RoutesApp = () => {
   const { user, loading } = useUserContext();
 
   const privateRoutes = [{ path: "/dashboard", element: <DashBoard /> }];
+  
   if (loading) {
     return <Loading />;
   }

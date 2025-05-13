@@ -1,9 +1,9 @@
 import { UserResponse } from "@/types/userTypes";
-import { HttpClient } from "./HttpClient";
-import { setAuthHeader } from "./refreshAuth";
+import { baseURL, handleToken } from "./api";
+import axios from "axios";
 
-const userApi = new HttpClient({
-  baseUrl: "http://localhost:8081/user",
+const userApi = axios.create({
+  baseURL: `${baseURL}/user`,
   headers: {
     "Content-Type": "application/json",
   },
@@ -11,7 +11,7 @@ const userApi = new HttpClient({
 
 export const getUser = async (): Promise<UserResponse> => {
   try {
-    setAuthHeader(userApi);
+    handleToken(userApi);
     const userResponse = await userApi.get<UserResponse>("");
     return userResponse.data;
   } catch (err: any) {

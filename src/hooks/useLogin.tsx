@@ -66,9 +66,7 @@ export const useLogin = () => {
         toast.error(errorMessage);
         return;
       }
-
       loginSchema.parse(values);
-      console.log(values.emailOrCpf, values.password);
       const response: SimpleResponse = await loginUser(values.emailOrCpf, values.password);
       setMessage(response.message);
 
@@ -112,10 +110,12 @@ export const useLogin = () => {
           type: "manual",
           message: errorMessage,
         });
+        console.log(errorMessage)
         setError(errorMessage);
       } else {
         console.error("Erro inesperado:", error);
       }
+      toast.error(error.response.data.error)
     }
   };
 

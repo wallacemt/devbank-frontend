@@ -37,21 +37,21 @@ export const UserProvider = ({ children }: any) => {
   const fetchUserData = async () => {
     try {
       const userData = await getUserInfo();
-
       setUser(userData!);
     } catch (error: any) {
-      if (error.status == 401) {
+      if (error.response.status === 401) {
         logout();
       }
-      throw error;
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2500);
     }
   };
 
   const login = async (token: string) => {
     Cookies.set("jwtToken", token, { expires: 1, sameSite: "strict" });
-    await fetchUserData();
+    fetchUserData();
     navigate("/");
   };
 
@@ -59,7 +59,7 @@ export const UserProvider = ({ children }: any) => {
     Cookies.remove("jwtToken");
     setUser(null);
     setTimeout(() => {
-      navigate("/dashboard");
+      navigate("/");
     }, 1000);
   };
 

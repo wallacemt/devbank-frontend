@@ -1,8 +1,9 @@
 import { AuthResponse, SimpleResponse } from "@/types/responses";
-import { HttpClient } from "./HttpClient";
+import axios from "axios";
+import { baseURL } from "./api";
 
-const authApi = new HttpClient({
-  baseUrl: "http://localhost:8081/auth",
+const authApi = axios.create({
+  baseURL: `${baseURL}/auth`,
   headers: {
     "Content-Type": "application/json",
   },
@@ -13,7 +14,7 @@ export const loginUser = async (emailOrCpf: string, password: string): Promise<S
     const userResponse = await authApi.post("/login", { emailOrCpf, password });
     return userResponse.data as SimpleResponse;
   } catch (err: any) {
-    console.error(err.message);
+    console.error(err);
     throw err;
   }
 };
@@ -37,7 +38,13 @@ export const registerUser = async (
 ): Promise<SimpleResponse> => {
   console.log(name, email, cpf, password, passwordConfirmation);
   try {
-    const userResponse = await authApi.post<SimpleResponse>("/register", { name, email: email, cpf, password, passwordConfirmation });
+    const userResponse = await authApi.post<SimpleResponse>("/register", {
+      name,
+      email: email,
+      cpf,
+      password,
+      passwordConfirmation,
+    });
     return userResponse.data;
   } catch (err: any) {
     console.log(err);

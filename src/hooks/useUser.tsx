@@ -6,8 +6,8 @@ export const useUser = () => {
     try {
       const userResponse = await getUser();
       return userResponse;
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      throw error;
     }
   };
   return { getUserInfo };
