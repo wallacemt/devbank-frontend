@@ -1,45 +1,114 @@
-import { RefreshCw, TrendingUp } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { useEffect } from "react"
+import { FaArrowRight } from "react-icons/fa"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { RefreshCw } from "lucide-react";
+export const BalanceCard = () => {
+  useEffect(() => {
+    const lines = document.querySelectorAll(".terminal-line")
+    lines.forEach((line, index) => {
+      line.setAttribute("style", "opacity: 0;")
+      setTimeout(() => {
+        line.setAttribute("style", "transition: opacity 0.5s ease; opacity: 1;")
+      }, index * 300)
+    })
 
-export function BalanceCard() {
+    const pulse = document.querySelector(".pulse")
+    if (pulse) {
+      setInterval(() => {
+        pulse.classList.add("scale-105")
+        setTimeout(() => pulse.classList.remove("scale-105"), 500)
+      }, 3000)
+    }
+  }, [])
+
   return (
-    <div className="p-4">
-      <Card className="@container/card h-fit">
-        <CardHeader className="pb-2">
-          <CardDescription className="text-muted-foreground">Saldo atual</CardDescription>
+    <Card className="bg-gray-900 text-gray-100 w-full max-w-5xl border-none shadow-md relative overflow-hidden rounded-xl mx-auto">
+      <div className="pointer-events-none absolute -top-1/2 -left-1/2 w-[200%] h-[200%] rotate-[25deg] bg-gradient-to-br from-transparent via-cyan-400/10 to-transparent animate-[shine_20s_linear_infinite] duration-[10s]"></div>
+     
+      <CardHeader className="flex items-center justify-between space-x-2 px-6 py-4">
+        <div className="flex items-center space-x-1">
+          <div className="w-4 h-4 rounded-full bg-red-500" />
+          <div className="w-4 h-4 rounded-full bg-yellow-500" />
+          <div className="w-4 h-4 rounded-full bg-green-500" />
+        </div>
+        <CardDescription className="text-sm text-gray-400 font-semibold">
+          devBank Terminal v1.0.3
+        </CardDescription>
+        <span>{""}</span>
+      </CardHeader>
 
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div
-                  className="group flex items-center gap-2 cursor-pointer w-fit"
-                  onClick={() => {
-                    console.log("Atualizando saldo...");
-                  }}
-                >
-                  <CardTitle className="text-3xl font-bold tabular-nums @[250px]/card:text-4xl">R$ 1.250,00</CardTitle>
-                  <RefreshCw className="size-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                </div>
-              </TooltipTrigger>
-              <TooltipContent>Atualizar saldo</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </CardHeader>
+      {/* Horizontal layout */}
+      <CardContent className="flex flex-col md:flex-row gap-6 p-6">
+        {/* Left side: Terminal & Code */}
+        <div className="flex-1 space-y-6">
+          {/* Terminal lines */}
+          <div className="terminal-line text-cyan-400 text-sm">
+            <span className="text-gray-400">user@devbank:~$</span> check_balance --account=personal
+          </div>
 
-        <CardContent className="flex items-center gap-2 text-sm text-green-600 font-medium">
-          <TrendingUp className="size-4" />
-          <span>+3,5% de rendimento este mês</span>
-        </CardContent>
+          <div className="terminal-line text-green-400 text-sm">
+            <span className="text-gray-400">system:</span> Account balance retrieved successfully
+          </div>
 
-        <CardFooter className="flex items-center justify-between mt-2">
-          <p className="text-sm text-muted-foreground">Seu dinheiro teve um crescimento saudável esse mês.</p>
-          <Button variant="outline" size="sm">
-            Ver detalhes
+          {/* Code snippet */}
+          <div className="relative overflow-hidden rounded-lg bg-gray-800 p-4 text-xs font-mono text-gray-500 space-y-1">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/10 to-transparent" />
+            <div className="relative z-10">// devBank secure transaction</div>
+            <div className="relative z-10">function checkBalance() {'{'}</div>
+            <div className="ml-4 relative z-10">const account = "personal";</div>
+            <div className="ml-4 relative z-10">const balance = 9876.54;</div>
+            <div className="ml-4 relative z-10">return secureDisplay(balance);</div>
+            <div className="relative z-10">{'}'}</div>
+          </div>
+        </div>
+
+        {/* Right side: Balance Info */}
+        <div className="flex-1 flex flex-col justify-between space-y-6">
+          <div>
+            <div className="text-gray-400 text-sm mb-1">SALDO ATUAL</div>
+             <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div
+                              className="group flex items-center gap-2 cursor-pointer w-fit"
+                              onClick={() => {
+                                console.log("Atualizando saldo...");
+                              }}
+                            >
+                              <CardTitle className="text-4xl font-bold text-cyan-400 text-shadow-neon">R$ 1.250,00</CardTitle>
+                              <RefreshCw className="size-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>Atualizar saldo</TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+          </div>
+
+          {/* Yield & Account Info */}
+          <div className="flex justify-between">
+            <div>
+              <div className="text-gray-400 text-sm mb-1">RENDIMENTO</div>
+              <div className="text-green-400 font-medium">+1,25% este mês</div>
+            </div>
+            <div className="text-right">
+              <div className="text-gray-400 text-sm mb-1">CONTA</div>
+              <div className="text-cyan-400">#DEV-4242</div>
+            </div>
+          </div>
+
+          {/* Button */}
+          <Button variant="default" className="w-full flex justify-center gap-2 font-bold">
+            Ver mais detalhes <FaArrowRight />
           </Button>
-        </CardFooter>
-      </Card>
-    </div>
-  );
+        </div>
+      </CardContent>
+
+      <CardFooter className="border-t border-gray-800 text-xs text-gray-500 justify-center space-x-4">
+        <span>SHA-256: a1b2c3d4e5f6</span>
+        <span>SSL/TLS 1.3</span>
+      </CardFooter>
+    </Card>
+  )
 }

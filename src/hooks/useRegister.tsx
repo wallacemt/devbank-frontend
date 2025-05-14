@@ -117,7 +117,7 @@ export const useRegister = () => {
       }
     } catch (error: any) {
       console.error("Erro inesperado:", error);
-      toast.error(error.message);
+      toast.error(error.response.data.error);
     } finally {
       setLoading(false);
     }
@@ -132,7 +132,7 @@ export const useRegister = () => {
       }
     } catch (error: any) {
       console.error("Erro inesperado:", error);
-      toast.error(error.message);
+      toast.error(error.response.data.error);
     } finally {
       setLoading(false);
     }
@@ -147,7 +147,7 @@ export const useRegister = () => {
       }
     } catch (error: any) {
       console.error("Erro inesperado:", error);
-      toast.error(error.message);
+      toast.error(error.response.data.error);
     }
   };
 
@@ -163,7 +163,7 @@ export const useRegister = () => {
       }
     } catch (error: any) {
       console.error("Erro inesperado:", error);
-      toast.error(error.message);
+      toast.error(error.response.data.error);
     } finally {
       setLoading(false);
     }
