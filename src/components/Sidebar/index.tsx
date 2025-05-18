@@ -1,7 +1,7 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { ReactNode } from "react";
 import { SidebarLeft } from "@/components/ui/sidebar-left";
-import { SidebarRight } from "@/components/ui/sidebar-right";
+import { HistoryTransferSidebar } from "../HistoryTransfer";
 export const Sidebar = ({ children }: { children: ReactNode }) => {
   return (
     <SidebarProvider>
@@ -9,7 +9,7 @@ export const Sidebar = ({ children }: { children: ReactNode }) => {
       <SidebarInset>
         {children}
       </SidebarInset>
-      <SidebarRight />
+      <HistoryTransferSidebar />
     </SidebarProvider>
   );
 };

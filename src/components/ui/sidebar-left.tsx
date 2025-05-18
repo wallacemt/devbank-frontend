@@ -8,6 +8,7 @@ import {
   Wallet,
   ShieldCheck,
   ChartNoAxesCombined,
+  CreditCard,
 } from "lucide-react";
 
 import { NavMain } from "@/components/ui/nav-main";
@@ -16,7 +17,6 @@ import { Sidebar, SidebarContent, SidebarHeader, SidebarRail } from "@/component
 import { NavUser } from "./nav-user";
 import { Separator } from "@/components/ui/separator";
 import { Card } from "./card";
-import { useUserContext } from "@/hooks/useUserContext";
 
 const navMain = [
   {
@@ -31,7 +31,7 @@ const navMain = [
     icon: ChartBar,
   },
   {
-    title: "Invetimentos",
+    title: "Investimentos",
     url: "#",
     icon: ChartNoAxesCombined,
   },
@@ -39,6 +39,11 @@ const navMain = [
     title: "Carteira",
     url: "#",
     icon: Wallet,
+  },
+  {
+    title: "Cartões",
+    url: "#",
+    icon: CreditCard
   },
   {
     title: "Segurança",
@@ -54,19 +59,18 @@ const navMain = [
 
 const navSecondary = [
   {
-    title: "Settings",
+    title: "Configuração",
     url: "#",
     icon: Cog,
   },
   {
-    title: "Help",
+    title: "Ajuda",
     url: "#",
     icon: BadgeHelp,
   },
 ];
 
 export function SidebarLeft(props: React.ComponentProps<typeof Sidebar>) {
-  const { user } = useUserContext();
   return (
     <Sidebar className="border-r bg-background" {...props}>
       <SidebarHeader>
@@ -97,7 +101,7 @@ export function SidebarLeft(props: React.ComponentProps<typeof Sidebar>) {
       <Separator className="my-4" />
 
       <div className="px-4 mb-2 text-sm font-semibold text-muted-foreground uppercase tracking-wide">Conta</div>
-      <NavUser user={{ email: user?.email!, name: user?.name! }} />
+      <NavUser />
       <SidebarRail />
     </Sidebar>
   );

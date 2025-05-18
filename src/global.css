@@ -17,62 +17,73 @@
   font-weight: 400;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #1a1a1a; 
+  background-color: #1a1a1a;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --radius: 0.75rem; 
-  --background: #1a1a1a; 
-  --card: #1e1e1e; 
-  --popover: #1e1e1e; 
-  --foreground: #dcd6d1; 
-  --card-foreground: #dcd6d1; 
-  --popover-foreground: #dcd6d1; 
-  --primary: #ff2f00; 
+  --radius: 0.75rem;
+  --background: #1a1a1a;
+  --card: #1e1e1e;
+  --popover: #1e1e1e;
+  --foreground: #dcd6d1;
+  --card-foreground: #dcd6d1;
+  --popover-foreground: #dcd6d1;
+  --primary: #ff2f00;
   --primary-foreground: #ffddff;
-  --secondary: #f9370b; 
-  --secondary-foreground: #dcd6d1; 
-  --muted: #666f7d; 
-  --muted-foreground: #a9b8b6; 
-  --destructive: #ff0000; 
+  --secondary: #f9370b;
+  --secondary-foreground: #dcd6d1;
+  --muted: #666f7d;
+  --muted-foreground: #a9b8b6;
+  --destructive: #ff0000;
   --border: #333333;
-  --input: #1e1e1e; 
-  --ring: #ff2f00; 
-  --chart-1: #ff481f; 
+  --input: #1e1e1e;
+  --ring: #ff2f00;
+  --chart-1: #ff481f;
   --chart-2: #ff9370;
-  --chart-3: #a9b8b6; 
-  --chart-4: #b8b7b0; 
-  --chart-5: #dcd6d1; 
+  --chart-3: #a9b8b6;
+  --chart-4: #b8b7b0;
+  --chart-5: #dcd6d1;
   --sidebar: #2a3240;
-  --sidebar-foreground: #dcd6d1; 
-  --sidebar-primary: #ff2f00; 
-  --sidebar-primary-foreground: #ffddff; 
-  --sidebar-accent: #1e2530; 
-  --sidebar-accent-foreground: #dcd6d1; 
-  --sidebar-border: #333333; 
-  --sidebar-ring: #ff2f00; 
+  --sidebar-foreground: #dcd6d1;
+  --sidebar-primary: #ff2f00;
+  --sidebar-primary-foreground: #ffddff;
+  --sidebar-accent: #1e2530;
+  --sidebar-accent-foreground: #dcd6d1;
+  --sidebar-border: #333333;
+  --sidebar-ring: #ff2f00;
   --DarkP2: #dcd6d1;
   --DarkA1: #caccc4;
   --DarkA2: #666f7d;
-  --DarkA3: #a9b8b6; 
-  --DarkA4: #6a7276; 
-  --Destaque: #ff0000; 
-  --primary90: #ff2f00; 
-  --primary80: #f9370b; 
-  --primary70: #ff481f; 
+  --DarkA3: #a9b8b6;
+  --DarkA4: #6a7276;
+  --Destaque: #ff0000;
+  --primary90: #ff2f00;
+  --primary80: #f9370b;
+  --primary70: #ff481f;
   --neutral10: #e5e5e5;
-  --neutral80: #333333; 
-  --neutral90: #1a1a1a; 
+  --neutral80: #333333;
+  --neutral90: #1a1a1a;
   --principal: #2a3240;
   --secundaria: #1e2530;
   --principalFont: Aclonica, sans-serif;
-  --secundariaFont: Catamaran, serif; 
-  --satoshi: Satoshi-Variable, sans-serif
-
+  --secundariaFont: Catamaran, serif;
+  --satoshi: Satoshi-Variable, sans-serif;
 }
 
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
 
+::-webkit-scrollbar-track {
+  background-color: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ff0000a1;
+  border-radius: 10px;
+}
 
 #root {
   min-height: 100vh;
@@ -89,7 +100,7 @@ button {
 
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: none;
 }
 
 @media (prefers-color-scheme: light) {
@@ -142,7 +153,7 @@ button:focus-visible {
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-principal: var(--principal);
-  --color-secundaria: var(--secundaria)
+  --color-secundaria: var(--secundaria);
   --color-DarkP2: var(--DarkP2);
   --color-DarkA1: var(--DarkA1);
   --color-DarkA2: var(--DarkA2);
@@ -158,6 +169,7 @@ button:focus-visible {
   --font-principal: var(--principalFont);
   --font-secundaria: var(--secundariaFont);
   --font-satoshi: var(--satoshi);
+  --ulPers: .ulPers;
 }
 
 .dark {
@@ -239,3 +251,25 @@ button:focus-visible {
   text-shadow: 0 0 0.125rem rgba(0, 255, 255, 0.25), 0 0 0.25rem rgba(0, 255, 255, 0.5);
 }
 
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4.5rem);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@layer utilities {
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+}
+
+.ulPers {
+  color: oklch(60.6% 0.17 162.48);
+  font-weight: 600;
+}

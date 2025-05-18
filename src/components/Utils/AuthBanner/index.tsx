@@ -83,7 +83,7 @@ export const AuthBanner = ({ position = "left", effect = "fade-up" }) => {
             <span className="text-Destaque">Dev</span>BANK
             <span className="text-amber-600">$</span>
           </h2>
-          <div className="backdrop-blur-sm rounded-2xl bg-principal/80 p-2 self-end">
+          <div className="backdrop-blur-sm rounded-2xl bg-principal/80 -p-2">
             <Swiper
               spaceBetween={20}
               slidesPerView={1}
@@ -99,7 +99,7 @@ export const AuthBanner = ({ position = "left", effect = "fade-up" }) => {
                 clickable: true,
               }}
               modules={[Autoplay, ]}
-              className="mt-4 font-secundaria font-medium text-white text-2xl"
+              className="mt-2 font-secundaria font-medium text-white text-2xl"
             >
               {apresentationMessages.map((message, index) => (
                 <SwiperSlide key={index}>

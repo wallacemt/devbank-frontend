@@ -5,7 +5,7 @@ import { DashBoard } from "./pages/DashBoard/DashBoard";
 import { Loading } from "./components/Utils/Loading";
 import { useUserContext } from "./hooks/useUserContext";
 import { Suspense } from "react";
-import { NotFound } from "./pages/NotFound";
+import { NotFound } from "./pages/Errors/404";
 
 const PrivateRoutes = ({ children }: any) => {
   const { user } = useUserContext();
@@ -17,7 +17,7 @@ export const RoutesApp = () => {
   const { user, loading } = useUserContext();
 
   const privateRoutes = [{ path: "/dashboard", element: <DashBoard /> }];
-  
+
   if (loading) {
     return <Loading />;
   }
