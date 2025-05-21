@@ -13,13 +13,9 @@ import {
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
 import { useUserContext } from "@/hooks/useUserContext";
 
-export function NavUser({
-
-}: {
-
-  }) {
+export function NavUser({}: {}) {
   const { isMobile } = useSidebar();
-  const { user } = useUserContext();
+  const { user, logout } = useUserContext();
   let avatar = "https://res.cloudinary.com/dg9hqvlas/image/upload/v1736533469/1_-_zBr1CQ3_gxvqyg.png";
   return (
     <SidebarMenu>
@@ -71,7 +67,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => logout()}>
               <LogOut />
               Log out
             </DropdownMenuItem>

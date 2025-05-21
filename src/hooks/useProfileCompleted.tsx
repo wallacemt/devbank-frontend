@@ -96,9 +96,11 @@ export function useProfileForm() {
 
   const handleReclaimBonus = async () => {
     try {
-      const response = await postReclaimBonus();
+      const response = toast.promise(postReclaimBonus(), {
+        loading: "Resgatando bonus",
+        success: "Bonus reclamado",
+      });
       if (response) {
-        toast.success(response.message);
         setOpen(!open);
         handleView();
         handleUpdate();
@@ -123,9 +125,11 @@ export function useProfileForm() {
     }
     const data: UserProfileRequest = values;
     try {
-      const response = await postProfie(data);
+      const response = toast.promise(postProfie (data), {
+        loading: "Atualizando perfil",
+        success: "Perfil atualizado",
+      });
       if (response) {
-        toast.success(response.message);
         setTimeout(() => {
           handleReclaimBonus();
         }, 1500);

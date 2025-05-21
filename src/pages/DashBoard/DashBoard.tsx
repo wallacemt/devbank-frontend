@@ -24,6 +24,7 @@ export const DashBoard = () => {
       </Sidebar>
       {!user?.profile && <CompleteProfileModal />}
       {view && <BonusModal />}
+      <BonusModal />
     </>
   );
 };
