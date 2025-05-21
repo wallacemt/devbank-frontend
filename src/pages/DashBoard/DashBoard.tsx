@@ -6,7 +6,7 @@ import { SlideOptions } from "@/components/SlideOptions";
 import { AnalyticsOverview } from "@/components/AnlysticsOverview";
 import { CompleteProfileModal } from "@/components/CompleteProfileModal";
 import { BonusModal } from "@/components/CompleteProfileModal/BonusModal";
-export const DashBoard = () => {
+export default function DashBoard() {
   const { user, view } = useUserContext();
   return (
     <>
@@ -27,4 +27,4 @@ export const DashBoard = () => {
       <BonusModal />
     </>
   );
-};
+}

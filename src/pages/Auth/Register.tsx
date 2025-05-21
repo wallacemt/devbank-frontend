@@ -8,7 +8,7 @@ import { Stepper } from "@/components/Stepper";
 import { StepPersonalInfo } from "@/components/StepPersonalInfo";
 import { StepEmailVerify } from "@/components/StepEmailVerify";
 import { StepPassword } from "@/components/StepPassoword";
-export const Register = () => {
+export default function Register() {
   const navigate = useNavigate();
 
   const { ...useRes } = useRegister();

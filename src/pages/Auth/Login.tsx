@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { StepEmailVerify } from "@/components/StepEmailVerify";
 
-export const Login = () => {
+export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
@@ -166,4 +166,4 @@ export const Login = () => {
       </section>
     </div>
   );
-};
+}

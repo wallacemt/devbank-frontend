@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { X, CheckCircle, Code2, Rocket, Wallet, Terminal } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {  CheckCircle, Code2, Rocket, Wallet, Terminal } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function BonusModal() {

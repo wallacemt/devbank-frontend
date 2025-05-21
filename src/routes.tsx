@@ -1,11 +1,13 @@
 import { Routes, Route, Navigate } from "react-router";
-import { Login } from "./pages/Auth/Login";
-import { Register } from "./pages/Auth/Register";
-import { DashBoard } from "./pages/DashBoard/DashBoard";
+
 import { Loading } from "./components/Utils/Loading";
 import { useUserContext } from "./hooks/useUserContext";
-import { Suspense } from "react";
-import { NotFound } from "./pages/Errors/404";
+import { Suspense, lazy } from "react";
+
+const Login = lazy(() => import("./pages/Auth/Login"));
+const Register = lazy(() => import("./pages/Auth/Register"));
+const DashBoard = lazy(() => import("./pages/DashBoard/DashBoard"));
+const NotFound = lazy(() => import("./pages/Errors/404"));
 
 const PrivateRoutes = ({ children }: any) => {
   const { user } = useUserContext();
