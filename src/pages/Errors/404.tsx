@@ -1,7 +1,11 @@
 import notFoundSvg from "@/assets/images/404-svg.svg";
+import { useEffect } from "react";
 import { Link } from "react-router";
 
 export default function NotFound() {
+  useEffect(() => {
+    document.title = "DevBank | 404";
+  }, []);
   return (
     <div className={`h-screen bg-no-repeat bg-background flex flex-col items-center justify-center lg:mx-auto`}>
       <img src={notFoundSvg} alt="404 Ilustration" className="w-full lg:w-1/3 animate-float" />

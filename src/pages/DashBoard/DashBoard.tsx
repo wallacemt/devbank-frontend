@@ -6,8 +6,12 @@ import { SlideOptions } from "@/components/SlideOptions";
 import { AnalyticsOverview } from "@/components/AnlysticsOverview";
 import { CompleteProfileModal } from "@/components/CompleteProfileModal";
 import { BonusModal } from "@/components/CompleteProfileModal/BonusModal";
+import { useEffect } from "react";
 export default function DashBoard() {
   const { user, view } = useUserContext();
+  useEffect(() => {
+    document.title = "DevBank | Dashboard";
+  }, []);
   return (
     <>
       <Sidebar>

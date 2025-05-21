@@ -49,7 +49,7 @@ export const Loading: React.FC = () => {
           </div>
         </div>
 
-        <div className="typing text-sm font-mono mb-8">
+        <div className="typing text-xs font-mono mb-8">
           Initializing your developer banking experience...
         </div>
 

@@ -18,6 +18,7 @@ export default function Register() {
   };
 
   useEffect(() => {
+    document.title = "DevBank | Register";
     Aos.init({ duration: 1000 });
   });
 

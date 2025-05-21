@@ -101,14 +101,16 @@ export function useProfileForm() {
   const handleReclaimBonus = async () => {
     setLoading(true);
     try {
-      const response = toast.promise(postReclaimBonus(), {
+      const promise = toast.promise(postReclaimBonus(), {
         loading: "Resgatando bonus",
         success: "Bonus reclamado",
       });
+      const response = await promise.unwrap();
+
       if (response) {
         setOpen(!open);
-        handleView();
         handleUpdate();
+        handleView();
       }
       return response;
     } catch (error: any) {
