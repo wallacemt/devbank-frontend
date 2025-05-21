@@ -74,7 +74,7 @@ export const BalanceCard = () => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <div className="group flex items-center gap-2 cursor-pointer w-fit" onClick={() => handleUpdate()}>
-                    <CardTitle className="text-4xl font-bold text-cyan-400 text-shadow-neon">
+                    <CardTitle className="text-xl md:text-4xl font-bold text-cyan-400 text-shadow-neon">
                       {balanceFormater(user?.account.balance!)}
                     </CardTitle>
                     <RefreshCw className="size-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-200" />

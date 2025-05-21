@@ -62,6 +62,7 @@ export function useProfileForm() {
   const [open, setOpen] = useState(true);
   const [visible, setVisible] = useState(false);
   const { handleUpdate, handleView } = useUserContext();
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (field: keyof ProfileFormData, value: any) => {
     if (field === "cep") {
@@ -77,6 +78,7 @@ export function useProfileForm() {
   };
 
   const fetchAddressByCep = async (cep: string) => {
+    setLoading(true);
     try {
       const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
       const data = await response.json();
@@ -91,10 +93,13 @@ export function useProfileForm() {
       }
     } catch (error) {
       console.error("Erro ao buscar CEP:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleReclaimBonus = async () => {
+    setLoading(true);
     try {
       const response = toast.promise(postReclaimBonus(), {
         loading: "Resgatando bonus",
@@ -109,11 +114,14 @@ export function useProfileForm() {
     } catch (error: any) {
       console.error(error);
       return toast.error(error.response.data.error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleConpleteProfile = async (e: React.FormEvent, values: z.infer<typeof profileSchema>) => {
     e.preventDefault();
+    setLoading(true);
     try {
       profileSchema.parse(values);
     } catch (error) {
@@ -125,19 +133,23 @@ export function useProfileForm() {
     }
     const data: UserProfileRequest = values;
     try {
-      const response = toast.promise(postProfie (data), {
+      const promise = toast.promise(postProfie(data), {
         loading: "Atualizando perfil",
         success: "Perfil atualizado",
       });
+
+      const response = await promise.unwrap(); 
+
       if (response) {
-        setTimeout(() => {
-          handleReclaimBonus();
-        }, 1500);
+        await handleReclaimBonus(); 
       }
+
       return response;
     } catch (error: any) {
       console.error(error);
       return toast.error(error.response.data.error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -156,6 +168,7 @@ export function useProfileForm() {
     setVisible,
     errors,
     watch,
+    loading,
     open,
     setOpen,
     setValue,

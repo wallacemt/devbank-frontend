@@ -94,6 +94,7 @@ export const useLogin = () => {
     }
   };
   const handleCodeVerify = async (code: string) => {
+    setLoading(true);
     try {
       setError("");
       codeSchema.parse({ email: emailData.email, code });
@@ -116,6 +117,8 @@ export const useLogin = () => {
         console.error("Erro inesperado:", error);
       }
       toast.error(error.response.data.error)
+    }finally {
+      setLoading(false);
     }
   };
 

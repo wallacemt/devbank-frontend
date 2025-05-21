@@ -15,7 +15,7 @@ const steps = ["Endereço", "Informações Pessoais", "Vida Financeira", "Transa
 export function CompleteProfileModal() {
   const [step, setStep] = useState(0);
 
-  const { register, handleChange, open, handleConpleteProfile, errors, watch, form, visible, setVisible } =
+  const { register, handleChange, open, handleConpleteProfile, errors, watch, form, visible, setVisible, loading } =
     useProfileForm();
 
   const nextStep = () => setStep((prev) => Math.min(prev + 1, steps.length - 1));
@@ -259,7 +259,7 @@ export function CompleteProfileModal() {
               {step < steps.length - 1 ? (
                 <Button onClick={nextStep}>Próximo</Button>
               ) : (
-                <Button type="submit">Finalizar Cadastro</Button>
+                <Button type="submit" disabled={loading} className="text-neutral10 font-semibold">Finalizar Cadastro</Button>
               )}
             </div>
           </form>

@@ -3,7 +3,6 @@ import { FaBitcoin, FaCodeBranch, FaServer, FaEthereum } from 'react-icons/fa';
 
 export const Loading: React.FC = () => {
   useEffect(() => {
-    // Anima os códigos binários
     const binaryElements = document.querySelectorAll('.binary-code');
     binaryElements.forEach(el => {
       const x = Math.random() * 20 - 10;
@@ -30,7 +29,7 @@ export const Loading: React.FC = () => {
             <span className="text-Destaque">Dev</span>BANK <span className="text-amber-600">$</span>{" "}
           </h1>
         </div>
-        <div className="bg-gray-800 rounded-lg p-6 w-full max-w-md mb-8 overflow-hidden">
+        <div className="bg-gray-800 rounded-lg p-6 w-full max-w-[80%] md:max-w-full mb-8 overflow-hidden">
           <div className="flex items-center mb-4">
             <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
             <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
@@ -50,7 +49,7 @@ export const Loading: React.FC = () => {
           </div>
         </div>
 
-        <div className="typing lg:text-xl font-mono mb-8  ">
+        <div className="typing text-sm font-mono mb-8">
           Initializing your developer banking experience...
         </div>
 

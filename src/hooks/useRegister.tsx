@@ -83,8 +83,6 @@ export const useRegister = () => {
       setErrors({
         emailOrCpf: "Email Ou Cpf Já em uso.",
       });
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -139,6 +137,7 @@ export const useRegister = () => {
   };
 
   const verifyCode = async () => {
+    setLoading(true)
     try {
       const response = await registerCodeVerify(data.email, data.code);
       if (response) {
@@ -148,6 +147,8 @@ export const useRegister = () => {
     } catch (error: any) {
       console.error("Erro inesperado:", error);
       toast.error(error.response.data.error);
+    }finally {
+      setLoading(false);
     }
   };
 

@@ -69,7 +69,7 @@ export const StepEmailVerify = ({
   return (
     <div className="w-full">
       <form
-        className="flex flex-col gap-4 p-6 bg-black/10 rounded-xl shadow-lg text-white"
+        className="flex flex-col gap-4 p-6 bg-transparent md:bg-black/10 rounded-xl shadow-lg text-white"
         data-aos="fade-left"
         onSubmit={(e) => {
           e.preventDefault();
@@ -107,7 +107,7 @@ export const StepEmailVerify = ({
         </button>
 
         <div className="text-center">
-          <button type="button" onClick={handleResend} className="font-bold hover:underline">
+          <button type="button" onClick={handleResend} disabled={loading} className="font-bold hover:underline">
             Enviar novamente
           </button>
         </div>
