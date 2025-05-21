@@ -24,7 +24,6 @@ export default function DashBoard() {
       </Sidebar>
       {!user?.profile && <CompleteProfileModal />}
       {view && <BonusModal />}
-      <BonusModal />
     </>
   );
 }
