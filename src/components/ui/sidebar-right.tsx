@@ -16,7 +16,7 @@ export function SidebarRight({
       {...props}
     >
       <SidebarContent>
-        <DatePicker />
+        <DatePicker date={new Date()} setDate={() => {}} />
         <SidebarSeparator className="mx-0 border-b border-foreground" />
         <p>Historico de transações aqui!</p>
       </SidebarContent>

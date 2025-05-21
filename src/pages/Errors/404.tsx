@@ -1,4 +1,3 @@
-import bgImage from "@/assets/images/404-bg.png";
 import notFoundSvg from "@/assets/images/404-svg.svg";
 import { Link } from "react-router";
 

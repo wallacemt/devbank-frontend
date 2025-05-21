@@ -13,7 +13,7 @@ import {
 
 import { NavMain } from "@/components/ui/nav-main";
 import { NavSecondary } from "@/components/ui/nav-secondary";
-import { Sidebar, SidebarContent, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
+import { Sidebar, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
 import { NavUser } from "./nav-user";
 import { Separator } from "@/components/ui/separator";
 import { Card } from "./card";

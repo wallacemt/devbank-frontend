@@ -1,4 +1,4 @@
-import { IdCard, MapPin, Banknote, UserCircle, Verified, KeyRound } from "lucide-react";
+import { IdCard, MapPin, Banknote, KeyRound } from "lucide-react";
 
 const steps = [
   { text: "Endereço", icon: <MapPin size={40} /> },

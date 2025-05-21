@@ -8,7 +8,6 @@ import { Stepper } from "@/components/Stepper";
 import { StepPersonalInfo } from "@/components/StepPersonalInfo";
 import { StepEmailVerify } from "@/components/StepEmailVerify";
 import { StepPassword } from "@/components/StepPassoword";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
 export const Register = () => {
   const navigate = useNavigate();
 
