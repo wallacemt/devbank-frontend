@@ -5,10 +5,9 @@ import { BalanceCard } from "@/components/BalanceCard";
 import { SlideOptions } from "@/components/SlideOptions";
 import { AnalyticsOverview } from "@/components/AnlysticsOverview";
 import { CompleteProfileModal } from "@/components/CompleteProfileModal";
-import { useState } from "react";
+import { BonusModal } from "@/components/CompleteProfileModal/BonusModal";
 export const DashBoard = () => {
-  const { user } = useUserContext();
-  const [view, setView] = useState(true);
+  const { user, view } = useUserContext();
   return (
     <>
       <Sidebar>
@@ -23,7 +22,8 @@ export const DashBoard = () => {
           </div>
         </div>
       </Sidebar>
-      {view && <CompleteProfileModal />}
+      {!user?.profile && <CompleteProfileModal />}
+      {view && <BonusModal />}
     </>
   );
 };

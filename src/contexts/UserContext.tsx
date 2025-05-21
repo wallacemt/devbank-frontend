@@ -8,9 +8,9 @@ export const UserContext = createContext({
   user: null as UserResponse | null,
   login: (_token: string) => {},
   logout: () => {},
+  view: false,
+  handleView: () => {},
   loading: true,
-  viewPreferenceModal: true,
-  setViewPreferenceModal: "" as any,
   update: false,
   handleUpdate: () => {},
 });
@@ -19,11 +19,9 @@ export const UserProvider = ({ children }: any) => {
   const [user, setUser] = useState<UserResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [update, setUpdate] = useState(false);
+  const [view, setView] = useState(false);
   const navigate = useNavigate();
   const { getUserInfo } = useUser();
-  const [viewPreferenceModal, setViewPreferenceModal] = useState(
-    sessionStorage.getItem("viewPreferenceModal") !== "true" ? false : true || true
-  );
 
   useEffect(() => {
     const token = Cookies.get("jwtToken");
@@ -64,10 +62,9 @@ export const UserProvider = ({ children }: any) => {
   };
 
   const handleUpdate = () => setUpdate(!update);
+  const handleView = () => setView(!view);
   return (
-    <UserContext.Provider
-      value={{ user, login, logout, loading, viewPreferenceModal, setViewPreferenceModal, update, handleUpdate }}
-    >
+    <UserContext.Provider value={{ user, login, logout, loading, update, handleUpdate, view, handleView }}>
       {children}
     </UserContext.Provider>
   );

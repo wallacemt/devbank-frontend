@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/chart";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router"; 
+import { Link } from "react-router";
 
 const chartData = [
   { month: "Jan", entradas: 4200, saidas: 2900 },
@@ -37,37 +37,37 @@ export function AnalyticsOverview() {
   const [expanded, setExpanded] = useState(true);
 
   return (
-    <section className={`flex flex-col   px-6 w-full ${!expanded ? "lg:absolute": ""} bottom-4`}>
-        <div
-          className={cn(
-            "transition-all duration-300 rounded-xl border p-4 bg-background shadow-md",
-            expanded ? "h-full" : "h-16 overflow-hidden"
-          )}
-        >
-          <div className="flex justify-between items-center mb-2">
-            <h2 className="text-base font-semibold text-muted-foreground">Análise rápida das finanças</h2>
-            <div className="flex gap-2">
-              <Link to="/dashboard/financeiro">
-                <Button size="sm" variant="default">
-                  Ver mais
-                </Button>
-              </Link>
-              <Button size="sm" variant="outline" onClick={() => setExpanded(!expanded)}>
-                {expanded ? "Ocultar" : "Expandir"}
+    <section className={`flex flex-col px-6 w-full`}>
+      <div
+        className={cn(
+          "transition-all duration-300 rounded-xl border p-4 bg-background shadow-md",
+          expanded ? "h-full" : "h-16 overflow-hidden"
+        )}
+      >
+        <div className="flex justify-between items-center mb-2">
+          <h2 className="text-base font-semibold text-muted-foreground">Análise rápida das finanças</h2>
+          <div className="flex gap-2">
+            <Link to="/dashboard/financeiro">
+              <Button size="sm" variant="default">
+                Ver mais
               </Button>
-            </div>
+            </Link>
+            <Button size="sm" variant="outline" onClick={() => setExpanded(!expanded)}>
+              {expanded ? "Ocultar" : "Expandir"}
+            </Button>
           </div>
-          <ChartContainer config={chartConfig} className={`w-full h-[20rem] ${expanded ? "block" : "hidden"}`}>
-            <BarChart accessibilityLayer data={chartData}>
-              <CartesianGrid vertical={true} />
-              <XAxis dataKey="month" tickLine={true} tickMargin={10} axisLine={true} />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <ChartLegend content={<ChartLegendContent />} />
-              <Bar dataKey="entradas" fill="var(--color-entradas)" radius={4} />
-              <Bar dataKey="saidas" fill="var(--color-saidas)" radius={4} />
-            </BarChart>
-          </ChartContainer>
         </div>
+        <ChartContainer config={chartConfig} className={`w-full h-[20rem] ${expanded ? "block" : "hidden"}`}>
+          <BarChart accessibilityLayer data={chartData}>
+            <CartesianGrid vertical={true} />
+            <XAxis dataKey="month" tickLine={true} tickMargin={10} axisLine={true} />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <ChartLegend content={<ChartLegendContent />} />
+            <Bar dataKey="entradas" fill="var(--color-entradas)" radius={4} />
+            <Bar dataKey="saidas" fill="var(--color-saidas)" radius={4} />
+          </BarChart>
+        </ChartContainer>
+      </div>
     </section>
   );
 }

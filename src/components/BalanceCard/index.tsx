@@ -7,7 +7,7 @@ import { RefreshCw } from "lucide-react";
 import { useUserContext } from "@/hooks/useUserContext";
 import { balanceFormater } from "../Utils/balanceFormater";
 export const BalanceCard = () => {
-  const { user } = useUserContext();
+  const { user, handleUpdate } = useUserContext();
   useEffect(() => {
     const lines = document.querySelectorAll(".terminal-line");
     lines.forEach((line, index) => {
@@ -59,8 +59,8 @@ export const BalanceCard = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/10 to-transparent" />
             <div className="relative z-10">// devBank secure transaction</div>
             <div className="relative z-10">function checkBalance() {"{"}</div>
-            <div className="ml-4 relative z-10">const account = {user?.id.slice(0, 8)}...;</div>
-            <div className="ml-4 relative z-10">const balance = {user?.balance};</div>
+            <div className="ml-4 relative z-10">const account = {user?.account.accountId.slice(0, 8)}...;</div>
+            <div className="ml-4 relative z-10">const balance = {user?.account.balance};</div>
             <div className="ml-4 relative z-10">return secureDisplay(balance);</div>
             <div className="relative z-10">{"}"}</div>
           </div>
@@ -73,14 +73,9 @@ export const BalanceCard = () => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <div
-                    className="group flex items-center gap-2 cursor-pointer w-fit"
-                    onClick={() => {
-                      console.log("Atualizando saldo...");
-                    }}
-                  >
+                  <div className="group flex items-center gap-2 cursor-pointer w-fit" onClick={() => handleUpdate()}>
                     <CardTitle className="text-4xl font-bold text-cyan-400 text-shadow-neon">
-                      {balanceFormater(user?.balance!)}
+                      {balanceFormater(user?.account.balance!)}
                     </CardTitle>
                     <RefreshCw className="size-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                   </div>
@@ -98,7 +93,7 @@ export const BalanceCard = () => {
             </div>
             <div className="text-right">
               <div className="text-gray-400 text-sm mb-1">CONTA</div>
-              <div className="text-cyan-400">#DEV-{user?.id.slice(0, 8)}</div>
+              <div className="text-cyan-400">#DEV-{user?.account.accountId.slice(0, 8)}</div>
             </div>
           </div>
 

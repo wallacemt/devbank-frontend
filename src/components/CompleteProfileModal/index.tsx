@@ -27,7 +27,7 @@ export function CompleteProfileModal() {
         return (
           <div className="space-y-4">
             <div className="flex flex-col gap-4">
-              <Label>
+              <Label htmlFor="cep">
                 CEP <span className="text-Destaque">*</span>
               </Label>
               <Input
@@ -35,46 +35,48 @@ export function CompleteProfileModal() {
                 required
                 onChange={(e) => handleChange("cep", e.target.value)}
                 placeholder="Ex.: 12345-678"
+                id="cep"
               />
               {errors.cep && <span className="text-red-500 text-sm mb-2">{errors.cep.message}</span>}
             </div>
 
-            <Label>
+            <Label htmlFor="street">
               Rua <span className="text-Destaque">*</span>
             </Label>
-            <Input {...register("street")} required placeholder="Ex.: Rua 1" />
+            <Input {...register("street")} id="street" required placeholder="Ex.: Rua 1" />
 
-            <Label>
+            <Label htmlFor="number">
               Número <span className="text-Destaque">*</span>
             </Label>
-            <Input {...register("number")} required type="number" defaultValue={1} placeholder="Ex.: 123" />
+            <Input {...register("number")} id="number" required type="number" defaultValue={1} placeholder="Ex.: 123" />
 
-            <Label>Complemento (opcional)</Label>
-            <Input {...register("complement")} placeholder="Ex.: Casa 1" />
+            <Label htmlFor="complement">Complemento (opcional)</Label>
+            <Input {...register("complement")} id="complement" placeholder="Ex.: Casa 1" />
 
-            <Label>
+            <Label htmlFor="city">
               Cidade <span className="text-Destaque">*</span>
             </Label>
-            <Input {...register("city")} required placeholder="Ex.: Sao Paulo" />
+            <Input {...register("city")} id="city" required placeholder="Ex.: Sao Paulo" />
 
-            <Label>
+            <Label htmlFor="state">
               Estado <span className="text-Destaque">*</span>{" "}
             </Label>
-            <Input {...register("state")} placeholder="Ex.: SP" />
+            <Input {...register("state")} id="state" required placeholder="Ex.: SP" />
           </div>
         );
       case 1:
         return (
           <div className="space-y-4">
-            <Label>Nome Social (opcional)</Label>
-            <Input {...register("socialName")} placeholder="Ex.: João" />
+            <Label htmlFor="socialName">Nome Social (opcional)</Label>
+            <Input {...register("socialName")} id="socialName" placeholder="Ex.: João" />
             <div className="flex flex-col gap-4">
-              <Label>
+              <Label htmlFor="birthDate">
                 Data de Nascimento <span className="text-Destaque">*</span>
               </Label>
               <Input
                 type="date"
                 {...register("birthDate")}
+                id="birthDate"
                 onChange={(e) => handleChange("birthDate", e.target.value)}
                 required
                 placeholder="Ex.: 01/01/2000"
@@ -84,11 +86,11 @@ export function CompleteProfileModal() {
             </div>
 
             <div className="flex flex-col gap-4">
-              <Label>
+              <Label htmlFor="gender">
                 Gênero <span className="text-Destaque">*</span>
               </Label>
               <Select onValueChange={(v) => handleChange("gender", v)}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full" id="gender">
                   <SelectValue placeholder="Selecione" />
                 </SelectTrigger>
                 <SelectContent>
@@ -100,11 +102,11 @@ export function CompleteProfileModal() {
                 </SelectContent>
               </Select>
 
-              <Label>
+              <Label htmlFor="maritalStatus">
                 Estado Civil <span className="text-Destaque">*</span>
               </Label>
               <Select onValueChange={(v) => handleChange("maritalStatus", v)}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full" id="maritalStatus">
                   <SelectValue placeholder="Selecione" />
                 </SelectTrigger>
                 <SelectContent>
@@ -119,13 +121,14 @@ export function CompleteProfileModal() {
       case 2:
         return (
           <div className="space-y-5">
-            <Label>
+            <Label htmlFor="income">
               Renda Mensal <span className="text-Destaque">*</span>
             </Label>
             <Input
               type="text"
               value={watch("income") || ""}
               required
+              id="income"
               placeholder="R$ 0,00"
               onChange={(e) => {
                 const raw = e.target.value.replace(/\D/g, "");
@@ -138,11 +141,11 @@ export function CompleteProfileModal() {
             />
 
             <div className="flex flex-col space-y-2">
-              <Label>
+              <Label htmlFor="employmentStatus">
                 Situação de Emprego <span className="text-Destaque">*</span>{" "}
               </Label>
               <Select onValueChange={(v) => handleChange("employmentStatus", v)} required>
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full" id="employmentStatus">
                   <SelectValue placeholder="Selecione" />
                 </SelectTrigger>
                 <SelectContent>
@@ -153,22 +156,22 @@ export function CompleteProfileModal() {
               </Select>
             </div>
 
-            <Label>
+            <Label htmlFor="occupation">
               Ocupação <span className="text-Destaque">*</span>
             </Label>
-            <Input {...register("occupation")} required placeholder="Ex.: Desenvolvedor" />
+            <Input {...register("occupation")} id="occupation" required placeholder="Ex.: Desenvolvedor" />
 
-            <Label>
+            <Label htmlFor="company">
               Empresa <span className="text-Destaque">*</span>{" "}
             </Label>
-            <Input {...register("company")} placeholder="Ex.: Google" />
+            <Input {...register("company")} id="company" required placeholder="Ex.: Google" />
 
             <div className="flex flex-col space-y-2">
-              <Label>
+              <Label htmlFor="education">
                 Escolaridade <span className="text-Destaque">*</span>
               </Label>
               <Select onValueChange={(v) => handleChange("education", v)} required>
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full" id="education">
                   <SelectValue placeholder="Selecione" />
                 </SelectTrigger>
                 <SelectContent>
@@ -189,7 +192,7 @@ export function CompleteProfileModal() {
       case 3:
         return (
           <div className="space-y-4">
-            <Label>
+            <Label htmlFor="transactionPin">
               Senha de Transação <span className="text-Destaque">**</span>
             </Label>
             <div className="relative">
@@ -198,6 +201,7 @@ export function CompleteProfileModal() {
                 maxLength={6}
                 value={watch("transactionPin") || ""}
                 {...register("transactionPin")}
+                id="transactionPin"
                 placeholder="Apenas números, 8 dígitos"
                 required
               />

@@ -1,11 +1,15 @@
+import { postProfie, postReclaimBonus } from "@/api/userApi";
+import { UserProfileRequest } from "@/types/userTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
+import { useUserContext } from "./useUserContext";
 
 const profileSchema = z.object({
-  cep: z.string().min(8, { message: "CEP inválido, deve conter exatamente 8 caracteres" }).optional(),
-  street: z.string().min(3, { message: "Rua inválida, deve conter pelo menos 3 caracteres" }).optional(),
+  cep: z.string().min(8, { message: "CEP inválido, deve conter exatamente 8 caracteres" }),
+  street: z.string().min(3, { message: "Rua inválida, deve conter pelo menos 3 caracteres" }),
   number: z.string().min(1, { message: "Número inválido, deve ser maior que 0" }),
   complement: z.string().optional(),
   city: z.string().min(3, { message: "Cidade inválida, deve conter pelo menos 3 caracteres" }),
@@ -14,12 +18,12 @@ const profileSchema = z.object({
   birthDate: z.string().refine((date) => new Date(date) <= new Date(), {
     message: "Data de nascimento inválida, deve ser uma data no passado",
   }),
-  gender: z.string().min(1, "Genero inválido!").optional(),
-  maritalStatus: z.string().min(1, "Estado civil inválido!").optional(),
-  income: z.string().min(1, "Rendimento inválido!").optional(),
-  employmentStatus: z.string().min(1, "Situação inválido!").optional(),
-  occupation: z.string(),
-  company: z.string().optional(),
+  gender: z.string().min(1, "Genero inválido!"),
+  maritalStatus: z.string().min(1, "Estado civil inválido!"),
+  income: z.string().min(1, "Rendimento inválido!"),
+  employmentStatus: z.string().min(1, "Situação inválido!"),
+  occupation: z.string().min(1, "Profissão inválida"),
+  company: z.string().min(1, "Empresa inválida"),
   education: z.string().min(1, "Escolaridade inválida"),
   transactionPin: z.string().regex(/^\d{6}$/, { message: "A senha deve conter exatamente 6 dígitos numéricos" }),
 });
@@ -57,6 +61,8 @@ export function useProfileForm() {
   } = form;
   const [open, setOpen] = useState(true);
   const [visible, setVisible] = useState(false);
+  const { handleUpdate, handleView } = useUserContext();
+
   const handleChange = (field: keyof ProfileFormData, value: any) => {
     if (field === "cep") {
       const onlyDigits = value.replace(/\D/g, "").slice(0, 8);
@@ -88,11 +94,47 @@ export function useProfileForm() {
     }
   };
 
-  const handleConpleteProfile = (e: React.FormEvent, values: z.infer<typeof profileSchema>) => {
+  const handleReclaimBonus = async () => {
+    try {
+      const response = await postReclaimBonus();
+      if (response) {
+        toast.success(response.message);
+        setOpen(!open);
+        handleView();
+        handleUpdate();
+      }
+      return response;
+    } catch (error: any) {
+      console.error(error);
+      return toast.error(error.response.data.error);
+    }
+  };
+
+  const handleConpleteProfile = async (e: React.FormEvent, values: z.infer<typeof profileSchema>) => {
     e.preventDefault();
-    profileSchema.parse(values);
-    console.log("Dados validados:", values);
-    setOpen(!open);
+    try {
+      profileSchema.parse(values);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const errorMessage = error.errors[0]?.message;
+        toast.error(errorMessage);
+        return;
+      }
+    }
+    const data: UserProfileRequest = values;
+    try {
+      const response = await postProfie(data);
+      if (response) {
+        toast.success(response.message);
+        setTimeout(() => {
+          handleReclaimBonus();
+        }, 1500);
+      }
+      return response;
+    } catch (error: any) {
+      console.error(error);
+      return toast.error(error.response.data.error);
+    }
   };
 
   useEffect(() => {

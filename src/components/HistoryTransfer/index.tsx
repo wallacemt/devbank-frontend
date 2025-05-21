@@ -52,7 +52,7 @@ export function HistoryTransferSidebar() {
               : "Selecione uma data"}
           </h4>
           {transfers.length > 0 ? (
-            <Swiper direction="vertical" slidesPerView={3} spaceBetween={10} mousewheel className="h-[20rem]">
+            <Swiper direction="vertical" slidesPerView={2} spaceBetween={10} mousewheel className="h-[20rem]">
               {transfers.map((t) => (
                 <SwiperSlide key={t.id}>
                   <TransferCard {...t} />

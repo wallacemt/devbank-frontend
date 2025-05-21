@@ -39,11 +39,14 @@ export function SlideOptions({ items = options }: SlideOptionsProps) {
       <CarouselContent>
         {items.map((item) => (
           <>
-            <CarouselItem className="flex flex-col  items-center gap-2 basis-[18%]" style={{ userSelect: "none", }}>
+            <CarouselItem
+              key={item.title}
+              className="flex flex-col  items-center gap-2 basis-[18%]"
+              style={{ userSelect: "none" }}
+            >
               <Tooltip>
                 <TooltipTrigger className="flex flex-col items-center">
                   <Card
-                    key={item.title}
                     className={cn(
                       "flex flex-col items-center justify-center w-24 h-24 shrink-0 rounded-full border-2 hover:shadow-md transition-all cursor-pointer gap-2 text-center group hover:bg-card/40 ",
                       item.highlight && "bg-Destaque/80 text-primary-foreground hover:bg-Destaque/50"

@@ -43,7 +43,7 @@ const navMain = [
   {
     title: "Cartões",
     url: "#",
-    icon: CreditCard
+    icon: CreditCard,
   },
   {
     title: "Segurança",
@@ -75,7 +75,7 @@ export function SidebarLeft(props: React.ComponentProps<typeof Sidebar>) {
     <Sidebar className="border-r bg-background" {...props}>
       <SidebarHeader>
         <Card
-          className="flex flex-col items-center gap-2 px-4 py-6 text-center bg-transparent "
+          className="flex flex-col items-center gap-2 px-4 py-2 text-center bg-transparent "
           style={{ userSelect: "none" }}
         >
           <div className="text-3xl font-bold font-principal leading-tight">
@@ -91,17 +91,15 @@ export function SidebarLeft(props: React.ComponentProps<typeof Sidebar>) {
         <div className="px-4 text-sm font-semibold text-muted-foreground uppercase tracking-wide">Menu</div>
         <NavMain items={navMain} />
       </SidebarHeader>
-
-      <SidebarContent>
-        <Separator className="my-4" />
-      </SidebarContent>
       <div className="px-4 text-sm font-semibold text-muted-foreground uppercase tracking-wide">Configurações</div>
       <NavSecondary items={navSecondary} />
 
       <Separator className="my-4" />
 
-      <div className="px-4 mb-2 text-sm font-semibold text-muted-foreground uppercase tracking-wide">Conta</div>
-      <NavUser />
+      <div className="absolute bottom-0">
+        <div className="px-4 mb-4 text-sm font-semibold text-muted-foreground uppercase tracking-wide">Conta</div>
+        <NavUser />
+      </div>
       <SidebarRail />
     </Sidebar>
   );

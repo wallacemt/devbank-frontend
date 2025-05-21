@@ -1,5 +1,8 @@
-export const balanceFormater = (valueInCents: number, currency?: string) => {
-  const value = valueInCents / 100;
+
+
+export const balanceFormater = (value: number, currency?: string) => {
+
+  console.log(value)
   const formatter = new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: currency || "BRL",
