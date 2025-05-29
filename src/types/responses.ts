@@ -8,3 +8,9 @@ export interface AuthResponse {
   message: string;
 }
 
+export interface UserKeyResponse {
+  userId: string;
+  userName: string;
+  userCpf: string;
+  accountId: string;
+}

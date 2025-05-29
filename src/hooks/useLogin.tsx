@@ -99,7 +99,7 @@ export const useLogin = () => {
       setError("");
       codeSchema.parse({ email: emailData.email, code });
       const response = await codeValidation(code, emailData.email);
-      console.log(response);
+  
       if (response) {
         toast.success(response.message);
         login(response.token);

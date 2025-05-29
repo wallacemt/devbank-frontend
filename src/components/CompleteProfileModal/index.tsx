@@ -5,10 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { StepperProfile } from "./StepperProfile";
 import { useProfileForm } from "@/hooks/useProfileCompleted";
 
-import { Eye, EyeClosed } from "lucide-react";
+import { Banknote, Eye, EyeClosed, IdCard, KeyRound, MapPin } from "lucide-react";
+import { Stepper } from "../Stepper";
 
 const steps = ["Endereço", "Informações Pessoais", "Vida Financeira", "Transação key"];
 
@@ -202,7 +202,7 @@ export function CompleteProfileModal() {
                 value={watch("transactionPin") || ""}
                 {...register("transactionPin")}
                 id="transactionPin"
-                placeholder="Apenas números, 8 dígitos"
+                placeholder="Apenas números, 6 dígitos"
                 required
               />
               <button
@@ -233,6 +233,12 @@ export function CompleteProfileModal() {
         return null;
     }
   };
+  const stepsArr = [
+    { text: "Endereço", icon: <MapPin size={40} /> },
+    { text: "Pessoais", icon: <IdCard size={40} /> },
+    { text: "Financeiras", icon: <Banknote size={40} /> },
+    { text: "Transação Key", icon: <KeyRound size={40} /> },
+  ];
 
   return (
     <Dialog open={open}>
@@ -243,7 +249,7 @@ export function CompleteProfileModal() {
           </DialogTitle>
         </DialogHeader>
 
-        <StepperProfile currentStep={step} />
+        <Stepper steps={stepsArr} currentStep={step} />
 
         <div className="flex flex-col gap-4 w-full lg:w-[40%] mx-auto">
           <div className="text-muted-foreground text-sm">

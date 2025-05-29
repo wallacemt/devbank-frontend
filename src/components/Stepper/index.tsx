@@ -1,35 +1,42 @@
-import { IdCard, ScanQrCode, Verified } from "lucide-react";
+import { ReactNode } from "react";
 
-const steps = [
-  { text: "Personal Info", icon: <IdCard size={40} /> },
-  { text: "Email Verify", icon: <Verified size={40} /> },
-  { text: "Password", icon: <ScanQrCode  size={40} /> },
-];
+interface Step {
+  text: string;
+  icon: ReactNode;
+}
 
-export const Stepper = ({ currentStep }: {currentStep: number}) => {
+interface StepperProps {
+  steps: Step[];
+  currentStep: number;
+}
+
+export const Stepper = ({
+  steps,
+  currentStep,
+}: StepperProps) => {
   return (
-    <div className="flex justify-between items-center w-full mb-12">
-      {steps.map((label, index) => (
-        <div key={index} className="flex-1 flex flex-col items-center">
+    <div className="flex  justify-between items-center w-full mb-4 max-w-4xl mx-auto">
+      {steps.map((step, index) => (
+        <div key={index} className="flex-1 flex flex-col mr-2 items-center relative z-4">
           <div
             className={`w-16 h-16 flex items-center justify-center rounded-full text-sm font-bold transition-colors duration-300
-            ${index <= currentStep ? "bg-green-700 text-white" : "bg-gray-500 text-gray-200"}
+              ${index <= currentStep ? "bg-green-700 text-white" : "bg-gray-500 text-gray-200"}
             `}
           >
-            {label.icon}
+            {step.icon}
           </div>
           <span
-            className={`text-1xl mt-1 text-center font-secundaria relative
-                ${index <= currentStep ? "text-white" : "text-gray-400"}
-        `}
+            className={`text-sm mt-2 text-center font-medium
+              ${index <= currentStep ? "text-white" : "text-gray-400"}
+            `}
           >
-            {label.text}
-            {index < steps.length && (
-              <div className="h-2 w-full absolute bg-gray-300 my-1 rounded-full">
-                {index <= currentStep && <div className="h-2 w-full bg-green-700 rounded-full" />}
-              </div>
-            )}
+            {step.text}
           </span>
+          {index < steps.length - 1 && (
+            <div className="absolute top-8 right-[-60%] w-full h-1 bg-gray-400 rounded-full -z-1">
+              {index < currentStep && <div className="h-full bg-green-300 rounded-full transition-all duration-300" />}
+            </div>
+          )}
         </div>
       ))}
     </div>

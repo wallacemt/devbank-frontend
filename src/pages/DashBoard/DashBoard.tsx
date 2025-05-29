@@ -27,6 +27,7 @@ export default function DashBoard() {
         </div>
       </Sidebar>
       {!user?.profile && <CompleteProfileModal />}
+
       {view && <BonusModal />}
     </>
   );

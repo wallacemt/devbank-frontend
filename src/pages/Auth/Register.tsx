@@ -8,11 +8,16 @@ import { Stepper } from "@/components/Stepper";
 import { StepPersonalInfo } from "@/components/StepPersonalInfo";
 import { StepEmailVerify } from "@/components/StepEmailVerify";
 import { StepPassword } from "@/components/StepPassoword";
+import { IdCard, ScanQrCode, Verified } from "lucide-react";
 export default function Register() {
   const navigate = useNavigate();
 
   const { ...useRes } = useRegister();
-
+  const steps = [
+    { text: "Personal Info", icon: <IdCard size={40} /> },
+    { text: "Email Verify", icon: <Verified size={40} /> },
+    { text: "Password", icon: <ScanQrCode size={40} /> },
+  ];
   const handleChange = (key: any, value: any) => {
     useRes.updateField(key, value);
   };
@@ -35,7 +40,7 @@ export default function Register() {
           Crie sua conta e venha ser <span className="text-Destaque font-principal">Dev</span>
           <span className="font-principal">BANK</span>
         </h3>
-        <Stepper currentStep={useRes.step} />
+        <Stepper steps={steps} currentStep={useRes.step} />
         <div className="w-full flex flex-col gap-4">
           {useRes.step === 0 && <StepPersonalInfo useRes={useRes} />}
           {useRes.step === 1 && (
