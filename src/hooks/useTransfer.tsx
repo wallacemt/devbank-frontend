@@ -1,7 +1,6 @@
 import { getUserByKey } from "@/api/transferApi";
 import { UserKeyResponse } from "@/types/responses";
 import { useState } from "react";
-import { toast } from "sonner";
 
 type FormData = {
   pixKey: string;
