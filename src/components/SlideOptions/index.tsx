@@ -1,7 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import {
-  SendHorizontal,
   CreditCard,
   Smartphone,
   DollarSign,
@@ -14,14 +13,15 @@ import {
 import { Carousel, CarouselContent } from "@/components/ui/carousel";
 import { TooltipContent, TooltipTrigger, Tooltip } from "@/components/ui/tooltip";
 import { PushPixModal } from "../PushPixModal";
-import { useState } from "react";
+import React, { useState } from "react";
+import { FaPix } from "react-icons/fa6";
 
 
 interface SlideOptionsProps {
   items?: {
     id: string;
     title: string;
-    icon: LucideIcon;
+    icon: LucideIcon | React.ComponentType;
     highlight?: boolean;
     modal?: any;
   }[];
@@ -30,7 +30,7 @@ interface SlideOptionsProps {
 const options = [
   { id: "transferChell", title: "Transfer Chell", icon: TerminalSquare, highlight: true },
   {
-    id: "pushPix", title: "Push Pix", icon: SendHorizontal, modal: (open: boolean, setOpen: (open: boolean) => void) => (
+    id: "pushPix", title: "Push Pix", icon: FaPix, modal: (open: boolean, setOpen: (open: boolean) => void) => (
       <PushPixModal open={open} setOpen={setOpen} />
     ),
   },

@@ -1,5 +1,6 @@
 import { useLogin } from "@/hooks/useLogin";
 import { useRegister } from "@/hooks/useRegister";
+import { Loader2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 interface StepEmailVerifyProps {
@@ -103,7 +104,7 @@ export const StepEmailVerify = ({
         {error && <p className="text-red-400 text-center">{error}</p>}
 
         <button type="submit" className="w-full bg-gray-800 text-white p-3 rounded-full hover:bg-primary70">
-          {loading ? "Carregando..." : "Confirmar"}
+          {loading ? <Loader2 className="animate-spin text-primary mb-4" size={16} /> : "Confirmar"}
         </button>
 
         <div className="text-center flex flex-col gap-4">
