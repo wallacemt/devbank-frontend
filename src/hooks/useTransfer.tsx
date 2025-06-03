@@ -33,7 +33,10 @@ export function useTransfer() {
   };
 
   const back = () => {
-    if (step > 0) setStep((prev) => prev - 1);
+    if (step > 0) {
+      resetError();
+      setStep((prev) => prev - 1);
+    }
   };
   const setFormField = (field: keyof FormData, value: unknown) => {
     setFormData((prev) => ({
@@ -91,31 +94,41 @@ export function useTransfer() {
   };
 
   const resetTransfer = () => {
+    setLoading(false);
     setStep(0);
+    resetData();
+    resetError();
+    setUserKey(undefined);
+  };
+
+  const resetError = () => {
+    return setError({
+      pixKeyError: "",
+      amountError: "",
+      transferPasswordError: "",
+    });
+  };
+  const resetData = () => {
     setFormData({
       pixKey: "",
       amount: 0,
       transferPassword: "",
     });
-    setLoading(false);
   };
-
-  const fetchUserByKey = async (userKey: string) => {
+  const fetchUserByKey = async (userKeyValue: string) => {
+    console.log(userKeyValue);
+    if (userKeyValue.trim() === "") return;
     setLoading(true);
     try {
-      if (userKey === "") {
-        setUserKey(undefined);
-        setError({ ...error, pixKeyError: "" });
-        return;
-      }
-      const response = await getUserByKey(userKey.trim());
-      setError({ ...error, pixKeyError: "" });
-      return setUserKey(response);
+      const response = await getUserByKey(userKeyValue.trim());
+      setUserKey(response);
+      setError((prev) => ({ ...prev, pixKeyError: "" }));
     } catch (error: any) {
-      setError({ ...error, pixKeyError: error.response.data.error });
-      return null;
+      setError((prev) => ({ ...prev, pixKeyError: error?.response?.data?.error || "Erro ao buscar chave" }));
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
     }
   };
 
@@ -132,7 +145,6 @@ export function useTransfer() {
       setLoading(false);
     }
   };
-
   return {
     formData,
     setFormField,

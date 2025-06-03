@@ -9,12 +9,13 @@ import { Separator } from "@/components/ui/separator";
 import { balanceFormater } from "../Utils/balanceFormater";
 import { Stepper } from "../Stepper";
 import { useTransfer } from "@/hooks/useTransfer";
-import { IdCard, KeySquare, ScanQrCode, User, Verified, VerifiedIcon } from "lucide-react";
+import { IdCard, KeySquare, Loader2, ScanQrCode, User, Verified, VerifiedIcon } from "lucide-react";
 import { Avatar } from "@radix-ui/react-avatar";
 import { Card } from "../ui/card";
 import { Carousel, CarouselContent } from "../ui/carousel";
 import { OverlayTransferFeedback } from "./OverlayTransferFeedback";
 import Aos from "aos";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const presets = [2, 5, 10, , 50, 100, 200];
 const steps = [
@@ -34,7 +35,6 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
     formData,
     setFormField,
     step,
-    setStep,
     next,
     back,
     userKey,
@@ -50,30 +50,40 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
     tId,
   } = useTransfer();
   useEffect(() => {
-    setStep(0);
-    setFormField("pixKey", "");
-     Aos.init({ duration: 1500 });
+    resetTransfer();
+    Aos.init({ duration: 1500 });
   }, [open]);
+
+  const debouncedKey = useDebounce(formData.pixKey, 500);
+
+  useEffect(() => {
+    fetchUserByKey(debouncedKey);
+  }, [debouncedKey]);
+
   const renderStep = () => {
     switch (step) {
       case 0:
         return (
-          <div className="space-y-4" data-aos="fade-up">
+          <div className="space-y-4">
             <Label htmlFor="pixKey">Digite a chave Pix</Label>
             <Input
               value={formData.pixKey}
               id="pixKey"
-              onChange={(e) => {
-                setFormField("pixKey", e.target.value);
-                fetchUserByKey(e.target.value);
-              }}
+              onChange={(e) => setFormField("pixKey", e.target.value)}
               required
+              defaultValue={formData.pixKey}
               placeholder="Email, CPF, Celular ou Aleatória"
             />
-            {error.pixKeyError && <span className="text-red-400 text-sm">{error.pixKeyError}</span>}
-            {!error.pixKeyError && userKey && (
+            {!loading && error.pixKeyError && <p className="text-red-500 text-sm">{error.pixKeyError}</p>}
+            {loading && (
+              <div className="flex flex-col justify-center items-center rounded-lg mt-4">
+                <Loader2 className="animate-spin text-primary mb-2" size={36} />
+                <p className="text-sm text-muted-foreground animate-pulse">Buscando conta Pix...</p>
+              </div>
+            )}
+            {!loading && userKey && (
               <div
-                className="bg-gradient-to-r cursor-pointer hover:from-gray-800 hover:scale-105 transition ease-in-out  from-gray-700 via-gray-800 to-gray-900 flex p-5 items-center gap-4 rounded-lg shadow-md"
+                className="bg-gradient-to-r cursor-pointer hover:from-gray-800 hover:scale-105 transition ease-in-out from-gray-700 via-gray-800 to-gray-900 flex p-5 items-center gap-4 rounded-lg shadow-md mt-2"
                 onClick={() => {
                   setFormField("pixKey", userKey.referenceKey);
                   next();
@@ -162,14 +172,14 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
             <p className="text-xs text-muted-foreground">A sua senha de transferência!</p>
           </div>
         );
-
       case 4:
         return (
-          <div className="space-y-4 text-center" data-aos="fade-up">
+          <div className="space-y-4 text-center">
             <VerifiedIcon size={64} className="text-green-700 mx-auto" />
             <p className="text-xl font-semibold">Transferência realizada com sucesso!</p>
             <p>
-              {balanceFormater(formData.amount || 0)} enviado para <span className="font-semibold text-DarkA1">{userKey?.userName.split(" ")[0]}</span>
+              {balanceFormater(formData.amount || 0)} enviado para{" "}
+              <span className="font-semibold text-DarkA1">{userKey?.userName.split(" ")[0]}</span>
             </p>
             <div className="flex justify-center gap-2 mt-4">
               <Button
@@ -212,10 +222,7 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
             </Button>
           )}
           {(step === 3 || step === 4) && loading && (
-            <OverlayTransferFeedback
-              userName={userKey?.userName}
-              type={step === 3 ? "pix" : "comprovante"}
-            />
+            <OverlayTransferFeedback userName={userKey?.userName} type={step === 3 ? "pix" : "comprovante"} />
           )}
 
           {step === 3 && (
