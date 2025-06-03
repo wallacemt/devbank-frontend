@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -12,8 +12,11 @@ import { useTransfer } from "@/hooks/useTransfer";
 import { IdCard, KeySquare, ScanQrCode, User, Verified, VerifiedIcon } from "lucide-react";
 import { Avatar } from "@radix-ui/react-avatar";
 import { Card } from "../ui/card";
+import { Carousel, CarouselContent } from "../ui/carousel";
+import { OverlayTransferFeedback } from "./OverlayTransferFeedback";
+import Aos from "aos";
 
-const presets = [5, 20, 100];
+const presets = [2, 5, 10, , 50, 100, 200];
 const steps = [
   { text: "Destinatário", icon: <IdCard size={32} /> },
   { text: "Valor", icon: <Verified size={32} /> },
@@ -27,37 +30,35 @@ interface PushPixProps {
   setOpen: (open: boolean) => void;
 }
 export function PushPixModal({ open, setOpen }: PushPixProps) {
-  const [step, setStep] = useState(0);
   const {
     formData,
     setFormField,
-    validateStep,
+    step,
+    setStep,
+    next,
+    back,
     userKey,
     fetchUserByKey,
-    // submitTransfer,
-    isSubmitting,
+    submitTransfer,
+    loading,
     error,
     formattedValue,
+    isCompleted,
     handleValueChange,
+    resetTransfer,
+    transferComprovante,
+    tId,
   } = useTransfer();
-
-  const next = () => {
-    if (validateStep(step)) setStep((prev) => prev + 1);
-  };
-
-  const back = () => {
-    if (step > 0) setStep((prev) => prev - 1);
-  };
-
   useEffect(() => {
     setStep(0);
     setFormField("pixKey", "");
+     Aos.init({ duration: 1500 });
   }, [open]);
   const renderStep = () => {
     switch (step) {
       case 0:
         return (
-          <div className="space-y-4">
+          <div className="space-y-4" data-aos="fade-up">
             <Label htmlFor="pixKey">Digite a chave Pix</Label>
             <Input
               value={formData.pixKey}
@@ -74,7 +75,7 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
               <div
                 className="bg-gradient-to-r cursor-pointer hover:from-gray-800 hover:scale-105 transition ease-in-out  from-gray-700 via-gray-800 to-gray-900 flex p-5 items-center gap-4 rounded-lg shadow-md"
                 onClick={() => {
-                  setFormField("pixKey", userKey.userCpf);
+                  setFormField("pixKey", userKey.referenceKey);
                   next();
                 }}
               >
@@ -92,22 +93,32 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
 
       case 1:
         return (
-          <div className="space-y-4">
+          <div className="space-y-4" data-aos="fade-right">
             <Label htmlFor="amount">Digite o valor</Label>
             <Input value={formattedValue} id="amount" onChange={handleValueChange} placeholder="R$ 0,00" />
-            <div className="flex gap-2">
-              {presets.map((p) => (
-                <Badge key={p} onClick={() => setFormField("amount", p)} className="cursor-pointer">
-                  {balanceFormater(p)}
-                </Badge>
-              ))}
-            </div>
+            <Carousel>
+              <CarouselContent>
+                {presets.map((p) => (
+                  <Badge
+                    key={p}
+                    onClick={() => setFormField("amount", p)}
+                    style={{ userSelect: "none" }}
+                    className="basis-[16%] ml-5  cursor-pointer"
+                  >
+                    {balanceFormater(p!)}
+                  </Badge>
+                ))}
+              </CarouselContent>
+            </Carousel>
           </div>
         );
 
       case 2:
         return (
-          <Card className="mx-auto p-4 w-fit flex items-center justify-center shadow-lg border border-gray-300 rounded-lg">
+          <Card
+            className="mx-auto p-4 w-fit flex items-center justify-center shadow-lg border border-gray-300 rounded-lg"
+            data-aos="fade-up"
+          >
             <div className="space-y-6 text-base flex flex-col">
               <div className="flex items-center gap-4">
                 <Avatar className="border-2 border-primary rounded-full p-1 shadow-sm">
@@ -135,7 +146,7 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
 
       case 3:
         return (
-          <div className="space-y-4">
+          <div className="space-y-4" data-aos="fade-left">
             <Label htmlFor="transferPassword">Senha de Transferência</Label>
             <Input
               type="password"
@@ -143,7 +154,10 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
               id="transferPassword"
               maxLength={6}
               placeholder="******"
-              onChange={(e) => setFormField("transferPassword", e.target.value)}
+              onChange={(e) => {
+                const numericValue = e.target.value.replace(/\D/g, "");
+                setFormField("transferPassword", numericValue);
+              }}
             />
             <p className="text-xs text-muted-foreground">A sua senha de transferência!</p>
           </div>
@@ -151,15 +165,21 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
 
       case 4:
         return (
-          <div className="space-y-4 text-center">
-            <VerifiedIcon size={64} className="text-green-700 mx-auto"/>
+          <div className="space-y-4 text-center" data-aos="fade-up">
+            <VerifiedIcon size={64} className="text-green-700 mx-auto" />
             <p className="text-xl font-semibold">Transferência realizada com sucesso!</p>
             <p>
-              {balanceFormater(formData.amount || 0)} enviado para {userKey?.userName.split(" ")[0]}
+              {balanceFormater(formData.amount || 0)} enviado para <span className="font-semibold text-DarkA1">{userKey?.userName.split(" ")[0]}</span>
             </p>
             <div className="flex justify-center gap-2 mt-4">
-              <Button variant="outline">Compartilhar</Button>
-              <Button variant="outline">Baixar Comprovante</Button>
+              <Button
+                variant="outline"
+                className="w-full hover:scale-105 hover:bg-secundaria"
+                onClick={() => transferComprovante(tId)}
+                disabled={loading}
+              >
+                Baixar Comprovante
+              </Button>
             </div>
           </div>
         );
@@ -168,7 +188,7 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="max-w-lg md:w-full w-fit h-fit px-12 overflow-y-auto flex flex-col gap-4">
+      <DialogContent className="max-w-lg w-[90%] md:w-full h-fit px-12 overflow-y-auto flex flex-col gap-4">
         <DialogHeader>
           <DialogTitle>Nova Transferência Pix</DialogTitle>
         </DialogHeader>
@@ -182,16 +202,41 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
 
         <div className="flex justify-between mt-auto">
           {step < 4 && (
-            <Button variant="ghost" disabled={step === 0} onClick={back}>
+            <Button variant="ghost" disabled={step === 0 || loading || isCompleted} onClick={back}>
               Voltar
             </Button>
           )}
-          {step < steps.length - 1 ? (
-            <Button onClick={next} disabled={isSubmitting}>
+          {step < steps.length - 1 && step !== 3 && (
+            <Button onClick={next} disabled={loading}>
               Avançar
             </Button>
-          ) : null}
-          {step > 4 && <Button onClick={() => setStep(0)}>Novo Pix</Button>}
+          )}
+          {(step === 3 || step === 4) && loading && (
+            <OverlayTransferFeedback
+              userName={userKey?.userName}
+              type={step === 3 ? "pix" : "comprovante"}
+            />
+          )}
+
+          {step === 3 && (
+            <Button
+              onClick={() => {
+                submitTransfer({
+                  pixKey: formData.pixKey,
+                  amount: formData.amount,
+                  password: formData.transferPassword,
+                });
+              }}
+              disabled={loading}
+            >
+              Enviar
+            </Button>
+          )}
+          {step === 4 && (
+            <Button disabled={loading} className="w-full hover:scale-105" onClick={() => resetTransfer()}>
+              Novo Pix
+            </Button>
+          )}
         </div>
       </DialogContent>
     </Dialog>

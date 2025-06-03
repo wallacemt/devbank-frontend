@@ -18,7 +18,7 @@ export default function Register() {
     { text: "Email Verify", icon: <Verified size={40} /> },
     { text: "Password", icon: <ScanQrCode size={40} /> },
   ];
-  const handleChange = (key: any, value: any) => {
+  const handleChange = (key: string, value: string) => {
     useRes.updateField(key, value);
   };
 
@@ -46,7 +46,7 @@ export default function Register() {
           {useRes.step === 1 && (
             <StepEmailVerify
               data={useRes.data}
-              onChange={(value: any) => useRes.updateField("code", value)}
+              onChange={(value: string | undefined) => useRes.updateField("code", value!)}
               onSubmit={useRes.verifyCode}
               useRes={useRes}
               loading={useRes.loading}

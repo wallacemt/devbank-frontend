@@ -103,7 +103,7 @@ export function useProfileForm() {
     try {
       const promise = toast.promise(postReclaimBonus(), {
         loading: "Resgatando bonus",
-        success: "Bonus reclamado",
+        success: "Bonus resgatado, use com sabedoria!",
       });
       const response = await promise.unwrap();
 

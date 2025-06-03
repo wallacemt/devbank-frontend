@@ -13,4 +13,5 @@ export interface UserKeyResponse {
   userName: string;
   userCpf: string;
   accountId: string;
+  referenceKey:string;
 }

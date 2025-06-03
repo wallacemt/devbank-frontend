@@ -74,7 +74,7 @@ export function SlideOptions({ items = options }: SlideOptionsProps) {
 
             {item.modal &&
               item.id &&
-              item.modal(modalOpenId === item.id, (open: any) =>
+              item.modal(modalOpenId === item.id, (open:boolean) =>
                 setModalOpenId(open ? item.id : null)
               )}
           </div>

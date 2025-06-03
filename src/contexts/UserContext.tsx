@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, ReactNode } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router";
 import { UserResponse } from "@/types/userTypes";
@@ -15,7 +15,7 @@ export const UserContext = createContext({
   handleUpdate: () => {},
 });
 
-export const UserProvider = ({ children }: any) => {
+export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [update, setUpdate] = useState(false);

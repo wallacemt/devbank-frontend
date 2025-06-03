@@ -142,7 +142,7 @@ export default function Login() {
           <StepEmailVerify
             data={emailData}
             error={error}
-            onChange={(value: any) => codeForm.setValue("code", value)}
+            onChange={(value: string | undefined) => codeForm.setValue("code", value!)}
             onSubmit={() => handleCodeVerify(emailData.code)}
             type="login"
             loading={loading}

@@ -7,7 +7,7 @@ interface StepEmailVerifyProps {
     email: string;
     code: string;
   };
-  onChange: (key?: any, value?: any) => void;
+  onChange: (key?: string, value?: number) => void;
   error?: string;
   onSubmit: () => void;
   type?: "register" | "login";
@@ -106,7 +106,8 @@ export const StepEmailVerify = ({
           {loading ? "Carregando..." : "Confirmar"}
         </button>
 
-        <div className="text-center">
+        <div className="text-center flex flex-col gap-4">
+          <p className="text-xs text-gray-400">Codigo expira em 10 minutos</p>
           <button type="button" onClick={handleResend} disabled={loading} className="font-bold hover:underline">
             Enviar novamente
           </button>

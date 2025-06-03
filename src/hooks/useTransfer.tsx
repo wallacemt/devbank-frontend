@@ -1,6 +1,9 @@
-import { getUserByKey } from "@/api/transferApi";
+import { getUserByKey, postPixTransfer } from "@/api/transferApi";
 import { UserKeyResponse } from "@/types/responses";
 import { useState } from "react";
+import { toast } from "sonner";
+import { useUserContext } from "./useUserContext";
+import { getTransferComprovant } from "@/api/transactionsApi";
 
 type FormData = {
   pixKey: string;
@@ -14,15 +17,25 @@ export function useTransfer() {
     amount: 0,
     transferPassword: "",
   });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [step, setStep] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [tId, settId] = useState("");
+  const [isCompleted, setIsCompleted] = useState(false);
   const [userKey, setUserKey] = useState<UserKeyResponse>();
   const [error, setError] = useState({
     pixKeyError: "",
     amountError: "",
     transferPasswordError: "",
   });
-  const setFormField = (field: keyof FormData, value: any) => {
+  const { handleUpdate } = useUserContext();
+  const next = () => {
+    if (validateStep(step)) setStep((prev) => prev + 1);
+  };
+
+  const back = () => {
+    if (step > 0) setStep((prev) => prev - 1);
+  };
+  const setFormField = (field: keyof FormData, value: unknown) => {
     setFormData((prev) => ({
       ...prev,
       [field]: field === "amount" && typeof value === "string" ? Number(value.replace(/\D/g, "")) / 100 : value,
@@ -43,6 +56,7 @@ export function useTransfer() {
   const validateStep = (step: number): boolean => {
     switch (step) {
       case 0:
+        setError({ ...error, pixKeyError: "Digite uma chave Pix válida" });
         return formData.pixKey.length >= 4;
       case 1:
         return formData.amount > 0;
@@ -55,57 +69,88 @@ export function useTransfer() {
     }
   };
 
-  const submitTransfer = async () => {
-    setIsSubmitting(true);
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        setIsSubmitting(false);
-        resolve(true);
-      }, 1000);
-    });
+  const submitTransfer = async ({ pixKey, amount, password }: { pixKey: string; amount: number; password: string }) => {
+    setLoading(true);
+    console.log(pixKey, amount, password);
+    try {
+      const response = await postPixTransfer(amount.toString(), pixKey, password);
+      console.log(response);
+      if (response) {
+        handleUpdate();
+        toast.success(response.message);
+        settId(response.transactionId);
+        setIsCompleted(true);
+        setStep(4);
+      }
+    } catch (err: any) {
+      console.error(err);
+      return toast.error(err.response.data.error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const resetTransfer = () => {
+    setStep(0);
     setFormData({
       pixKey: "",
       amount: 0,
       transferPassword: "",
     });
-    setIsSubmitting(false);
+    setLoading(false);
   };
 
   const fetchUserByKey = async (userKey: string) => {
+    setLoading(true);
     try {
       if (userKey === "") {
         setUserKey(undefined);
         setError({ ...error, pixKeyError: "" });
         return;
       }
-      const response = await getUserByKey(userKey);
+      const response = await getUserByKey(userKey.trim());
       setError({ ...error, pixKeyError: "" });
       return setUserKey(response);
     } catch (error: any) {
       setError({ ...error, pixKeyError: error.response.data.error });
       return null;
+    } finally {
+      setLoading(false);
     }
   };
 
-  const getRecipientName = () => {
-    return userKey?.userName;
+  const transferComprovante = async (transactionId: string) => {
+    setLoading(true);
+    try {
+      const pdfBlob = await getTransferComprovant(transactionId);
+      const url = window.URL.createObjectURL(pdfBlob);
+      window.open(url, "_blank");
+    } catch (err: any) {
+      console.error(err);
+      return toast.error(err.response.data.error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return {
     formData,
     setFormField,
     error,
+    transferComprovante,
     handleValueChange,
     formattedValue,
     validateStep,
     submitTransfer,
     userKey,
     fetchUserByKey,
-    isSubmitting,
+    loading,
     resetTransfer,
-    getRecipientName,
+    step,
+    setStep,
+    next,
+    back,
+    tId,
+    isCompleted,
   };
 }
