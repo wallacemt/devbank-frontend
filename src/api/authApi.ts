@@ -36,7 +36,6 @@ export const registerUser = async (
   password: string,
   passwordConfirmation: string
 ): Promise<SimpleResponse> => {
-  console.log(name, email, cpf, password, passwordConfirmation);
   try {
     const userResponse = await authApi.post<SimpleResponse>("/register", {
       name,
@@ -47,7 +46,6 @@ export const registerUser = async (
     });
     return userResponse.data;
   } catch (err: any) {
-    console.log(err);
     console.error(err.message);
     throw err;
   }
@@ -82,7 +80,6 @@ export const registerCodeVerify = async (email: string, code: string): Promise<S
 
 export const loginCodeResend = async (email: string): Promise<SimpleResponse> => {
   try {
-    console.log(email);
     const userResponse = await authApi.post("/login/2fa/resend", { emailOrCpf: email });
     return userResponse.data as SimpleResponse;
   } catch (err: any) {

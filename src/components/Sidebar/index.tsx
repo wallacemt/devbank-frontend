@@ -1,15 +1,13 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { ReactNode } from "react";
 import { SidebarLeft } from "@/components/ui/sidebar-left";
-import { HistoryTransferSidebar } from "../HistoryTransfer";
+import { SidebarRight } from "../ui/sidebar-right";
 export const Sidebar = ({ children }: { children: ReactNode }) => {
   return (
     <SidebarProvider>
       <SidebarLeft />
-      <SidebarInset>
-        {children}
-      </SidebarInset>
-      <HistoryTransferSidebar />
+      <SidebarInset>{children}</SidebarInset>
+      {window.location.pathname === "/" && <SidebarRight />}
     </SidebarProvider>
   );
 };

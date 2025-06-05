@@ -14,7 +14,10 @@ function Calendar({
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
-      className={cn("p-3", className)}
+      className={cn(
+        "p-3 rounded-md shadow-sm bg-background/80 hover:bg-background mx-auto",
+        className
+      )}
       onDayClick={props.onDayClick}
       classNames={{
         months: "flex flex-col sm:flex-row gap-2",
@@ -68,7 +71,7 @@ function Calendar({
       }}
       {...props}
     />
-  )
+  );
 }
 
 export { Calendar }

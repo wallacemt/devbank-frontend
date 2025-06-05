@@ -8,6 +8,7 @@ const Login = lazy(() => import("./pages/Auth/Login"));
 const Register = lazy(() => import("./pages/Auth/Register"));
 const DashBoard = lazy(() => import("./pages/DashBoard/DashBoard"));
 const NotFound = lazy(() => import("./pages/Errors/404"));
+const HistoryTransfer = lazy(() => import("./pages/HistoryTransfer"));
 
 const PrivateRoutes = ({ children }: any) => {
   const { user } = useUserContext();
@@ -18,7 +19,10 @@ const PrivateRoutes = ({ children }: any) => {
 export const RoutesApp = () => {
   const { user, loading } = useUserContext();
 
-  const privateRoutes = [{ path: "/dashboard", element: <DashBoard /> }];
+  const privateRoutes = [
+    { path: "/dashboard", element: <DashBoard /> },
+    { path: "/history", element: <HistoryTransfer /> },
+  ];
 
   if (loading) {
     return <Loading />;

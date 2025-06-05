@@ -25,6 +25,7 @@ export default function DashBoard() {
             </div>
           </div>
         </div>
+
       </Sidebar>
       {!user?.profile && <CompleteProfileModal />}
 

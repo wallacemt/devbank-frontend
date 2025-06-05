@@ -111,7 +111,6 @@ export const useLogin = () => {
           type: "manual",
           message: errorMessage,
         });
-        console.log(errorMessage)
         setError(errorMessage);
       } else {
         console.error("Erro inesperado:", error);

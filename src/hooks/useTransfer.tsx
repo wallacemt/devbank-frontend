@@ -3,7 +3,8 @@ import { UserKeyResponse } from "@/types/responses";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useUserContext } from "./useUserContext";
-import { getTransferComprovant } from "@/api/transactionsApi";
+import { getTransferComprovant, getTransferHistory } from "@/api/transactionsApi";
+import { TransactionHistoryItem } from "@/types/transactions";
 
 type FormData = {
   pixKey: string;
@@ -74,10 +75,8 @@ export function useTransfer() {
 
   const submitTransfer = async ({ pixKey, amount, password }: { pixKey: string; amount: number; password: string }) => {
     setLoading(true);
-    console.log(pixKey, amount, password);
     try {
       const response = await postPixTransfer(amount.toString(), pixKey, password);
-      console.log(response);
       if (response) {
         handleUpdate();
         toast.success(response.message);
@@ -116,7 +115,6 @@ export function useTransfer() {
     });
   };
   const fetchUserByKey = async (userKeyValue: string) => {
-    console.log(userKeyValue);
     if (userKeyValue.trim() === "") return;
     setLoading(true);
     try {
@@ -135,7 +133,11 @@ export function useTransfer() {
   const transferComprovante = async (transactionId: string) => {
     setLoading(true);
     try {
-      const pdfBlob = await getTransferComprovant(transactionId);
+      const promise = toast.promise(getTransferComprovant(transactionId), {
+        loading: "Gerando comprovante",
+        success: "Comprovante gerado com sucesso",
+      });
+      const pdfBlob = await promise.unwrap();
       const url = window.URL.createObjectURL(pdfBlob);
       window.open(url, "_blank");
     } catch (err: any) {
@@ -145,9 +147,23 @@ export function useTransfer() {
       setLoading(false);
     }
   };
+
+  const getHistoryTrasfer = async (date?: string): Promise<TransactionHistoryItem[] | undefined> => {
+    setLoading(true);
+    try {
+      const res = await getTransferHistory(date);
+      return res.content;
+    } catch (err) {
+      toast.error("Erro ao carregar historico de transferencias");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     formData,
     setFormField,
+    getHistoryTrasfer,
     error,
     transferComprovante,
     handleValueChange,

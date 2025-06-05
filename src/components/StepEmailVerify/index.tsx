@@ -103,13 +103,13 @@ export const StepEmailVerify = ({
 
         {error && <p className="text-red-400 text-center">{error}</p>}
 
-        <button type="submit" className="w-full bg-gray-800 text-white p-3 rounded-full hover:bg-primary70">
-          {loading ? <Loader2 className="animate-spin text-primary mb-4" size={16} /> : "Confirmar"}
+        <button type="submit" className="w-full bg-gray-800 flex items-center justify-center text-white p-2 rounded-full hover:bg-primary70/50">
+          {loading ? <Loader2 className="animate-spin text-primary" size={32} /> : "Confirmar"}
         </button>
 
         <div className="text-center flex flex-col gap-4">
           <p className="text-xs text-gray-400">Codigo expira em 10 minutos</p>
-          <button type="button" onClick={handleResend} disabled={loading} className="font-bold hover:underline">
+          <button type="button" onClick={handleResend} disabled={loading} className="font-bold hover:underline disabled:text-gray-400 ">
             Enviar novamente
           </button>
         </div>
