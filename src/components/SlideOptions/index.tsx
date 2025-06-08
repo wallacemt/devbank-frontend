@@ -13,9 +13,9 @@ import {
 import { Carousel, CarouselContent } from "@/components/ui/carousel";
 import { TooltipContent, TooltipTrigger, Tooltip } from "@/components/ui/tooltip";
 import { PushPixModal } from "../PushPixModal";
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { FaPix } from "react-icons/fa6";
-
+import { useUserContext } from "@/hooks/useUserContext";
 
 interface SlideOptionsProps {
   items?: {
@@ -23,40 +23,57 @@ interface SlideOptionsProps {
     title: string;
     icon: LucideIcon | React.ComponentType;
     highlight?: boolean;
-    modal?: any;
+    type?: "modal" | "action";
+    modalElement?: (open: boolean, setOpen: () => void) => ReactNode;
+    action?: () => void;
   }[];
 }
 
-const options = [
-  { id: "transferChell", title: "Transfer Chell", icon: TerminalSquare, highlight: true },
-  {
-    id: "pushPix", title: "Push Pix", icon: FaPix, modal: (open: boolean, setOpen: (open: boolean) => void) => (
-      <PushPixModal open={open} setOpen={setOpen} />
-    ),
-  },
-  { id: "commitPagamento", title: "Commit Pagamento", icon: CreditCard },
-  { id: "pullDeposito", title: "Pull Deposito", icon: Banknote },
-  { id: "stashCaixa", title: "Stash Caixinha", icon: Coins },
-  { id: "deployRecarga", title: "Deploy Recarga", icon: Smartphone },
-  { id: "forkEmprestimo", title: "Fork Empréstimo", icon: DollarSign },
-  { id: "mergeInvest", title: "Merge Investimentos", icon: Briefcase },
-];
-export function SlideOptions({ items = options }: SlideOptionsProps) {
+export function SlideOptions() {
   const [modalOpenId, setModalOpenId] = useState<string | null>(null);
+  const { handleTransferTerminal } = useUserContext();
+  const options: SlideOptionsProps["items"] = [
+    {
+      id: "transferChell",
+      title: "Transfer Chell",
+      icon: TerminalSquare,
+      highlight: true,
+      type: "action",
+      action: handleTransferTerminal,
+    },
+    {
+      id: "pushPix",
+      title: "Push Pix",
+      icon: FaPix,
+      type: "modal",
+      modalElement: (open, setOpen) => <PushPixModal open={open} setOpen={setOpen} />,
+    },
+    { id: "commitPagamento", title: "Commit Pagamento", icon: CreditCard },
+    { id: "pullDeposito", title: "Pull Deposito", icon: Banknote },
+    { id: "stashCaixa", title: "Stash Caixinha", icon: Coins },
+    { id: "deployRecarga", title: "Deploy Recarga", icon: Smartphone },
+    { id: "forkEmprestimo", title: "Fork Empréstimo", icon: DollarSign },
+    { id: "mergeInvest", title: "Merge Investimentos", icon: Briefcase },
+  ];
+  const [items, _setItems] = useState<SlideOptionsProps["items"]>(options);
 
-  const handleOpen = (id: string | undefined) => {
-    if (!id) return;
-    setModalOpenId((current) => (current === id ? null : id));
+  const handleClick = (item: (typeof options)[number]) => {
+    if (item.type === "modal") {
+      setModalOpenId((current) => (current === item.id ? null : item.id));
+    } else if (item.type === "action" && item.action) {
+     item.action();
+    }
   };
+
   return (
     <Carousel className="mx-auto  overflow-hidden" opts={{ align: "center" }}>
       <CarouselContent>
-        {items.map((item) => (
+        {items?.map((item) => (
           <div key={item.title} className="ml-8 flex flex-col items-center gap-2 basis-[18%]">
             <Tooltip>
               <TooltipTrigger asChild>
                 <Card
-                  onClick={() => handleOpen(item.id)}
+                  onClick={() => handleClick(item)}
                   className={cn(
                     "flex flex-col items-center justify-center w-24 h-24 shrink-0 rounded-full border-2 hover:shadow-md transition-all cursor-pointer gap-2 text-center group hover:bg-card/40",
                     item.highlight && "bg-Destaque/80 text-primary-foreground hover:bg-Destaque/50"
@@ -72,11 +89,10 @@ export function SlideOptions({ items = options }: SlideOptionsProps) {
 
             <p className="text-sm text-center">{item.title}</p>
 
-            {item.modal &&
+            {item.type === "modal" &&
               item.id &&
-              item.modal(modalOpenId === item.id, (open:boolean) =>
-                setModalOpenId(open ? item.id : null)
-              )}
+              item.modalElement &&
+              item.modalElement(modalOpenId === item.id, () => handleClick(item))}
           </div>
         ))}
       </CarouselContent>

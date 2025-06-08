@@ -1,55 +1,67 @@
-import React, { useEffect } from 'react';
-import { FaBitcoin, FaCodeBranch, FaServer, FaEthereum } from 'react-icons/fa';
+import React, { useEffect } from "react";
+import { FaBitcoin, FaCodeBranch, FaServer, FaEthereum } from "react-icons/fa";
 
 export const Loading: React.FC = () => {
   useEffect(() => {
-    const binaryElements = document.querySelectorAll('.binary-code');
-    binaryElements.forEach(el => {
+    const binaryElements = document.querySelectorAll(".binary-code");
+    binaryElements.forEach((el) => {
       const x = Math.random() * 20 - 10;
       const y = Math.random() * 20 - 10;
       (el as HTMLElement).style.transform = `translate(${x}px, ${y}px)`;
 
       const duration = 3 + Math.random() * 4;
-      (el as HTMLElement).style.animation = `float ${duration}s ease-in-out infinite`;
+      (
+        el as HTMLElement
+      ).style.animation = `float ${duration}s ease-in-out infinite`;
     });
   }, []);
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center overflow-hidden relative">
-      {/* Background binary code */}
+    <div className="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center overflow-hidden relative ">
       <div className="binary-code absolute top-[10%] left-[5%]">1010101</div>
       <div className="binary-code absolute top-[30%] right-[15%]">1100110</div>
-      <div className="binary-code absolute bottom-[25%] left-[20%]">1001001</div>
-      <div className="binary-code absolute bottom-[15%] right-[10%]">1110001</div>
+      <div className="binary-code absolute bottom-[25%] left-[20%]">
+        1001001
+      </div>
+      <div className="binary-code absolute bottom-[15%] right-[10%]">
+        1110001
+      </div>
       <div className="binary-code absolute top-[20%] right-[25%]">1011010</div>
 
-      <div className="relative code-bracket flex flex-col items-center justify-center p-12">
+      <div className="relative code-bracket flex flex-col items-center justify-center p-12 ">
         <div className="flex items-center mb-8 floating">
-          <h1 className="text-5xl sm:text-6xl font-bold font-principal text-center">
-            <span className="text-Destaque">Dev</span>BANK <span className="text-amber-600">$</span>{" "}
-          </h1>
+          <p className="text-4xl md:text-6xl font-bold font-principal text-center">
+            <span className="text-Destaque">Dev</span>BANK{" "}
+            <span className="text-amber-600">$</span>{" "}
+          </p>
         </div>
-        <div className="bg-gray-800 rounded-lg p-6 w-full max-w-[80%] md:max-w-full mb-8 overflow-hidden">
+        <div className="bg-gray-800 rounded-lg p-6 w-full max-w-[95%] md:max-w-full mb-8 overflow-hidden border-2 border-Destaque/40 ">
           <div className="flex items-center mb-4">
             <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
             <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
             <div className="w-3 h-3 rounded-full bg-green-500"></div>
-            <div className="ml-4 text-gray-400 text-sm">terminal</div>
+            <div className="ml-4 text-gray-400 text-sm">
+              @devbank: ~$ terminal
+            </div>
           </div>
-          <div className="font-mono text-green-400 mb-2">$ loading DevBank services...</div>
-          <div className="font-mono text-blue-400 mb-2">
-            &gt; checking blockchain nodes{' '}
+          <div className="font-mono text-xs text-green-400 mb-2 ">
+            $ loading DevBank services...
+          </div>
+          <div className="font-mono text-xs text-blue-400 mb-2 ">
+            &gt; checking blockchain nodes{" "}
             <span className="inline-block w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></span>
           </div>
-          <div className="font-mono text-purple-400 mb-2">
-            &gt; verifying smart contracts <span className="text-gray-400">[████░░░] 40%</span>
+          <div className="font-mono text-xs text-purple-400 mb-2 ">
+            &gt; verifying smart contracts{" "}
+            <span className="text-gray-400 text-[0.60rem]">[████░░░] 40%</span>
           </div>
-          <div className="font-mono text-yellow-400">
-            &gt; compiling security protocols <span className="text-gray-400">[███████░] 70%</span>
+          <div className="font-mono text-xs text-yellow-400 ">
+            &gt; compiling security protocols{" "}
+            <span className="text-gray-400 text-[0.60rem]">[███████░] 70%</span>
           </div>
         </div>
 
-        <div className="typing text-xs font-mono mb-8">
+        <div className="typing text-[0.55rem] max-w-fit font-mono mb-8">
           Initializing your developer banking experience...
         </div>
 
@@ -62,7 +74,7 @@ export const Loading: React.FC = () => {
         </div>
       </div>
 
-      <div className="absolute bottom-6 text-gray-500 text-sm">
+      <div className="absolute bottom-6 text-gray-400 text-xs">
         <p>Securely connecting to the DevBank network...</p>
       </div>
 
@@ -104,7 +116,6 @@ export const Loading: React.FC = () => {
             typing 3.5s steps(40, end),
             blink-caret .75s step-end infinite;
         }
-
         .code-bracket::before, .code-bracket::after {
           content: "{";
           position: absolute;

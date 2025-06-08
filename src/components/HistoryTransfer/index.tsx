@@ -1,6 +1,10 @@
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { Sidebar, SidebarContent, SidebarSeparator } from "@/components/ui/sidebar";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarSeparator,
+} from "@/components/ui/sidebar";
 import { DatePicker } from "@/components/ui/date-picker";
 
 import { useEffect, useState } from "react";
@@ -10,23 +14,32 @@ import { TransactionHistoryItem } from "@/types/transactions";
 import { Skeleton } from "../ui/skeleton";
 import { TransferCard } from "./TransferCard";
 import { NavigationOff } from "lucide-react";
+import { useUserContext } from "@/hooks/useUserContext";
 
 export function HistoryTransferSidebar() {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
+    new Date()
+  );
   const [transfers, setTrasnfers] = useState<TransactionHistoryItem[]>([]);
   const dateKey = selectedDate ? format(selectedDate, "yyyy-MM-dd") : "";
   const { getHistoryTrasfer, loading } = useTransfer();
-  useEffect(() => {
-    const fetchTransfer = async () => {
-      const res = await getHistoryTrasfer(dateKey);
-      setTrasnfers(res ?? []);
-    };
+  const { update } = useUserContext();
+ 
+  const fetchTransfer = async () => {
+    const res = await getHistoryTrasfer(dateKey);
+    setTrasnfers(res ?? []);
+  };
 
+
+  useEffect(() => {
     fetchTransfer();
-  }, [selectedDate]);
+  }, [selectedDate, update]);
 
   return (
-    <Sidebar collapsible="none" className="sticky top-0 hidden h-svh border-l lg:flex">
+    <Sidebar
+      collapsible="none"
+      className="sticky top-0 hidden h-svh border-l lg:flex"
+    >
       <SidebarContent className="overflow-hidden flex flex-col ">
         <DatePicker date={selectedDate} setDate={setSelectedDate} />
         <SidebarSeparator className="mx-0 border-b" />
@@ -34,7 +47,9 @@ export function HistoryTransferSidebar() {
         <div className="p-2 space-y-2 h-full">
           <h4 className="text-sm font-semibold text-muted-foreground">
             {selectedDate
-              ? `Movimentações de ${format(selectedDate, "dd 'de' MMMM", { locale: ptBR })}`
+              ? `Movimentações de ${format(selectedDate, "dd 'de' MMMM", {
+                  locale: ptBR,
+                })}`
               : "Selecione uma data"}
           </h4>
           {loading ? (
@@ -48,7 +63,9 @@ export function HistoryTransferSidebar() {
               direction={"vertical"}
               slidesPerView={2}
               spaceBetween={20}
-              className={`max-h-[25rem] ${transfers.length === 1 ? "" : "overflow-hidden"} `}
+              className={`max-h-[25rem] ${
+                transfers.length === 1 ? "" : "overflow-hidden"
+              } `}
             >
               {transfers.map((t) => (
                 <SwiperSlide key={t.id}>

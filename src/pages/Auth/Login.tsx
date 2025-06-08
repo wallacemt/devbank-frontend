@@ -153,11 +153,11 @@ export default function Login() {
           <span className="mx-3 text-sm">ou</span>
           <div className="flex-grow border-t border-gray-600" />
         </div>
-        <p className="text-gray-200 text-lg flex items-center gap-2">
+        <p className="text-gray-200 text-sm md:text-lg flex justify-center items-center gap-2">
           Ainda não tem conta?{" "}
           <button
             type="button"
-            className="text-amber-600 hover:underline font-principal"
+            className="text-amber-600 hover:underline self-center font-principal"
             onClick={() => navigate("/register")}
           >
             Cadastrar-se

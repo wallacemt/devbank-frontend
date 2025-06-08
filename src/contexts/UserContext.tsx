@@ -13,6 +13,8 @@ export const UserContext = createContext({
   loading: true,
   update: false,
   handleUpdate: () => {},
+  transferTerminal: false,
+  handleTransferTerminal: () => {},
 });
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
@@ -20,6 +22,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [update, setUpdate] = useState(false);
   const [view, setView] = useState(false);
+  const [transferTerminal, setTransferTerminal] = useState(false);
   const navigate = useNavigate();
   const { getUserInfo } = useUser();
 
@@ -63,8 +66,23 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const handleUpdate = () => setUpdate(!update);
   const handleView = () => setView(!view);
+  const handleTransferTerminal = () => setTransferTerminal((prev) => !prev);
+
   return (
-    <UserContext.Provider value={{ user, login, logout, loading, update, handleUpdate, view, handleView }}>
+    <UserContext.Provider
+      value={{
+        user,
+        login,
+        logout,
+        loading,
+        update,
+        handleUpdate,
+        view,
+        handleView,
+        transferTerminal,
+        handleTransferTerminal,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

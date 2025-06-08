@@ -10,23 +10,27 @@ interface StepperProps {
   currentStep: number;
 }
 
-export const Stepper = ({
-  steps,
-  currentStep,
-}: StepperProps) => {
+export const Stepper = ({ steps, currentStep }: StepperProps) => {
   return (
     <div className="flex  justify-between items-center w-full mb-4 max-w-4xl mx-auto">
       {steps.map((step, index) => (
-        <div key={index} className="flex-1 flex flex-col mr-2 items-center relative z-4">
+        <div
+          key={index}
+          className="flex flex-col mr-2 items-center relative z-4"
+        >
           <div
-            className={`w-16 h-16 flex items-center justify-center rounded-full text-sm font-bold transition-colors duration-300
-              ${index <= currentStep ? "bg-green-700 text-white" : "bg-gray-500 text-gray-200"}
+            className={`md:w-16 h-16 flex  items-center justify-center rounded-full text-sm font-bold transition-colors duration-300 p-1
+              ${
+                index <= currentStep
+                  ? "bg-green-700 text-white"
+                  : "bg-gray-500 text-gray-200"
+              }
             `}
           >
             {step.icon}
           </div>
           <span
-            className={`text-sm mt-2 text-center font-medium
+            className={`text-xs md:text-sm mt-2 text-center font-medium
               ${index <= currentStep ? "text-white" : "text-gray-400"}
             `}
           >
@@ -34,7 +38,9 @@ export const Stepper = ({
           </span>
           {index < steps.length - 1 && (
             <div className="absolute top-8 right-[-60%] w-full h-1 bg-gray-400 rounded-full -z-1">
-              {index < currentStep && <div className="h-full bg-green-300 rounded-full transition-all duration-300" />}
+              {index < currentStep && (
+                <div className="h-full bg-green-300 rounded-full transition-all duration-300" />
+              )}
             </div>
           )}
         </div>

@@ -73,7 +73,15 @@ export function useTransfer() {
     }
   };
 
-  const submitTransfer = async ({ pixKey, amount, password }: { pixKey: string; amount: number; password: string }) => {
+  const submitTransfer = async ({
+    pixKey,
+    amount,
+    password,
+  }: {
+    pixKey: string;
+    amount: number;
+    password: string;
+  }): Promise<{ message: string; transactionId: string } | undefined> => {
     setLoading(true);
     try {
       const response = await postPixTransfer(amount.toString(), pixKey, password);
@@ -84,9 +92,10 @@ export function useTransfer() {
         setIsCompleted(true);
         setStep(4);
       }
+      return response as { message: string; transactionId: string };
     } catch (err: any) {
       console.error(err);
-      return toast.error(err.response.data.error);
+      toast.error(err.response.data.error);
     } finally {
       setLoading(false);
     }
@@ -114,13 +123,14 @@ export function useTransfer() {
       transferPassword: "",
     });
   };
-  const fetchUserByKey = async (userKeyValue: string) => {
+  const fetchUserByKey = async (userKeyValue: string): Promise<UserKeyResponse | undefined> => {
     if (userKeyValue.trim() === "") return;
     setLoading(true);
     try {
       const response = await getUserByKey(userKeyValue.trim());
       setUserKey(response);
       setError((prev) => ({ ...prev, pixKeyError: "" }));
+      return response;
     } catch (error: any) {
       setError((prev) => ({ ...prev, pixKeyError: error?.response?.data?.error || "Erro ao buscar chave" }));
     } finally {

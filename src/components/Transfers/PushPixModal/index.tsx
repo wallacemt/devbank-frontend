@@ -1,10 +1,5 @@
 import { useEffect } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -14,15 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { balanceFormater } from "../Utils/balanceFormater";
 import { Stepper } from "../Stepper";
 import { useTransfer } from "@/hooks/useTransfer";
-import {
-  IdCard,
-  KeySquare,
-  Loader2,
-  ScanQrCode,
-  User,
-  Verified,
-  VerifiedIcon,
-} from "lucide-react";
+import { IdCard, KeySquare, Loader2, ScanQrCode, User, Verified, VerifiedIcon } from "lucide-react";
 import { Avatar } from "@radix-ui/react-avatar";
 import { Card } from "../ui/card";
 import { Carousel, CarouselContent } from "../ui/carousel";
@@ -87,15 +74,11 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
               defaultValue={formData.pixKey}
               placeholder="Email, CPF, Celular ou Aleatória"
             />
-            {!loading && error.pixKeyError && (
-              <p className="text-red-500 text-sm">{error.pixKeyError}</p>
-            )}
+            {!loading && error.pixKeyError && <p className="text-red-500 text-sm">{error.pixKeyError}</p>}
             {loading && (
               <div className="flex flex-col justify-center items-center rounded-lg mt-4">
                 <Loader2 className="animate-spin text-primary mb-2" size={36} />
-                <p className="text-sm text-muted-foreground animate-pulse">
-                  Buscando conta Pix...
-                </p>
+                <p className="text-sm text-muted-foreground animate-pulse">Buscando conta Pix...</p>
               </div>
             )}
             {!loading && userKey && (
@@ -111,9 +94,7 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
                 </Avatar>
                 <div className="flex flex-col">
                   <p className="text-lg font-semibold">{userKey.userName}</p>
-                  <p className="text-xs text-gray-400">
-                    {userKey.accountId.slice(-20).concat("...")}
-                  </p>
+                  <p className="text-xs text-gray-400">{userKey.accountId.slice(-20).concat("...")}</p>
                 </div>
               </div>
             )}
@@ -124,12 +105,7 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
         return (
           <div className="space-y-4">
             <Label htmlFor="amount">Digite o valor</Label>
-            <Input
-              value={formattedValue}
-              id="amount"
-              onChange={handleValueChange}
-              placeholder="R$ 0,00"
-            />
+            <Input value={formattedValue} id="amount" onChange={handleValueChange} placeholder="R$ 0,00" />
             <Carousel>
               <CarouselContent>
                 {presets.map((p) => (
@@ -166,9 +142,7 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
               <div className="flex items-center gap-4">
                 <p className="font-bold">Valor:</p>
                 <p className="flex items-center gap-1">
-                  <span className="text-primary font-bold text-lg">
-                    {balanceFormater(formData.amount || 0)}
-                  </span>
+                  <span className="text-primary font-bold text-lg">{balanceFormater(formData.amount || 0)}</span>
                   <span className="text-gray-500 text-xs">BRL</span>
                 </p>
               </div>
@@ -195,23 +169,17 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
                 setFormField("transferPassword", numericValue);
               }}
             />
-            <p className="text-xs text-muted-foreground">
-              A sua senha de transferência!
-            </p>
+            <p className="text-xs text-muted-foreground">A sua senha de transferência!</p>
           </div>
         );
       case 4:
         return (
           <div className="space-y-4 text-center">
             <VerifiedIcon size={64} className="text-green-700 mx-auto" />
-            <p className="text-xl font-semibold">
-              Transferência realizada com sucesso!
-            </p>
+            <p className="text-xl font-semibold">Transferência realizada com sucesso!</p>
             <p>
               {balanceFormater(formData.amount || 0)} enviado para{" "}
-              <span className="font-semibold text-DarkA1">
-                {userKey?.userName.split(" ")[0]}
-              </span>
+              <span className="font-semibold text-DarkA1">{userKey?.userName.split(" ")[0]}</span>
             </p>
             <div className="flex justify-center gap-2 mt-4">
               <Button
@@ -229,11 +197,8 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={!loading ? setOpen : () => null}>
-      <DialogContent
-        hideClose={!loading ? false : true}
-        className="max-w-lg w-[95%] md:w-full h-fit px-12 overflow-y-auto flex flex-col gap-4"
-      >
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent className="max-w-lg w-[90%] md:w-full h-fit px-12 overflow-y-auto flex flex-col gap-4">
         <DialogHeader>
           <DialogTitle>Nova Transferência Pix</DialogTitle>
         </DialogHeader>
@@ -241,20 +206,13 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
         <Stepper steps={steps} currentStep={step} />
         <Separator />
 
-        <form
-          className="flex flex-col gap-4"
-          onSubmit={(e) => e.preventDefault()}
-        >
+        <form className="flex flex-col gap-4" onSubmit={(e) => e.preventDefault()}>
           {renderStep()}
         </form>
 
         <div className="flex justify-between mt-auto">
           {step < 4 && (
-            <Button
-              variant="ghost"
-              disabled={step === 0 || loading || isCompleted}
-              onClick={back}
-            >
+            <Button variant="ghost" disabled={step === 0 || loading || isCompleted} onClick={back}>
               Voltar
             </Button>
           )}
@@ -264,10 +222,7 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
             </Button>
           )}
           {(step === 3 || step === 4) && loading && (
-            <OverlayTransferFeedback
-              userName={userKey?.userName}
-              type={step === 3 ? "pix" : "comprovante"}
-            />
+            <OverlayTransferFeedback userName={userKey?.userName} type={step === 3 ? "pix" : "comprovante"} />
           )}
 
           {step === 3 && (
@@ -285,11 +240,7 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
             </Button>
           )}
           {step === 4 && (
-            <Button
-              disabled={loading}
-              className="w-full hover:scale-105"
-              onClick={() => resetTransfer()}
-            >
+            <Button disabled={loading} className="w-full hover:scale-105" onClick={() => resetTransfer()}>
               Novo Pix
             </Button>
           )}
