@@ -1,5 +1,5 @@
 import { User, Mail, IdCard } from "lucide-react";
-import { formatCPF, unformatCPF } from "@/components/Utils/cpfUtils";
+import { formatCPF, unformatCPF } from "@/utils/cpfUtils";
 import { useRegister } from "@/hooks/useRegister";
 interface StepPersonalInfoProps {
   useRes: ReturnType<typeof useRegister>;

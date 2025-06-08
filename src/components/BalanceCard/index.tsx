@@ -5,7 +5,7 @@ import { FaArrowRight } from "react-icons/fa";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { RefreshCw } from "lucide-react";
 import { useUserContext } from "@/hooks/useUserContext";
-import { balanceFormater } from "../Utils/balanceFormater";
+import { balanceFormater } from "@/utils/balanceFormater";
 export const BalanceCard = () => {
   const { user, handleUpdate } = useUserContext();
   useEffect(() => {

@@ -1,5 +1,5 @@
 import { Rnd } from "react-rnd";
-import { TerminalWindow } from "./TerminalWindow";
+import { TerminalWindow } from "@/components/Transfers/TerminalWindow";
 import { useEffect, useState } from "react";
 import { X, Maximize2, Minimize2, Minus, Plus } from "lucide-react";
 import { useUserContext } from "@/hooks/useUserContext";
@@ -15,7 +15,7 @@ export function TransferShell({ terminalVisible }: { terminalVisible: boolean })
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
-      document.body.style.overflowX = "hidden"
+      document.body.style.overflowX = "hidden";
     }
     return () => {
       document.body.style.overflow = "";

@@ -1,5 +1,5 @@
 import { emailOrCpfValidation, registerCodeVerify, registerEmailSendOrResend, registerUser } from "@/api/authApi";
-import { cpfVerify, emailVerify } from "@/components/Utils/verifications";
+import { cpfVerify, emailVerify } from "@/utils/verifications";
 import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";

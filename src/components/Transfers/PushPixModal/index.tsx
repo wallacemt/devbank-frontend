@@ -6,14 +6,14 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 
-import { balanceFormater } from "../Utils/balanceFormater";
-import { Stepper } from "../Stepper";
+import { balanceFormater } from "@/utils/balanceFormater";
+import { Stepper } from "@/components/Stepper";
 import { useTransfer } from "@/hooks/useTransfer";
 import { IdCard, KeySquare, Loader2, ScanQrCode, User, Verified, VerifiedIcon } from "lucide-react";
 import { Avatar } from "@radix-ui/react-avatar";
-import { Card } from "../ui/card";
-import { Carousel, CarouselContent } from "../ui/carousel";
-import { OverlayTransferFeedback } from "./OverlayTransferFeedback";
+import { Card } from "@/components/ui/card";
+import { Carousel, CarouselContent } from "@/components/ui/carousel";
+import { OverlayTransferFeedback } from "@/components/OverlayTransferFeedback";
 import Aos from "aos";
 import { useDebounce } from "@/hooks/useDebounce";
 

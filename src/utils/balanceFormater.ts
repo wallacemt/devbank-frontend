@@ -1,5 +1,3 @@
-
-
 export const balanceFormater = (value: number, currency?: string) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
     style: "currency",

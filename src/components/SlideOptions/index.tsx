@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { Carousel, CarouselContent } from "@/components/ui/carousel";
 import { TooltipContent, TooltipTrigger, Tooltip } from "@/components/ui/tooltip";
-import { PushPixModal } from "../PushPixModal";
+import { PushPixModal } from "@/components/Transfers/PushPixModal";
 import React, { ReactNode, useState } from "react";
 import { FaPix } from "react-icons/fa6";
 import { useUserContext } from "@/hooks/useUserContext";
@@ -61,7 +61,7 @@ export function SlideOptions() {
     if (item.type === "modal") {
       setModalOpenId((current) => (current === item.id ? null : item.id));
     } else if (item.type === "action" && item.action) {
-     item.action();
+      item.action();
     }
   };
 
