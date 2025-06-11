@@ -52,10 +52,12 @@ export function useTransfer() {
     setFormData((prev) => ({ ...prev, amount: cents / 100 }));
   };
 
-  const formattedValue = formData.amount.toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  });
+  const formattedValue = (amount: number) => {
+    return amount.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+  };
 
   const validateStep = (step: number): boolean => {
     switch (step) {
@@ -133,6 +135,7 @@ export function useTransfer() {
       return response;
     } catch (error: any) {
       setError((prev) => ({ ...prev, pixKeyError: error?.response?.data?.error || "Erro ao buscar chave" }));
+      throw error;
     } finally {
       setTimeout(() => {
         setLoading(false);

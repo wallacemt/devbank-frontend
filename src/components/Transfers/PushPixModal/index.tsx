@@ -105,7 +105,12 @@ export function PushPixModal({ open, setOpen }: PushPixProps) {
         return (
           <div className="space-y-4">
             <Label htmlFor="amount">Digite o valor</Label>
-            <Input value={formattedValue} id="amount" onChange={handleValueChange} placeholder="R$ 0,00" />
+            <Input
+              value={formattedValue(formData.amount)}
+              id="amount"
+              onChange={handleValueChange}
+              placeholder="R$ 0,00"
+            />
             <Carousel>
               <CarouselContent>
                 {presets.map((p) => (

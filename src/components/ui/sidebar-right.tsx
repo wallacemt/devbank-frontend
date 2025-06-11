@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { ptBR } from "date-fns/locale";
 import { DatePicker } from "@/components/ui/date-picker";
-import { Sidebar, SidebarContent, SidebarSeparator } from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarHeader, SidebarSeparator } from "@/components/ui/sidebar";
 import { TransactionHistoryItem } from "@/types/transactions";
 import { format } from "date-fns";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useTransfer } from "@/hooks/useTransfer";
 import { NavigationOff } from "lucide-react";
-import { TransferCard } from "../HistoryTransfer/TransferCard";
-import { TransferCardSkeleton } from "../HistoryTransfer/TransferCardSkeleton";
+import { TransferCard } from "@/components/TransferCard/TransferCard";
+import { TransferCardSkeleton } from "@/components/TransferCard/TransferCardSkeleton";
 
 export function SidebarRight({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
@@ -25,11 +25,13 @@ export function SidebarRight({ ...props }: React.ComponentProps<typeof Sidebar>)
   }, [selectedDate]);
 
   return (
-    <Sidebar collapsible="none" className="sticky top-0 hidden h-svh border-l lg:flex" {...props}>
-      <SidebarContent className="overflow-hidden flex flex-col ">
+    <Sidebar collapsible="none" className="hidden lg:flex lg:h-screen m-1 p-1 rounded-xl" {...props}>
+      <SidebarContent className="overflow-auto flex flex-col ">
+        <SidebarHeader>
+          <h2 className="lg:text-xl font-semibold text-muted-foreground text-center font-principal">Movimentações</h2>
+        </SidebarHeader>
         <DatePicker date={selectedDate} setDate={setSelectedDate} />
-        <SidebarSeparator className="mx-0 border-b" />
-
+        <SidebarSeparator className="mx-0 border-b border-white/30" />
         <div className="p-2 space-y-2 h-full">
           <h4 className="text-sm font-semibold text-muted-foreground">
             {selectedDate

@@ -1,11 +1,10 @@
 import { useTerminalWindow } from "@/hooks/useTerminalWindow";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 interface TerminalWindowProps {
   zoomLevel: number;
 }
 export function TerminalWindow({ zoomLevel }: TerminalWindowProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
   const {
     onKeyDown,
     input,
@@ -15,11 +14,13 @@ export function TerminalWindow({ zoomLevel }: TerminalWindowProps) {
     maskedPassword,
     setMaskedPassword,
     user,
+    handleFocus,
+    inputRef,
     setPasswordInput,
   } = useTerminalWindow();
 
   useEffect(() => {
-    inputRef.current?.focus();
+    handleFocus();
   }, []);
 
   useEffect(() => {
@@ -30,27 +31,43 @@ export function TerminalWindow({ zoomLevel }: TerminalWindowProps) {
     const value = e.target.value;
     if (awaitPassword) {
       setMaskedPassword((prev) => prev + "*");
-      setPasswordInput((prev) => prev + value.slice(-1));
+      setPasswordInput(value);
       setInput(value);
     } else {
       setInput(value);
     }
   };
+
+  useEffect(() => {
+    const el = document.getElementById("terminal-output");
+    el?.scroll({ top: el.scrollHeight, behavior: "smooth" });
+  }, [history]);
+
   return (
     <div
-      className="flex flex-col p-1 h-full overflow-y-auto text-sm leading-relaxed"
+      className="flex flex-col text-green-400 font-mono p-2 overflow-hidden"
       style={{ userSelect: "none", transform: `scale(${zoomLevel})`, transformOrigin: "top left" }}
     >
-      {history.map((line, i) => (
-        <pre key={i} className="whitespace-pre-wrap text-green-400 mb-1">
-          {line}
-        </pre>
-      ))}
+      <div className="overflow-y-auto h-full pr-2 mb-2 scrollbar-thin scrollbar-thumb-green-700" id="terminal-output">
+        {history.map((line, i) => (
+          <>
+            {console.log(line.split(" ")[0])}
+            <pre
+              key={i}
+              className={`whitespace-pre-wrap ${
+                line.split(" ")[0] === "Erro:" ? "text-red-400" : "text-green-400"
+              } mb-1`}
+            >
+              {line}
+            </pre>
+          </>
+        ))}
+      </div>
       <div className="flex items-center">
         <span className="text-purple-400 mr-2">{user?.name.split(" ")[0].toLowerCase()}@devbank:~$</span>
         <input
           ref={inputRef}
-          className="bg-transparent text-green-100 outline-none flex-1"
+          className="bg-transparent text-green-100 outline-none flex-1 caret-green-400"
           autoCorrect="off"
           autoCapitalize="off"
           spellCheck={false}

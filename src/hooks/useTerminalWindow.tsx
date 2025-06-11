@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useTransfer } from "./useTransfer";
 import { useUserContext } from "./useUserContext";
 import { postPixTransfer } from "@/api/transferApi";
+import { ptBR } from "date-fns/locale";
+import { format } from "date-fns";
 
 interface TransferStates {
   pixKey: string;
@@ -15,6 +17,7 @@ interface TransferStates {
 export const useTerminalWindow = () => {
   const [input, setInput] = useState("");
   const [maskedPassword, setMaskedPassword] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
   const [awaitPassword, setAwaitPassword] = useState(false);
   const [passwordInput, setPasswordInput] = useState("");
   const [transfer, setTransfer] = useState<TransferStates>({
@@ -32,7 +35,7 @@ export const useTerminalWindow = () => {
   const { fetchUserByKey, getHistoryTrasfer, transferComprovante } = useTransfer();
 
   const appendToHistory = (msg: string | string[]) => setHistory((prev) => prev.concat(msg));
-
+  const appendError = (msg: string) => setHistory((prev) => prev.concat(`Erro: ${msg}`));
   const onKeyDown = async (e: React.KeyboardEvent) => {
     if (e.key !== "Enter") return;
 
@@ -42,10 +45,15 @@ export const useTerminalWindow = () => {
     if (!trimmed) return setInput("");
 
     if (awaitPassword && transfer.step === "password") {
-      await executeTransfer(passwordInput);
-      setMaskedPassword("");
-      setPasswordInput("");
-      setAwaitPassword(false);
+      if (passwordInput.length === 6) {
+        await executeTransfer(passwordInput);
+        setMaskedPassword("");
+        setPasswordInput("");
+        setAwaitPassword(false);
+        setInput("");
+      } else {
+        appendError("Senha deve conter 6 dígitos");
+      }
       setInput("");
       return;
     }
@@ -55,7 +63,6 @@ export const useTerminalWindow = () => {
   };
 
   const handleCommand = async (cmd: string) => {
-    // Confirmação da transferência
     if (transfer.step === "confirm") {
       if (cmd === "1") {
         appendToHistory("Confirmação recebida. Digite sua senha:");
@@ -67,8 +74,6 @@ export const useTerminalWindow = () => {
       }
       return;
     }
-
-    // Impressão de comprovante
     if (transfer.step === "done" && transfer.transactionId) {
       if (cmd === "1") {
         appendToHistory("Gerando comprovante...");
@@ -85,7 +90,6 @@ export const useTerminalWindow = () => {
       return;
     }
 
-    // Comando de envio
     if (cmd.startsWith("send")) {
       const [_, amountStr, method, from, pixKey] = cmd.split(" ");
 
@@ -111,13 +115,12 @@ export const useTerminalWindow = () => {
           "Confirmar transferência? [1] Sim [2] Não",
         ]);
       } catch {
-        appendToHistory("Chave Pix inválida ou não encontrada.");
+        appendError("Chave de pix inválida ou não encontrada.");
         resetTransfer();
       }
       return;
     }
 
-    // Histórico
     if (cmd === "get send logs") {
       const data = await getHistoryTrasfer();
       if (!data?.length) {
@@ -125,19 +128,20 @@ export const useTerminalWindow = () => {
         return;
       }
       const formatted = data.map(
-        (h) => `${h.timestamp} | ${h.outherAccountUsername.split(" ")[0]} → R$${h.amount.toFixed(2)}`
+        (h) =>
+          `${format(new Date(h.timestamp), "dd MMM yyyy, HH:mm", {
+            locale: ptBR,
+          })} | ${h.outherAccountUsername.split(" ")[0]} → R$${h.amount.toFixed(2)}`
       );
       appendToHistory(formatted);
       return;
     }
 
-    // Ajuda
     if (cmd === "dk -help") {
       appendToHistory(["Comandos disponíveis:", "- send <valor> <método> from <chave>", "- get send logs", "- clear"]);
       return;
     }
 
-    // Limpar
     if (cmd === "clear") {
       setHistory([]);
       return;
@@ -147,9 +151,19 @@ export const useTerminalWindow = () => {
   };
 
   const executeTransfer = async (password: string) => {
-    appendToHistory("Processando transferência...");
+    const loadingSeps = [
+      "Iniciando Transferência...",
+      "Autenticando...",
+      "Verificando saldo...",
+      "Enviando para o destinatário...",
+      "Finalizando...",
+    ];
     setTransfer((prev) => ({ ...prev, step: "processing" }));
-    console.log(password);
+
+    for (const step in loadingSeps) {
+      appendToHistory(loadingSeps[step]);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
     try {
       const res = await postPixTransfer(transfer.amount.toString(), transfer.pixKey, password);
 
@@ -166,16 +180,30 @@ export const useTerminalWindow = () => {
   };
 
   const resetTransfer = () => setTransfer({ pixKey: "", amount: 0, method: "", step: "idle" });
-
+  const handleFocus = () => {
+    return inputRef.current?.focus();
+  };
   return {
     input,
     setInput,
     onKeyDown,
     history,
+    handleFocus,
+    inputRef,
     user,
     awaitPassword,
     maskedPassword,
-    setMaskedPassword,
-    setPasswordInput,
+    setMaskedPassword: (val: string | ((prev: string) => string)) => {
+      setMaskedPassword((prev) => {
+        const next = typeof val === "function" ? val(prev) : val;
+        return next.length > 6 ? prev : next;
+      });
+    },
+    setPasswordInput: (val: string) => {
+      setPasswordInput((prev) => {
+        const next = val.length > 6 ? prev : val;
+        return next;
+      });
+    },
   };
 };

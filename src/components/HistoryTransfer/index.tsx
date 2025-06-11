@@ -12,7 +12,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { useTransfer } from "@/hooks/useTransfer";
 import { TransactionHistoryItem } from "@/types/transactions";
 import { Skeleton } from "../ui/skeleton";
-import { TransferCard } from "./TransferCard";
+import { TransferCard } from "@/components/TransferCard/TransferCard";
 import { NavigationOff } from "lucide-react";
 import { useUserContext } from "@/hooks/useUserContext";
 

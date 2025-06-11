@@ -9,7 +9,6 @@ export function TransferShell({ terminalVisible }: { terminalVisible: boolean })
   const [isFull, setIsFull] = useState(false);
   const { handleTransferTerminal } = useUserContext();
   const [zoomLevel, setZoomLevel] = useState(1);
-
   useEffect(() => {
     if (isFull) {
       document.body.style.overflow = "hidden";
@@ -42,7 +41,9 @@ export function TransferShell({ terminalVisible }: { terminalVisible: boolean })
       position={isFull ? { x: 0, y: 0 } : undefined}
     >
       <div className="flex flex-col h-full border border-zinc-800 bg-[#2D2A2E] rounded-md overflow-hidden shadow-lg">
-        <div className="flex items-center justify-between bg-[#1c1c1c] px-3 py-1 text-white text-sm font-mono">
+        <div
+          className="flex items-center justify-between bg-[#1c1c1c] px-3 py-1 text-white text-sm font-mono"
+        >
           <div className="flex items-center space-x-1">
             <div className="w-4 h-4 rounded-full bg-red-500" />
             <div className="w-4 h-4 rounded-full bg-yellow-500" />
@@ -64,7 +65,7 @@ export function TransferShell({ terminalVisible }: { terminalVisible: boolean })
             </button>
           </div>
         </div>
-        <div className="flex-1 bg-[#300A24] text-white font-mono overflow-auto" style={{ overflow: "hidden" }}>
+        <div className="flex-1 bg-[#300A24] text-white font-mono overflow-auto">
           <TerminalWindow zoomLevel={zoomLevel} />
         </div>
       </div>

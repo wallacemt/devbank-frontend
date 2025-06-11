@@ -3,12 +3,12 @@ import { Routes, Route, Navigate } from "react-router";
 import { Loading } from "./components/Utils/Loading";
 import { useUserContext } from "./hooks/useUserContext";
 import { Suspense, lazy } from "react";
-
 const Login = lazy(() => import("./pages/Auth/Login"));
 const Register = lazy(() => import("./pages/Auth/Register"));
 const DashBoard = lazy(() => import("./pages/DashBoard/DashBoard"));
 const NotFound = lazy(() => import("./pages/Errors/404"));
 const HistoryTransfer = lazy(() => import("./pages/HistoryTransfer"));
+const StashCaixinhaPage = lazy(() => import("./pages/StashsPage"));
 
 const PrivateRoutes = ({ children }: any) => {
   const { user } = useUserContext();
@@ -22,6 +22,7 @@ export const RoutesApp = () => {
   const privateRoutes = [
     { path: "/dashboard", element: <DashBoard /> },
     { path: "/history", element: <HistoryTransfer /> },
+    { path: "/stashs", element: <StashCaixinhaPage /> },
   ];
 
   if (loading) {

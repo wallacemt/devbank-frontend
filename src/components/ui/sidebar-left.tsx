@@ -10,6 +10,7 @@ import {
   ChartNoAxesCombined,
   CreditCard,
   History,
+  Coins,
 } from "lucide-react";
 
 import { NavMain } from "@/components/ui/nav-main";
@@ -23,14 +24,19 @@ import { Link } from "react-router";
 const navMain = [
   {
     title: "Dashboard",
-    url: "#",
+    url: "/",
     icon: SquareDashedBottomCode,
     isActive: true,
   },
-   {
+  {
     title: "Transações",
     url: "/history",
     icon: History,
+  },
+  {
+    title: "Stashs",
+    url: "/stashs",
+    icon: Coins,
   },
   {
     title: "Graficos",

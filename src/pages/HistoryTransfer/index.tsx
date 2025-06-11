@@ -3,13 +3,13 @@ import { TransactionHistoryItem } from "@/types/transactions";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
-import { TransferCard } from "@/components/HistoryTransfer/TransferCard";
+import { TransferCard } from "@/components/TransferCard/TransferCard";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Sidebar } from "@/components/Sidebar";
 import { SiteHeader } from "@/components/ui/site-header";
 import { useTransfer } from "@/hooks/useTransfer";
 import { NavigationOff, SearchIcon } from "lucide-react";
-import { TransferCardSkeleton } from "@/components/HistoryTransfer/TransferCardSkeleton";
+import { TransferCardSkeleton } from "@/components/TransferCard/TransferCardSkeleton";
 
 export default function TransferHistoryPage() {
   const [history, setHistory] = useState<TransactionHistoryItem[]>([]);
@@ -19,6 +19,7 @@ export default function TransferHistoryPage() {
   const { getHistoryTrasfer, loading } = useTransfer();
 
   useEffect(() => {
+    document.title = "DevBank | History";
     const fetchTransfer = async () => {
       const res = await getHistoryTrasfer(dateKey);
       setHistory(res ?? []);
