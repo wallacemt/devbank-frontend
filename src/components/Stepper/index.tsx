@@ -16,7 +16,7 @@ export const Stepper = ({ steps, currentStep }: StepperProps) => {
       {steps.map((step, index) => (
         <div
           key={index}
-          className="flex flex-col mr-2 items-center relative z-4"
+          className="flex flex-col w-full mr-2 items-center relative z-4"
         >
           <div
             className={`md:w-16 h-16 flex  items-center justify-center rounded-full text-sm font-bold transition-colors duration-300 p-1
@@ -37,7 +37,7 @@ export const Stepper = ({ steps, currentStep }: StepperProps) => {
             {step.text}
           </span>
           {index < steps.length - 1 && (
-            <div className="absolute top-8 right-[-60%] w-full h-1 bg-gray-400 rounded-full -z-1">
+            <div className="absolute top-8 right-[-40%] w-full h-1 bg-gray-400 rounded-full -z-1">
               {index < currentStep && (
                 <div className="h-full bg-green-300 rounded-full transition-all duration-300" />
               )}

@@ -1,9 +1,7 @@
 import * as React from "react";
 import {
-  BadgeHelp,
   Bell,
   ChartBar,
-  Cog,
   SquareDashedBottomCode,
   Wallet,
   ShieldCheck,
@@ -14,7 +12,6 @@ import {
 } from "lucide-react";
 
 import { NavMain } from "@/components/ui/nav-main";
-import { NavSecondary } from "@/components/ui/nav-secondary";
 import { Sidebar, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
 import { NavUser } from "./nav-user";
 import { Separator } from "@/components/ui/separator";
@@ -70,19 +67,6 @@ const navMain = [
   },
 ];
 
-const navSecondary = [
-  {
-    title: "Configuração",
-    url: "#",
-    icon: Cog,
-  },
-  {
-    title: "Ajuda",
-    url: "#",
-    icon: BadgeHelp,
-  },
-];
-
 export function SidebarLeft(props: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar className="border-r bg-background" {...props}>
@@ -103,16 +87,9 @@ export function SidebarLeft(props: React.ComponentProps<typeof Sidebar>) {
 
         <Separator className="my-2" />
 
-        <div className="px-4 text-sm font-semibold text-muted-foreground uppercase tracking-wide">Menu</div>
         <NavMain items={navMain} />
       </SidebarHeader>
-      <div className="px-4 text-sm font-semibold text-muted-foreground uppercase tracking-wide">Configurações</div>
-      <NavSecondary items={navSecondary} />
-
-      <Separator className="my-4" />
-
       <div className="absolute bottom-0">
-        <div className="px-4 mb-4 text-sm font-semibold text-muted-foreground uppercase tracking-wide">Conta</div>
         <NavUser />
       </div>
       <SidebarRail />

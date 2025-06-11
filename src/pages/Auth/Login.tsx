@@ -22,18 +22,18 @@ export default function Login() {
     Aos.init({ duration: 1000 });
   }, []);
   return (
-    <div className="h-screen w-screen bg-principal overflow-hidden">
+    <div className="h-screen w-screen bg-principal">
       <div className="max-w-full">
         <AuthBanner position="left" />
       </div>
       <section
-        className="lg:absolute right-[10%] top-4 lg:w-1/3 h-fit w-full max-w-lg rounded-xl p-6 md:p-10 flex flex-col items-center my-auto mx-auto  text-white bg-[#1e2530]/90 backdrop-blur-md shadow-lg"
+        className="lg:absolute right-[10%] top-2 lg:w-1/3 h-fit w-full max-w-lg rounded-xl p-6 md:p-10 flex flex-col items-center my-auto mx-auto  text-white bg-[#1e2530]/90 backdrop-blur-md shadow-lg overflow-auto max-h-[95%]"
         data-aos="fade-down"
       >
         <h2 className="text-5xl sm:text-6xl font-bold font-principal text-center lg:hidden mb-4 ">
           <span className="text-Destaque">Dev</span>BANK <span className="text-amber-600">$</span>{" "}
         </h2>{" "}
-        <h3 className="lg:text-5xl text-3xl font-semibold mb-2 font-secundaria text-center">
+        <h3 className="lg:text-4xl text-3xl font-semibold mb-2 font-secundaria text-center">
           Bem-vindo(a) de volta <span className="text-Destaque/80 font-principal">Dev</span>{" "}
         </h3>{" "}
         <p className="text-sm mb-6 text-gray-300 text-center">
@@ -42,7 +42,7 @@ export default function Login() {
         </p>
         {step === 0 ? (
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleLogin)} className="flex flex-col items-center w-full gap-4">
+            <form onSubmit={form.handleSubmit(handleLogin)} className="flex flex-col items-center w-full gap-4 ">
               <FormField
                 control={form.control}
                 name="emailOrCpf"
@@ -148,21 +148,22 @@ export default function Login() {
             loading={loading}
           />
         )}
-        <div className="flex items-center w-full my-4 text-gray-100">
+        <div className="flex items-center w-full my-2 text-gray-100">
           <div className="flex-grow border-t border-gray-600" />
           <span className="mx-3 text-sm">ou</span>
           <div className="flex-grow border-t border-gray-600" />
         </div>
-        <p className="text-gray-200 text-sm md:text-lg flex justify-center items-center gap-2">
-          Ainda não tem conta?{" "}
-          <button
+        <div className="text-gray-200 flex-wrap text-sm flex justify-center items-center ">
+          <p>Ainda não tem conta?</p>
+          <Button
             type="button"
-            className="text-amber-600 hover:underline self-center font-principal"
+            variant={"ghost"}
+            className="text-amber-600 hover:underline hover:text-amber-700 self-center font-principal"
             onClick={() => navigate("/register")}
           >
             Cadastrar-se
-          </button>
-        </p>
+          </Button>
+        </div>
       </section>
     </div>
   );

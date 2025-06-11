@@ -22,7 +22,7 @@ export const AuthBanner = ({ position = "left", effect = "fade-up" }) => {
     },
     {
       text: "Com o Shell Transfer, você pode realizar transferências bancárias diretamente de seu terminal de comandos. A solução mais prática e eficiente para desenvolvedores.",
-      icon: <SquareTerminal  size={60} className="text-DarkP2" />,
+      icon: <SquareTerminal size={60} className="text-DarkP2" />,
     },
     {
       text: "No DevBank, a segurança é nossa prioridade. Protegemos suas contas com autenticação de dois fatores (2FA), garantindo total segurança nas suas transações.",
@@ -30,7 +30,7 @@ export const AuthBanner = ({ position = "left", effect = "fade-up" }) => {
     },
     {
       text: "Utilizamos criptografia de ponta para garantir que todos os seus dados sejam armazenados de forma segura e protegida contra acessos não autorizados.",
-      icon: <Fingerprint  size={60} className="text-neutral-300 " />,
+      icon: <Fingerprint size={60} className="text-neutral-300 " />,
     },
     {
       text: "Com DevBank, desenvolvedores podem contar com APIs robustas, integração com aplicativos, e uma plataforma otimizada para quem busca agilidade.",
@@ -38,7 +38,7 @@ export const AuthBanner = ({ position = "left", effect = "fade-up" }) => {
     },
     {
       text: "Acesso rápido, fácil e prático. Utilize nosso banco por interface web, aplicativo ou via comandos no terminal, sempre ao seu alcance.",
-      icon :<PiggyBank size={60} className="text-amber-300" /> ,
+      icon: <PiggyBank size={60} className="text-amber-300" />,
     },
   ];
 
@@ -78,12 +78,12 @@ export const AuthBanner = ({ position = "left", effect = "fade-up" }) => {
         style={{ backgroundImage: `url(${currentImage})`, transition: "all 1s ease-in-out" }}
         data-aos={effect}
       >
-        <div className="absolute bottom-0 w-full bg-black/60 h-[50vh] p-6 rounded-xl">
-          <h2 className="text-6xl xl:text-8xl text-white font-bold font-principal text-center">
+        <div className="absolute bottom-0 w-full flex flex-col justify-between bg-black/60 h-[50vh] p-6 rounded-xl">
+          <h2 className="text-5xl xl:text-7xl text-white font-bold font-principal text-center">
             <span className="text-Destaque">Dev</span>BANK
             <span className="text-amber-600">$</span>
           </h2>
-          <div className="backdrop-blur-sm rounded-2xl bg-principal/80 -p-2">
+          <div className="backdrop-blur-sm relative rounded-2xl bg-principal/80 -p-2 ">
             <Swiper
               spaceBetween={20}
               slidesPerView={1}
@@ -98,15 +98,15 @@ export const AuthBanner = ({ position = "left", effect = "fade-up" }) => {
               pagination={{
                 clickable: true,
               }}
-              modules={[Autoplay, ]}
-              className="mt-2 font-secundaria font-medium text-white text-2xl"
+              modules={[Autoplay]}
+              className="-mt-2 font-secundaria font-medium text-white text-2xl"
             >
               {apresentationMessages.map((message, index) => (
                 <SwiperSlide key={index}>
-                  <p className="px-0 py-4 text-center flex justify-between items-center flex-col">
+                  <div className="px-0 py-4 text-center flex justify-between items-center flex-col">
                     <span className="mb-2">{message.icon}</span>
-                    {message.text}
-                  </p>
+                    <p className="text-1xl">{message.text}</p>
+                  </div>
                 </SwiperSlide>
               ))}
             </Swiper>

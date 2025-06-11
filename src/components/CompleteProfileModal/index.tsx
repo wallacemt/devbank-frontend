@@ -249,7 +249,7 @@ export function CompleteProfileModal() {
           </DialogTitle>
         </DialogHeader>
 
-        <Stepper steps={stepsArr} currentStep={step} />
+        <Stepper steps={stepsArr} currentStep={step}  />
 
         <div className="flex flex-col gap-4 w-full lg:w-[40%] mx-auto">
           <div className="text-muted-foreground text-sm">
@@ -265,7 +265,9 @@ export function CompleteProfileModal() {
               {step < steps.length - 1 ? (
                 <Button onClick={nextStep}>Próximo</Button>
               ) : (
-                <Button type="submit" disabled={loading} className="text-neutral10 font-semibold">Finalizar Cadastro</Button>
+                <Button type="submit" disabled={loading} className="text-neutral10 font-semibold">
+                  Finalizar Cadastro
+                </Button>
               )}
             </div>
           </form>
