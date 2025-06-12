@@ -15,7 +15,7 @@ const profileSchema = z.object({
   city: z.string().min(3, { message: "Cidade inválida, deve conter pelo menos 3 caracteres" }),
   state: z.string().min(2, { message: "Estado inválido, deve conter pelo menos 2 caracteres" }),
   socialName: z.string().optional(),
-  birthDate: z.string().refine((date) => new Date(date) <= new Date(), {
+  birthDate: z.string().refine((date) => new Date(date) >= new Date(), {
     message: "Data de nascimento inválida, deve ser uma data no passado",
   }),
   gender: z.string().min(1, "Genero inválido!"),

@@ -31,7 +31,7 @@ export const useTerminalWindow = () => {
     "Digite `dk -help` para ver os comandos disponíveis.",
   ]);
 
-  const { user } = useUserContext();
+  const { user, handleUpdate } = useUserContext();
   const { fetchUserByKey, getHistoryTrasfer, transferComprovante } = useTransfer();
 
   const appendToHistory = (msg: string | string[]) => setHistory((prev) => prev.concat(msg));
@@ -40,14 +40,18 @@ export const useTerminalWindow = () => {
     if (e.key !== "Enter") return;
 
     const trimmed = input.trim();
-    appendToHistory(`${user?.name.split(" ")[0].toLowerCase()}@devbank:~$ ${trimmed}`);
+
+    if (awaitPassword && transfer.step === "password") {
+      appendToHistory(`${user?.name.split(" ")[0].toLowerCase()}@devbank:~$ ******`);
+    } else {
+      appendToHistory(`${user?.name.split(" ")[0].toLowerCase()}@devbank:~$ ${trimmed}`);
+    }
 
     if (!trimmed) return setInput("");
 
     if (awaitPassword && transfer.step === "password") {
-      if (passwordInput.length === 6) {
-        await executeTransfer(passwordInput);
-        setMaskedPassword("");
+      if (input.length === 6) {
+        await executeTransfer(input);
         setPasswordInput("");
         setAwaitPassword(false);
         setInput("");
@@ -172,6 +176,7 @@ export const useTerminalWindow = () => {
         step: "done",
         transactionId: res.transactionId,
       }));
+      handleUpdate();
       appendToHistory(["Transferência realizada com sucesso!", "Deseja imprimir o comprovante? [1] Sim [2] Não"]);
     } catch (err: any) {
       appendToHistory("Erro: " + (err.response?.data?.error || "Erro desconhecido"));
@@ -192,6 +197,7 @@ export const useTerminalWindow = () => {
     inputRef,
     user,
     awaitPassword,
+    passwordInput,
     maskedPassword,
     setMaskedPassword: (val: string | ((prev: string) => string)) => {
       setMaskedPassword((prev) => {

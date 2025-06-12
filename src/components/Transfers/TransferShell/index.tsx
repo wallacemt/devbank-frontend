@@ -65,7 +65,7 @@ export function TransferShell({ terminalVisible }: { terminalVisible: boolean })
             </button>
           </div>
         </div>
-        <div className="flex-1 bg-[#300A24] text-white font-mono overflow-auto">
+        <div className="flex-1 bg-[#300A24] text-white font-mono overflow-y-auto overflow-x-hidden">
           <TerminalWindow zoomLevel={zoomLevel} />
         </div>
       </div>

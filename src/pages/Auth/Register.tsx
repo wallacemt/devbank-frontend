@@ -33,7 +33,7 @@ export default function Register() {
         <AuthBanner position="right" effect="flip-right" />
       </div>
       <div
-        className="lg:absolute left-[10%] top-2 lg:w-1/3 w-full max-w-lg  h-fit max-h-screen rounded-xl md:p-6 flex flex-col items-center mx-auto text-white bg-[#1e2530]/90 backdrop-blur-md shadow-lg"
+        className="lg:absolute left-[10%] top-2 lg:w-1/3 w-full max-w-lg  h-fit  rounded-xl md:p-6 flex flex-col items-center mx-auto text-white bg-[#1e2530]/90 backdrop-blur-md shadow-lg overflow-auto  max-h-[95%]"
         data-aos="flip-left"
       >
         <h3 className="text-3xl font-semibold mb-6 mt-1 text-center">

@@ -11,7 +11,6 @@ interface SiteProps {
 
 export function SiteHeader({ title, context = "home" }: SiteProps) {
   const { user, handleTransferTerminal } = useUserContext();
-
   return (
     <header className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height) p-2 relative">
       <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
@@ -21,10 +20,10 @@ export function SiteHeader({ title, context = "home" }: SiteProps) {
           {context === "home" && " Ola,"}{" "}
           <span className={`font-principal ${context === "home" ? "text-Destaque/80" : "text-neutral10"}`}>{title}</span>
         </p>
-        <div className="flex items-center gap-1 border border-gray-700 max-w-[10rem] truncate rounded-full px-2 py-2 absolute right-2">
+        <div className="flex items-center gap-1 border border-gray-700 max-w-[14rem] truncate rounded-full px-2 py-2 absolute right-2">
           <Badge className={"lg:text-[1rem] text-[0.8rem] text-shadow-neon bg-transparent text-cyan-400 leading-none max-w-full"}>
             {balanceFormater(user?.account.balance!).length > 20
-              ? balanceFormater(user?.account.balance!).slice(0, 12) + "..."
+              ? balanceFormater(user?.account.balance!).slice(0, 14) + "..."
               : balanceFormater(user?.account.balance!)}
           </Badge>
           <TerminalIcon
