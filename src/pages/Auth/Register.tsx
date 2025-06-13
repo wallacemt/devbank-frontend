@@ -5,9 +5,9 @@ import Aos from "aos";
 import { useRegister } from "@/hooks/useRegister";
 import { AuthBanner } from "@/components/Utils/AuthBanner";
 import { Stepper } from "@/components/Stepper";
-import { StepPersonalInfo } from "@/components/StepPersonalInfo";
-import { StepEmailVerify } from "@/components/StepEmailVerify";
-import { StepPassword } from "@/components/StepPassoword";
+import { StepPersonalInfo } from "@/components/UserSteps/StepPersonalInfo";
+import { StepEmailVerify } from "@/components/UserSteps/StepEmailVerify";
+import { StepPassword } from "@/components/UserSteps/StepPassoword";
 import { IdCard, ScanQrCode, Verified } from "lucide-react";
 export default function Register() {
   const navigate = useNavigate();

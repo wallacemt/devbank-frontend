@@ -6,46 +6,30 @@ interface TerminalWindowProps {
   zoomLevel: number;
 }
 export function TerminalWindow({ zoomLevel }: TerminalWindowProps) {
-  const {
-    onKeyDown,
-    input,
-    setInput,
-    history,
-    awaitPassword,
-    maskedPassword,
-    setMaskedPassword,
-    user,
-    handleFocus,
-    inputRef,
-    passwordInput,
-    setPasswordInput,
-  } = useTerminalWindow();
-
+  const { onKeyDown, input, setInput, history, awaitPassword, user, handleFocus, inputRef } = useTerminalWindow();
   useEffect(() => {
     handleFocus();
   }, []);
 
-  useEffect(() => {
-    const el = document.getElementById("terminal-output");
-    el?.scroll({ top: el.scrollHeight, behavior: "smooth" });
-  }, [history]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
 
   useEffect(() => {
-    const el = document.getElementById("terminal-output");
-    if (el) {
-      el.scrollTop = el.scrollHeight;
+    if (inputRef.current) {
+      inputRef.current.scrollTo({
+        top: inputRef.current.scrollHeight,
+        behavior: "smooth",
+      });
     }
-  }, [history]);
+  }, []);
 
   return (
     <div
       className="flex flex-col text-green-400 font-mono p-2 overflow-hidden"
       style={{ userSelect: "none", transform: `scale(${zoomLevel})`, transformOrigin: "top left" }}
     >
-      <div className="overflow-y-auto h-full pr-2 mb-2 scrollbar-thin scrollbar-thumb-green-700" id="terminal-output">
+      <div className="overflow-y-auto h-full pr-2 mb-2 scrollbar-thin scrollbar-thumb-green-700">
         {history.map((line, i) => (
           <>
             <pre

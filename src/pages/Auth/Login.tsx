@@ -8,7 +8,7 @@ import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { StepEmailVerify } from "@/components/StepEmailVerify";
+import { StepEmailVerify } from "@/components/UserSteps/StepEmailVerify";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);

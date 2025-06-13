@@ -9,10 +9,12 @@ import { useTransfer } from "@/hooks/useTransfer";
 import { NavigationOff } from "lucide-react";
 import { TransferCard } from "@/components/TransferCard/TransferCard";
 import { TransferCardSkeleton } from "@/components/TransferCard/TransferCardSkeleton";
+import { useUserContext } from "@/hooks/useUserContext";
 
 export function SidebarRight({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [transfers, setTrasnfers] = useState<TransactionHistoryItem[]>([]);
+  const { update } = useUserContext();
   const dateKey = selectedDate ? format(selectedDate, "yyyy-MM-dd") : "";
   const { getHistoryTrasfer, loading } = useTransfer();
   useEffect(() => {
@@ -22,7 +24,7 @@ export function SidebarRight({ ...props }: React.ComponentProps<typeof Sidebar>)
     };
 
     fetchTransfer();
-  }, [selectedDate]);
+  }, [selectedDate, update]);
 
   return (
     <Sidebar collapsible="none" className="hidden lg:flex lg:h-screen m-1 p-1 rounded-xl" {...props}>

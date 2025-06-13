@@ -135,14 +135,14 @@ export const useTerminalWindow = () => {
         (h) =>
           `${format(new Date(h.timestamp), "dd MMM yyyy, HH:mm", {
             locale: ptBR,
-          })} | ${h.outherAccountUsername.split(" ")[0]} → R$${h.amount.toFixed(2)}`
+          })} | ${h.outherAccountUsername.split(" ")[0]} ${h.direction === "RECEIVED" ? "+" : "-"} R$${h.amount.toFixed(2)}`
       );
       appendToHistory(formatted);
       return;
     }
 
     if (cmd === "dk -help") {
-      appendToHistory(["Comandos disponíveis:", "- send <valor> <método> from <chave>", "- get send logs", "- clear"]);
+      appendToHistory(["Comandos disponíveis:", "-  ", "- get send logs", "- clear"]);
       return;
     }
 
