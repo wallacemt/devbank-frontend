@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 import { Link } from "react-router";
 import { useAnalysis } from "@/hooks/useAnalysis";
 import { AnalysisOverview } from "@/types/analysis";
-import { TransferCardSkeleton } from "../TransferCard/TransferCardSkeleton";
+import { TransferCardSkeleton } from "@/components/Utils/TransferCard/TransferCardSkeleton";
 
 const chartConfig = {
   entradas: {

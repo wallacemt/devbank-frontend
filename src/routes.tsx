@@ -23,6 +23,7 @@ export const RoutesApp = () => {
     { path: "/dashboard", element: <DashBoard /> },
     { path: "/history", element: <HistoryTransfer /> },
     { path: "/stashs", element: <StashCaixinhaPage /> },
+    { path: "/stashs/new", element: <StashCaixinhaPage initialMode="create" /> },
   ];
 
   if (loading) {

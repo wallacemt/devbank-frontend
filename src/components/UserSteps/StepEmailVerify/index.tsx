@@ -1,5 +1,8 @@
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { useLogin } from "@/hooks/useLogin";
 import { useRegister } from "@/hooks/useRegister";
+import { useUserContext } from "@/hooks/useUserContext";
 import { Loader2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -23,11 +26,11 @@ export const StepEmailVerify = ({
   onSubmit,
   type = "register",
   loading,
-  useRes
+  useRes,
 }: StepEmailVerifyProps) => {
   const [codes, setCodes] = useState(Array(6).fill(""));
   const inputsRef = useRef<HTMLInputElement[]>([]);
-
+  const { isTrustedDevice, handleDeviceSecure } = useUserContext();
   const { resend2FAVerify } = useLogin();
 
   const useReg = useRes;
@@ -102,14 +105,34 @@ export const StepEmailVerify = ({
         </div>
 
         {error && <p className="text-red-400 text-center">{error}</p>}
-
-        <button type="submit" className="w-full bg-gray-800 flex items-center justify-center text-white p-2 rounded-full hover:bg-primary70/50">
+        <button
+          type="submit"
+          className="w-full bg-gray-800 flex items-center justify-center text-white p-2 rounded-full hover:bg-primary70/50"
+          >
           {loading ? <Loader2 className="animate-spin text-primary" size={32} /> : "Confirmar"}
         </button>
+          {type === "login" && (
+            <div className="flex items-center justify-center gap-2">
+              <Checkbox
+                checked={isTrustedDevice}
+                onCheckedChange={handleDeviceSecure}
+                className="rounded-full border-Destaque"
+                id="secure"
+              />
+              <Label className="text-sm cursor-pointer" htmlFor="secure">
+                Confiar no dispositivo
+              </Label>
+            </div>
+          )}
 
         <div className="text-center flex flex-col gap-4">
           <p className="text-xs text-gray-400">Codigo expira em 10 minutos</p>
-          <button type="button" onClick={handleResend} disabled={loading} className="font-bold hover:underline disabled:text-gray-400 ">
+          <button
+            type="button"
+            onClick={handleResend}
+            disabled={loading}
+            className="font-bold hover:underline disabled:text-gray-400 "
+          >
             Enviar novamente
           </button>
         </div>

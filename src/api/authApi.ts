@@ -9,13 +9,21 @@ const authApi = axios.create({
   },
 });
 
-export const loginUser = async (emailOrCpf: string, password: string): Promise<SimpleResponse> => {
+export const loginUser = async (
+  emailOrCpf: string,
+  password: string,
+  secure: boolean
+): Promise<SimpleResponse | AuthResponse> => {
   try {
-    const userResponse = await authApi.post("/login", { emailOrCpf, password });
-    return userResponse.data as SimpleResponse;
+    const query = secure ? "twoFa=false" : "twoFa=true";
+    const userResponse = await authApi.post(`/login?${query}`, {
+      emailOrCpf,
+      password,
+    });
+    return userResponse.data as SimpleResponse | AuthResponse;
   } catch (err: any) {
-    console.error(err);
-    throw err;
+    console.error("Erro no loginUser:", err);
+    throw err; 
   }
 };
 

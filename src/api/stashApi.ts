@@ -1,6 +1,6 @@
 import axios from "axios";
 import { baseURL, handleToken, SimpleResponse } from "./api";
-import { Stash, StashRequest } from "@/types/stashType";
+import { Stash, StashHistory, StashRequest } from "@/types/stashType";
 
 const stashApi = axios.create({
   baseURL: `${baseURL}/stash`,
@@ -9,10 +9,10 @@ const stashApi = axios.create({
   },
 });
 
-export const getStashs = async (): Promise<Stash[]> => {
+export const getStashs = async (): Promise<StashHistory> => {
   try {
     handleToken(stashApi);
-    const response = await stashApi.get<Stash[]>("");
+    const response = await stashApi.get<StashHistory>("");
     return response.data;
   } catch (error) {
     throw error;

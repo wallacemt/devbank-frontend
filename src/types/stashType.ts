@@ -1,3 +1,5 @@
+import { PageResponse } from "./pageble";
+
 export interface Stash {
   id: string;
   name: string;
@@ -7,6 +9,8 @@ export interface Stash {
   createdAt: Date;
   lastMovimentation: Date | null;
 }
+
+export type StashHistory = PageResponse<Stash>;
 
 export interface StashRequest {
   id?: string;

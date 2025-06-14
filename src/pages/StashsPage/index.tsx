@@ -6,24 +6,37 @@ import { Sidebar } from "@/components/Sidebar";
 import { StashBoxModal } from "@/components/StashBoxCreateModal";
 import { useStash } from "@/hooks/useStash";
 import { Stash } from "@/types/stashType";
-import { TransferCardSkeleton } from "@/components/TransferCard/TransferCardSkeleton";
+import { TransferCardSkeleton } from "@/components/Utils/TransferCard/TransferCardSkeleton";
 import stashEmpty from "@/assets/images/stashIlustration.svg";
-import { StashCard } from "@/components/StashCard";
+import { StashCard } from "@/components/Utils/StashCard";
 
-export default function StashCaixinhaPage() {
+interface StashCaixinhaPageProps {
+  initialMode?: "create" | "default";
+}
+
+export default function StashCaixinhaPage({ initialMode = "default" }: StashCaixinhaPageProps) {
   const [boxes, setBoxes] = useState<Stash[]>([]);
   const useSth = useStash();
 
   const { modalCreate, handleModalCreateOpen, getUserStashs, loading, update } = useSth;
   const [mode, setMode] = useState<"create" | "update" | "add-amount" | "remove-amount">("create");
   const [initialData, setInitalData] = useState<Stash | null>();
+  const handleCreate = () => {
+    setMode("create");
+    setInitalData(null);
+    handleModalCreateOpen();
+  };
+
   useEffect(() => {
     document.title = "DevBank | Stashs";
     const fetchStash = async () => {
       const stash = await getUserStashs();
+      console.log(stash)
       setBoxes(stash!);
     };
     fetchStash();
+
+    if (initialMode === "create") handleCreate();
   }, [update]);
 
   return (
@@ -35,11 +48,7 @@ export default function StashCaixinhaPage() {
             <Button
               variant="outline"
               className="w-auto px-4 py-2 bg-green-700 hover:bg-green-800 rounded-full transition-all duration-300"
-              onClick={() => {
-                setMode("create");
-                setInitalData(null);
-                handleModalCreateOpen();
-              }}
+              onClick={() => handleCreate()}
             >
               <PlusCircle className="h-5 w-5 mr-2" />
               <span className="font-semibold text-sm">Criar Stash</span>

@@ -1,3 +1,5 @@
+import { PageResponse } from "./pageble";
+
 export interface TransactionHistoryItem {
   id: string;
   amount: number;
@@ -9,33 +11,5 @@ export interface TransactionHistoryItem {
   transactionType: "PIX" | "TRANSFER" | "DEPOSIT" | "PAYMENT";
   direction: "SENT" | "RECEIVED";
 }
-interface Pagable {
-  pageNumber: number;
-  pageSize: number;
-  sort: {
-    empty: boolean;
-    sorted: boolean;
-    unsorted: boolean;
-  };
-  offset: boolean;
-  paged: boolean;
-  unpaged: boolean;
-}
 
-export interface TransactionHistory {
-  content: TransactionHistoryItem[];
-  pageable: Pagable;
-  last: boolean;
-  totalPages: number;
-  totalElements: number;
-  first: boolean;
-  size: number;
-  number: number;
-  sort: {
-    empty: boolean;
-    sorted: boolean;
-    unsorted: boolean;
-  };
-  numberOfElements: number;
-  empty: boolean;
-}
+export type TransactionHistory = PageResponse<TransactionHistoryItem>;

@@ -1,7 +1,7 @@
 import { codeValidation, loginCodeResend, loginUser } from "@/api/authApi";
-import { SimpleResponse } from "@/types/responses";
+import { AuthResponse, SimpleResponse } from "@/types/responses";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {  useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -47,7 +47,7 @@ export const useLogin = () => {
       code: "",
     },
   });
-  const { login } = useUserContext();
+  const { login, isTrustedDevice } = useUserContext();
 
   const handleLogin = async (values: z.infer<typeof loginSchema>) => {
     setLoading(true);
@@ -67,12 +67,17 @@ export const useLogin = () => {
         return;
       }
       loginSchema.parse(values);
-      const response: SimpleResponse = await loginUser(values.emailOrCpf, values.password);
-      setMessage(response.message);
+      const response = await loginUser(values.emailOrCpf, values.password, isTrustedDevice);
 
+      setMessage(response.message);
       toast.success(response.message);
-      setStep(1);
-      codeForm.setValue("email", response?.email!);
+
+      if (!isTrustedDevice) {
+        setStep(1);
+        codeForm.setValue("email", (response as SimpleResponse).email!);
+      } else {
+        login((response as AuthResponse).token!);
+      }
     } catch (error: any) {
       if (error instanceof z.ZodError) {
         const errorMessage = error.errors[0]?.message;
@@ -88,7 +93,7 @@ export const useLogin = () => {
           setReqError("");
         }, 3000);
       }
-      toast.error(error.response.data.error)
+      toast.error(error.response.data.error);
     } finally {
       setLoading(false);
     }
@@ -99,7 +104,7 @@ export const useLogin = () => {
       setError("");
       codeSchema.parse({ email: emailData.email, code });
       const response = await codeValidation(code, emailData.email);
-  
+
       if (response) {
         toast.success(response.message);
         login(response.token);
@@ -115,8 +120,8 @@ export const useLogin = () => {
       } else {
         console.error("Erro inesperado:", error);
       }
-      toast.error(error.response.data.error)
-    }finally {
+      toast.error(error.response.data.error);
+    } finally {
       setLoading(false);
     }
   };

@@ -3,13 +3,13 @@ import { TransactionHistoryItem } from "@/types/transactions";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
-import { TransferCard } from "@/components/TransferCard/TransferCard";
+import { TransferCard } from "@/components/Utils/TransferCard/TransferCard";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Sidebar } from "@/components/Sidebar";
 import { SiteHeader } from "@/components/ui/site-header";
 import { useTransfer } from "@/hooks/useTransfer";
 import { NavigationOff, SearchIcon } from "lucide-react";
-import { TransferCardSkeleton } from "@/components/TransferCard/TransferCardSkeleton";
+import { TransferCardSkeleton } from "@/components/Utils/TransferCard/TransferCardSkeleton";
 
 export default function TransferHistoryPage() {
   const [history, setHistory] = useState<TransactionHistoryItem[]>([]);

@@ -1,8 +1,8 @@
 import { TransactionHistoryItem } from "@/types/transactions";
-import { Card, CardContent } from "../ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { BanknoteArrowDown, BanknoteArrowUp, Download, Copy, Repeat } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { useTransfer } from "@/hooks/useTransfer";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";

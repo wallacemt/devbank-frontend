@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog";
-import { Button } from "../ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { Stash } from "@/types/stashType";
 import { Landmark, MinusCircle, Pencil, PlusCircle, Settings, Trash2 } from "lucide-react";
-import { Popover, PopoverContent } from "../ui/popover";
+import { Popover, PopoverContent } from "@/components/ui/popover";
 import { PopoverTrigger } from "@radix-ui/react-popover";
 import { Separator } from "@radix-ui/react-separator";
 import { useStash } from "@/hooks/useStash";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 
 interface StashCardProps {
   stash: Stash;

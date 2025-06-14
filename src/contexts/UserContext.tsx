@@ -15,6 +15,8 @@ export const UserContext = createContext({
   handleUpdate: () => {},
   transferTerminal: false,
   handleTransferTerminal: () => {},
+  isTrustedDevice: false,
+  handleDeviceSecure: () => {},
 });
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
@@ -23,11 +25,16 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [update, setUpdate] = useState(false);
   const [view, setView] = useState(false);
   const [transferTerminal, setTransferTerminal] = useState(false);
+  const [isTrustedDevice , setIsTrustedDevice ] = useState(false);
   const navigate = useNavigate();
   const { getUserInfo } = useUser();
 
   useEffect(() => {
     const token = Cookies.get("jwtToken");
+    const secure = Cookies.get("deviceSecure");
+    if (secure) {
+      setIsTrustedDevice(JSON.parse(secure));
+    }
     if (token) {
       fetchUserData();
     } else {
@@ -68,6 +75,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const handleView = () => setView(!view);
   const handleTransferTerminal = () => setTransferTerminal((prev) => !prev);
 
+  const handleDeviceSecure = () => {
+    setIsTrustedDevice((prevState) => {
+      const newState = !prevState;
+      Cookies.set("deviceSecure", JSON.stringify(newState), { expires: 7, sameSite: "strict" });
+      return newState;
+    });
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -81,6 +96,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         handleView,
         transferTerminal,
         handleTransferTerminal,
+        isTrustedDevice,
+        handleDeviceSecure,
       }}
     >
       {children}

@@ -7,8 +7,8 @@ import { format } from "date-fns";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useTransfer } from "@/hooks/useTransfer";
 import { NavigationOff } from "lucide-react";
-import { TransferCard } from "@/components/TransferCard/TransferCard";
-import { TransferCardSkeleton } from "@/components/TransferCard/TransferCardSkeleton";
+import { TransferCard } from "@/components/Utils/TransferCard/TransferCard";
+import { TransferCardSkeleton } from "@/components/Utils/TransferCard/TransferCardSkeleton";
 import { useUserContext } from "@/hooks/useUserContext";
 
 export function SidebarRight({ ...props }: React.ComponentProps<typeof Sidebar>) {

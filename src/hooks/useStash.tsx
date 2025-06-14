@@ -1,5 +1,5 @@
 import { deleteStash, getStashs, postStash, putStashDepositOrLoot, putStashUpdate } from "@/api/stashApi";
-import { StashRequest } from "@/types/stashType";
+import { Stash, StashRequest } from "@/types/stashType";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useUserContext } from "./useUserContext";
@@ -52,11 +52,11 @@ export const useStash = () => {
     }
   };
 
-  const getUserStashs = async () => {
+  const getUserStashs = async (): Promise<Stash[] | undefined> => {
     setLoading(true);
     try {
-      const res = getStashs();
-      return res;
+      const res = await getStashs();
+      return res.content;
     } catch (err: any) {
       console.error(err);
       toast.error(err.response.data.error);

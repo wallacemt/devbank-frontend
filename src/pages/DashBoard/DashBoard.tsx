@@ -1,7 +1,7 @@
 import { SiteHeader } from "@/components/ui/site-header";
 import { useUserContext } from "@/hooks/useUserContext";
 import { Sidebar } from "@/components/Sidebar";
-import { BalanceCard } from "@/components/BalanceCard";
+import { BalanceCard } from "@/components/Utils/BalanceCard";
 import { SlideOptions } from "@/components/SlideOptions";
 import { AnalyticsOverview } from "@/components/AnlysticsOverview";
 import { CompleteProfileModal } from "@/components/CompleteProfileModal";

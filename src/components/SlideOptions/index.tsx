@@ -16,6 +16,7 @@ import { PushPixModal } from "@/components/Transfers/PushPixModal";
 import React, { ReactNode, useState } from "react";
 import { FaPix } from "react-icons/fa6";
 import { useUserContext } from "@/hooks/useUserContext";
+import { StashOverview } from "../StashOverview";
 
 interface SlideOptionsProps {
   items?: {
@@ -48,9 +49,15 @@ export function SlideOptions() {
       type: "modal",
       modalElement: (open, setOpen) => <PushPixModal open={open} setOpen={setOpen} />,
     },
+    {
+      id: "stashCaixa",
+      title: "Stash Caixinha",
+      icon: Coins,
+      type: "modal",
+      modalElement: (open, setOpen) => <StashOverview open={open} setOpen={setOpen} />,
+    },
     { id: "commitPagamento", title: "Commit Pagamento", icon: CreditCard },
     { id: "pullDeposito", title: "Pull Deposito", icon: Banknote },
-    { id: "stashCaixa", title: "Stash Caixinha", icon: Coins },
     { id: "deployRecarga", title: "Deploy Recarga", icon: Smartphone },
     { id: "forkEmprestimo", title: "Fork Empréstimo", icon: DollarSign },
     { id: "mergeInvest", title: "Merge Investimentos", icon: Briefcase },
