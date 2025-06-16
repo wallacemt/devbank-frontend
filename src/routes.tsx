@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router";
 import { Loading } from "./components/Utils/Loading";
 import { useUserContext } from "./hooks/useUserContext";
 import { Suspense, lazy } from "react";
+import DepositConfirmationPage from "./pages/ConfirmDeposit";
 const Login = lazy(() => import("./pages/Auth/Login"));
 const Register = lazy(() => import("./pages/Auth/Register"));
 const DashBoard = lazy(() => import("./pages/DashBoard/DashBoard"));
@@ -24,6 +25,7 @@ export const RoutesApp = () => {
     { path: "/history", element: <HistoryTransfer /> },
     { path: "/stashs", element: <StashCaixinhaPage /> },
     { path: "/stashs/new", element: <StashCaixinhaPage initialMode="create" /> },
+    { path: "/deposit/:id", element: <DepositConfirmationPage/> },
   ];
 
   if (loading) {

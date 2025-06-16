@@ -17,6 +17,7 @@ import React, { ReactNode, useState } from "react";
 import { FaPix } from "react-icons/fa6";
 import { useUserContext } from "@/hooks/useUserContext";
 import { StashOverview } from "../StashOverview";
+import { DepositModal } from "../DepositModal";
 
 interface SlideOptionsProps {
   items?: {
@@ -56,8 +57,14 @@ export function SlideOptions() {
       type: "modal",
       modalElement: (open, setOpen) => <StashOverview open={open} setOpen={setOpen} />,
     },
+    {
+      id: "pullDeposito",
+      title: "Pull Deposito",
+      icon: Banknote,
+      type: "modal",
+      modalElement: (open, setOpen) => <DepositModal open={open} onClose={setOpen} />,
+    },
     { id: "commitPagamento", title: "Commit Pagamento", icon: CreditCard },
-    { id: "pullDeposito", title: "Pull Deposito", icon: Banknote },
     { id: "deployRecarga", title: "Deploy Recarga", icon: Smartphone },
     { id: "forkEmprestimo", title: "Fork Empréstimo", icon: DollarSign },
     { id: "mergeInvest", title: "Merge Investimentos", icon: Briefcase },

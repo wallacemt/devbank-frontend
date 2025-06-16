@@ -20,6 +20,7 @@ export function SidebarRight({ ...props }: React.ComponentProps<typeof Sidebar>)
   useEffect(() => {
     const fetchTransfer = async () => {
       const res = await getHistoryTrasfer(dateKey);
+      console.log(res);
       setTrasnfers(res ?? []);
     };
 
@@ -51,7 +52,7 @@ export function SidebarRight({ ...props }: React.ComponentProps<typeof Sidebar>)
               direction={"vertical"}
               slidesPerView={2}
               spaceBetween={20}
-              className={`max-h-[25rem] ${transfers.length === 1 ? "" : "overflow-hidden"} `}
+              className={`max-h-[26rem] ${transfers.length === 1 ? "" : "overflow-hidden"} `}
             >
               {transfers.map((t) => (
                 <SwiperSlide key={t.id}>

@@ -13,3 +13,10 @@ export interface TransactionHistoryItem {
 }
 
 export type TransactionHistory = PageResponse<TransactionHistoryItem>;
+
+export interface DepositDetails {
+  id: string;
+  depositStatus: "PENDING" | "COMPLETED";
+  value: 2.22;
+  createdAt: string;
+}

@@ -12,7 +12,6 @@ import { toast } from "sonner";
 export function TransferCard({ item }: { item: TransactionHistoryItem }) {
   const { direction, outherAccountUsername, timestamp, amount, id } = item;
   const { transferComprovante } = useTransfer();
-
   const handleDownload = () => {
     transferComprovante(id);
   };
@@ -38,21 +37,27 @@ export function TransferCard({ item }: { item: TransactionHistoryItem }) {
               <div
                 className={cn(
                   "p-2 rounded-full flex items-center justify-center absolute top-2 right-4",
-                  isSent ? "bg-red-100" : "bg-green-100"
+                  isSent && item.transactionType !=="DEPOSIT" ? "bg-red-100" : "bg-green-100"
                 )}
               >
-                {isSent ? (
+                {isSent && item.transactionType !== "DEPOSIT" ? (
                   <BanknoteArrowDown className="text-red-800" size={24} />
                 ) : (
                   <BanknoteArrowUp className="text-green-600" size={24} />
                 )}
               </div>
               <div className="flex flex-col gap-2">
-                <span className={cn("text-lg font-bold tracking-tight", isSent ? "text-red-600" : "text-green-600")}>
-                  {isSent ? "- " : "+ "}R$ {amount.toLocaleString("pt-BR")}
+                <span className={cn("text-lg font-bold tracking-tight", isSent && item.transactionType !=="DEPOSIT" ? "text-red-600" : "text-green-600")}>
+                  {isSent && item.transactionType !== "DEPOSIT" ? "- " : "+ "}R$ {amount.toLocaleString("pt-BR")}
                 </span>
                 <span className="text-xs text-muted-foreground font-medium">
-                  {isSent ? "Enviado para:" : "Recebido de"} <br /> {formattedName}
+                  {item.transactionType !== "DEPOSIT" ? (
+                    <>
+                      {isSent ? "Enviado para:" : "Recebido de"} <br /> {formattedName}
+                    </>
+                  ) : (
+                    "Depositado Em: "
+                  )}
                 </span>
                 <span className="text-[11px] text-muted-foreground">
                   {format(new Date(timestamp), "dd MMM yyyy, HH:mm", {
@@ -67,10 +72,10 @@ export function TransferCard({ item }: { item: TransactionHistoryItem }) {
                 variant="outline"
                 className={cn(
                   "text-xs px-3 py-1 rounded-md",
-                  isSent ? "text-red-600 border-red-600" : "text-green-600 border-green-600"
+                  isSent && item.transactionType !=="DEPOSIT" ? "text-red-600 border-red-600" : "text-green-600 border-green-600"
                 )}
               >
-                {isSent ? "SENT" : "RECEIVED"}
+                {isSent && item.transactionType !=="DEPOSIT" ? "SENT" : item.transactionType !=="DEPOSIT" ? "RECEIVED" : "DEPOSIT"}
               </Badge>
             </div>
           </CardContent>
