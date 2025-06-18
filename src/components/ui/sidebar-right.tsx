@@ -50,9 +50,9 @@ export function SidebarRight({ ...props }: React.ComponentProps<typeof Sidebar>)
           ) : transfers.length > 0 ? (
             <Swiper
               direction={"vertical"}
-              slidesPerView={2}
+              slidesPerView={transfers.length <= 1 ? 1 : 2}
               spaceBetween={20}
-              className={`max-h-[26rem] ${transfers.length === 1 ? "" : "overflow-hidden"} `}
+              className={`max-h-[26rem] overflow-hidden`}
             >
               {transfers.map((t) => (
                 <SwiperSlide key={t.id}>

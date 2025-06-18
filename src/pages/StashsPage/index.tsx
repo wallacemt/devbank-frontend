@@ -31,8 +31,8 @@ export default function StashCaixinhaPage({ initialMode = "default" }: StashCaix
     document.title = "DevBank | Stashs";
     const fetchStash = async () => {
       const stash = await getUserStashs();
-      console.log(stash)
-      setBoxes(stash!);
+      console.log(stash);
+      setBoxes(stash ?? []);
     };
     fetchStash();
 

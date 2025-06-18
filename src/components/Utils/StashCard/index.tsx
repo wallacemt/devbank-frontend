@@ -1,7 +1,14 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Stash } from "@/types/stashType";
 import { Landmark, MinusCircle, Pencil, PlusCircle, Settings, Trash2 } from "lucide-react";
@@ -10,6 +17,7 @@ import { PopoverTrigger } from "@radix-ui/react-popover";
 import { Separator } from "@radix-ui/react-separator";
 import { useStash } from "@/hooks/useStash";
 import { Badge } from "@/components/ui/badge";
+import { balanceFormater } from "@/utils/balanceFormater";
 
 interface StashCardProps {
   stash: Stash;
@@ -50,7 +58,7 @@ export const StashCard: React.FC<StashCardProps> = ({ stash, useSth, setInitalDa
           >
             <div className="flex justify-between items-start relative ">
               <div>
-                <Badge className="text-xs font-medium bg-transparent opacity-80 font-principal">Stash</Badge>
+                <Badge className="text-xs font-medium  bg-transparent opacity-80 font-principal">Stash</Badge>
                 <h2 className="text-2xl font-bold mt-1">{name}</h2>
               </div>
               <PopoverContent className="space-y-4 max-w-50 bg-zinc-800 text-sm">
@@ -114,7 +122,7 @@ export const StashCard: React.FC<StashCardProps> = ({ stash, useSth, setInitalDa
             </div>
             <div className="mt-6">
               <p className="text-sm opacity-80">Valor atual</p>
-              <p className="text-3xl font-bold mt-1">{`R$ ${value.toFixed(2)}`}</p>
+              <p className="text-3xl font-bold mt-1">{`${balanceFormater(value)}`}</p>
             </div>
             <div className="w-full bg-white bg-opacity-30 rounded-full h-2.5 mt-4">
               <div className="bg-yellow-400 h-2.5 rounded-full" style={{ width: `${progress}%` }} />
@@ -125,7 +133,7 @@ export const StashCard: React.FC<StashCardProps> = ({ stash, useSth, setInitalDa
               {goal ? (
                 <div>
                   <p className="text-sm text-gray-500">Meta</p>
-                  <p className="font-medium">{`R$ ${goal.toFixed(2)}`}</p>
+                  <p className="font-medium">{`${balanceFormater(goal)}`}</p>
                 </div>
               ) : (
                 ""
@@ -141,7 +149,7 @@ export const StashCard: React.FC<StashCardProps> = ({ stash, useSth, setInitalDa
               {goal ? (
                 <div>
                   <p className="text-sm text-gray-500">Faltam</p>
-                  <p className="font-medium text-indigo-600">{`R$ ${remainingAmount.toFixed(2)}`}</p>
+                  <p className="font-medium text-indigo-600">{`${balanceFormater(remainingAmount)}`}</p>
                 </div>
               ) : (
                 ""
@@ -166,12 +174,12 @@ export const StashCard: React.FC<StashCardProps> = ({ stash, useSth, setInitalDa
                 <div className="flex justify-between items-end">
                   <div>
                     <p className="text-sm opacity-80">Valor acumulado</p>
-                    <p className="text-3xl font-bold mt-1">{`R$ ${value.toFixed(2)}`}</p>
+                    <p className="text-3xl font-bold mt-1">{`${balanceFormater(value)}`}</p>
                   </div>
                   {goal ? (
                     <div className="text-right">
                       <p className="text-sm opacity-80">Meta</p>
-                      <p className="text-xl font-bold">{`R$ ${goal.toFixed(2)}`}</p>
+                      <p className="text-xs font-bold">{`${balanceFormater(goal)}`}</p>
                     </div>
                   ) : (
                     ""
@@ -212,7 +220,7 @@ export const StashCard: React.FC<StashCardProps> = ({ stash, useSth, setInitalDa
                 {goal ? (
                   <div>
                     <p className="text-sm text-gray-500">Faltam</p>
-                    <p className="font-medium text-indigo-200">{`R$ ${remainingAmount.toFixed(2)}`}</p>
+                    <p className="font-medium text-indigo-200">{`${balanceFormater(remainingAmount)}`}</p>
                   </div>
                 ) : (
                   ""

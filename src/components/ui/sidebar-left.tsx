@@ -36,6 +36,11 @@ const navMain = [
     icon: Coins,
   },
   {
+    title: "Cartões",
+    url: "/cards",
+    icon: CreditCard,
+  },
+  {
     title: "Graficos",
     url: "#",
     icon: ChartBar,
@@ -49,11 +54,6 @@ const navMain = [
     title: "Carteira",
     url: "#",
     icon: Wallet,
-  },
-  {
-    title: "Cartões",
-    url: "#",
-    icon: CreditCard,
   },
   {
     title: "Segurança",
@@ -96,4 +96,3 @@ export function SidebarLeft(props: React.ComponentProps<typeof Sidebar>) {
     </Sidebar>
   );
 }
-  1

@@ -4,6 +4,7 @@ import { Loader2, CheckCircle, Banknote } from "lucide-react";
 import { useDeposit } from "@/hooks/useDeposit";
 import { useParams } from "react-router";
 import { useEffect } from "react";
+import { balanceFormater } from "@/utils/balanceFormater";
 
 export default function DepositConfirmationPage() {
   const { id } = useParams();
@@ -40,7 +41,7 @@ export default function DepositConfirmationPage() {
           <Banknote className="w-12 h-12 text-yellow-500" />
           <h2 className="text-2xl font-bold">Confirmar Depósito</h2>
           <p className="text-gray-400">
-            Depósito de: <span className="text-yellow-400 font-bold">{`R$ ${deposit.value.toFixed(2)}`}</span>
+            Depósito de: <span className="text-yellow-400 font-bold">{`${balanceFormater(deposit.value)}`}</span>
           </p>
           <Button onClick={() => handleConfirmDeposit(id!)} className="w-full max-w-xs">
             Confirmar Depósito
