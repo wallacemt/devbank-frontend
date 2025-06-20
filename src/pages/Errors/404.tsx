@@ -8,10 +8,17 @@ export default function NotFound() {
   }, []);
   return (
     <div className={`h-screen bg-no-repeat bg-background flex flex-col items-center justify-center lg:mx-auto`}>
-      <img src={notFoundSvg} alt="404 Ilustration" className="w-full lg:w-1/3 animate-float" />
+      <img
+        src={notFoundSvg}
+        alt="404 Ilustration"
+        className="w-full lg:w-1/3 animate-float"
+        onError={(e) => {
+          (e.target as HTMLImageElement).style.display = "none";
+        }}
+      />
 
       <div className="sm:mt-0 mt-6 text-center w-full flex flex-col gap-2">
-        <h1 className="font-bold font-principal text-amber-500 lg:w-[30%] lg:mx-auto " style={{ fontSize: "3rem" }}>
+        <h1 className="font-bold font-principal text-amber-500 lg:w-[30%] lg:mx-auto " style={{ fontSize: "2.5rem" }}>
           404 - Pagina não encontrada!
         </h1>
         <p className="text-lg font-secundaria font-semibold text-white mt-4">

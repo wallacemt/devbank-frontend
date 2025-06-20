@@ -9,6 +9,15 @@ const authApi = axios.create({
   },
 });
 
+export const getAuth = async (): Promise<SimpleResponse> => {
+  try {
+    const res = await authApi.get<SimpleResponse>("");
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const loginUser = async (
   emailOrCpf: string,
   password: string,
@@ -23,7 +32,7 @@ export const loginUser = async (
     return userResponse.data as SimpleResponse | AuthResponse;
   } catch (err: any) {
     console.error("Erro no loginUser:", err);
-    throw err; 
+    throw err;
   }
 };
 

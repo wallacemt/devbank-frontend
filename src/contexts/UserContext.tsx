@@ -1,8 +1,9 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { UserResponse } from "@/types/userTypes";
 import { useUser } from "@/hooks/useUser";
+import { getAuth } from "@/api/authApi";
 
 export const UserContext = createContext({
   user: null as UserResponse | null,
@@ -17,35 +18,69 @@ export const UserContext = createContext({
   handleTransferTerminal: () => {},
   isTrustedDevice: false,
   handleDeviceSecure: () => {},
+  serverDown: false,
 });
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserResponse | null>(null);
   const [loading, setLoading] = useState(true);
+  const locationFn = useLocation();
   const [update, setUpdate] = useState(false);
   const [view, setView] = useState(false);
   const [transferTerminal, setTransferTerminal] = useState(false);
-  const [isTrustedDevice , setIsTrustedDevice ] = useState(false);
+  const [isTrustedDevice, setIsTrustedDevice] = useState(false);
+  const [serverDown, setServerDown] = useState(false);
   const navigate = useNavigate();
   const { getUserInfo } = useUser();
 
-  useEffect(() => {
-    const token = Cookies.get("jwtToken");
-    const secure = Cookies.get("deviceSecure");
-    if (secure) {
-      setIsTrustedDevice(JSON.parse(secure));
-    }
-    if (token) {
-      fetchUserData();
+  const init = async () => {
+    const isUp = await checkServer();
+    if (isUp) {
+      const token = Cookies.get("jwtToken");
+      const secure = Cookies.get("deviceSecure");
+      if (secure) {
+        setIsTrustedDevice(JSON.parse(secure));
+      }
+      if (token) {
+        fetchUserData();
+      } else {
+        setLoading(false);
+      }
     } else {
       setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    init();
   }, [update]);
 
+  const checkServer = async (): Promise<boolean> => {
+    try {
+      await getAuth();
+      if (serverDown) {
+        setServerDown(false);
+        if (locationFn.pathname === "/503") {
+          navigate("/");
+        }
+      }
+      return true;
+    } catch (error: any) {
+      if (error.code === "ERR_NETWORK") {
+        if (!serverDown) {
+          setServerDown(true);
+          if (locationFn.pathname !== "/503") {
+            navigate("/503");
+          }
+        }
+      }
+      return false;
+    }
+  };
   const fetchUserData = async () => {
     try {
       const userData = await getUserInfo();
-      setUser(userData!);
+      setUser(userData ?? null);
     } catch (error: any) {
       if (error.response.status === 401) {
         logout();
@@ -98,6 +133,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         handleTransferTerminal,
         isTrustedDevice,
         handleDeviceSecure,
+        serverDown,
       }}
     >
       {children}
