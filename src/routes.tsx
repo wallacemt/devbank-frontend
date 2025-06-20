@@ -4,7 +4,7 @@ import { useUserContext } from "./hooks/useUserContext";
 import { Suspense, lazy } from "react";
 import DepositConfirmationPage from "./pages/ConfirmDeposit";
 import { CardsPage } from "./pages/CardsPage";
-import ServerMaintence from "./pages/Errors/503";
+import ServerMaintenance from "./pages/Errors/503";
 const Login = lazy(() => import("./pages/Auth/Login"));
 const Register = lazy(() => import("./pages/Auth/Register"));
 const DashBoard = lazy(() => import("./pages/DashBoard/DashBoard"));
@@ -35,16 +35,16 @@ export const RoutesApp = () => {
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
-        <Route path="/" element={user ? <DashBoard /> : serverDown ? <ServerMaintence /> : <Login />} />
+        <Route path="/" element={user ? <DashBoard /> : serverDown ? <ServerMaintenance /> : <Login />} />
         <Route
           path="/sign-in"
-          element={user ? <Navigate to="/dashboard" /> : serverDown ? <ServerMaintence /> : <Login />}
+          element={user ? <Navigate to="/dashboard" /> : serverDown ? <ServerMaintenance /> : <Login />}
         />
         <Route
           path="/register"
-          element={user ? <Navigate to="/dashboard" /> : serverDown ? <ServerMaintence /> : <Register />}
+          element={user ? <Navigate to="/dashboard" /> : serverDown ? <ServerMaintenance /> : <Register />}
         />
-        <Route path="/503" element={<ServerMaintence />} />
+        <Route path="/503" element={<ServerMaintenance />} />
         <Route path="*" element={<NotFound />} />
         {privateRoutes.map((route) => (
           <Route key={route.path} path={route.path} element={<PrivateRoutes>{route.element}</PrivateRoutes>} />
